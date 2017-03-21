@@ -8,6 +8,7 @@
         "*.tcc": "cpp",
         "istream": "cpp",
         "streambuf": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "limits": "cpp"
     }
 }
