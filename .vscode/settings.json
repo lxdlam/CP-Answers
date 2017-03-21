@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "ostream": "cpp",
+        "xstring": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "*.tcc": "cpp",
+        "istream": "cpp",
+        "streambuf": "cpp",
+        "set": "cpp"
+    }
+}
