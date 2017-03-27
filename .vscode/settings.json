@@ -9,6 +9,11 @@
         "istream": "cpp",
         "streambuf": "cpp",
         "set": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "array": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "initializer_list": "cpp"
     }
 }
