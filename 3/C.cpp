@@ -2,7 +2,6 @@
 #include "UF.h"
 #include <vector>
 #include <algorithm>
-#include <cstdlib>
 
 using namespace std;
 
@@ -24,9 +23,10 @@ int main()
     while (cin >> n)
     {
         v.clear();
-        ans = 2147483646;
+        ans = 0;
         if (!n)
             break;
+        UFO ufo(n);
         m = n * (n - 1) / 2;
         while (m--)
         {
@@ -40,9 +40,13 @@ int main()
         sort(v.begin(), v.end(), comp);
         for (int i = 0; i < v.size(); i++)
         {
-            UF uf(n);
-            k = n - 1;
-            ans = min(ans, temp);
+            if (!ufo.connected(v[i].a - 1, v[i].b - 1))
+            {
+                ufo.Union(v[i].a - 1, v[i].b - 1);
+                ans += v[i].money;
+            }
+            if (!ufo.getCount())
+                break;
         }
         cout << ans << endl;
     }

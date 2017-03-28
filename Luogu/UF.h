@@ -1,4 +1,4 @@
-//A really simple but not effective union-find class
+//基础并查集定义，非树形结构
 class UF
 {
   public:
@@ -49,6 +49,8 @@ class UF
     int length;
 };
 
+//最终优化后的并查集
+//进行了三个方向的优化：树形结构转化、加权、路径压缩
 class UFO
 {
   public:

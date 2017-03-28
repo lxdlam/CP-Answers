@@ -1,55 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-
-class UF
-{
-  public:
-    UF(int N)
-    {
-        id = new int[N];
-        count = N;
-        length = N;
-        for (int i = 0; i < N; i++)
-            id[i] = i;
-    }
-    ~UF()
-    {
-        delete[] id;
-    }
-
-    int getCount()
-    {
-        return count;
-    }
-
-    bool connected(int p, int q)
-    {
-        return find(p) == find(q);
-    }
-
-    int find(int p)
-    {
-        return id[p];
-    }
-
-    void Union(int p, int q)
-    {
-        int pID = find(p);
-        int qID = find(q);
-        if (pID == qID)
-            return;
-
-        for (int i = 0; i < length; i++)
-            if (id[i] == pID)
-                id[i] = qID;
-        count--;
-    }
-
-  private:
-    int count;
-    int *id;
-    int length;
-};
+#include "UF.h"
 
 using namespace std;
 
@@ -71,7 +22,7 @@ int main()
         cin.get();
         if (m == -1)
             break;
-        UF uf(n * m);
+        UFO ufo(n * m);
         int *temp = new int[n * m];
         for (int i = 0; i < m; i++)
         {
@@ -81,12 +32,12 @@ int main()
         }
         for (int i = 0; i < m * n; i++)
         {
-            if (i + n < m * n && Bits(Blocks[temp[i]], 2) && Bits(Blocks[temp[i + n]], 1) && !uf.connected(i, i + n))
-                uf.Union(i, i + n);
-            if (i % n + 1 < n && Bits(Blocks[temp[i]], 4) && Bits(Blocks[temp[i + 1]], 3) && !uf.connected(i, i + 1))
-                uf.Union(i, i + 1);
+            if (i + n < m * n && Bits(Blocks[temp[i]], 2) && Bits(Blocks[temp[i + n]], 1) && !ufo.connected(i, i + n))
+                ufo.Union(i, i + n);
+            if (i % n + 1 < n && Bits(Blocks[temp[i]], 4) && Bits(Blocks[temp[i + 1]], 3) && !ufo.connected(i, i + 1))
+                ufo.Union(i, i + 1);
         }
-        cout << uf.getCount() << endl;
+        cout << ufo.getCount() << endl;
         cin.get();
     }
     return 0;
