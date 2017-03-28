@@ -78,7 +78,7 @@ int main()
 {
     int n, m, p;
     int x, y;
-    cin >>> n >> m >> p;
+    cin >> n >> m >> p;
     UFO ufo(n);
     while (m--)
     {
@@ -92,7 +92,7 @@ int main()
         if (ufo.connected(x - 1, y - 1))
             cout << "Yes" << endl;
         else
-            cout << "No" < endl;
+            cout << "No" << endl;
     }
     return 0;
 }
