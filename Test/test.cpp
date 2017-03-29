@@ -1,98 +1,130 @@
-#include <iostream>
+#define CATCH_CONFIG_MAIN
+#include "catch.hpp"
 
-class UFO
+bool isRow(int col, int *cells)
 {
-  public:
-    UFO(int n)
+    int times[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    for (int i = 0; i < 9; i++)
     {
-        count = length = n;
-        id = new int[n];
-        for (int i = 0; i < length; i++)
-            id[i] = i;
-        sz = new int[n];
-        for (int i = 0; i < length; i++)
-            sz[i] = 1;
+        times[cells[i * 9 + col]]--;
+        if (times[cells[i * 9 + col]] < 0)
+            return false;
     }
+    return col == 8 ? true : isRow(col + 1, cells);
+}
 
-    ~UFO()
-    {
-        delete[] id;
-        delete[] sz;
-    }
-
-    int getCount()
-    {
-        return count;
-    }
-
-    bool connected(int p, int q)
-    {
-        return find(p) == find(q);
-    }
-
-    int find(int p)
-    {
-        int k = p, j;
-        while (p != id[p])
-            p = id[p];
-        while (k != p)
-        {
-            j = id[k];
-            id[k] = p;
-            k = j;
-        }
-        return p;
-    }
-
-    void Union(int p, int q)
-    {
-        int pRoot = find(p);
-        int qRoot = find(q);
-
-        if (pRoot == qRoot)
-            return;
-
-        if (sz[pRoot] < sz[qRoot])
-        {
-            id[pRoot] = qRoot;
-            sz[qRoot] += sz[pRoot];
-        }
-        else
-        {
-            id[qRoot] = pRoot;
-            sz[pRoot] += sz[qRoot];
-        }
-        count--;
-    }
-
-  private:
-    int count;
-    int *id;
-    int *sz;
-    int length;
-};
-
-using namespace std;
-
-int main()
+bool isCol(int row, int *cells)
 {
-    int n, m, p;
-    int x, y;
-    cin >> n >> m >> p;
-    UFO ufo(n);
-    while (m--)
+    int times[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    for (int i = 0; i < 9; i++)
     {
-        cin >> x >> y;
-        if (!ufo.connected(x - 1, y - 1))
-            ufo.Union(x - 1, y - 1);
+        times[cells[row * 9 + i]]--;
+        if (times[cells[row * 9 + i]] < 0)
+            return false;
     }
-    while (p--)
+    return row == 8 ? true : isCol(row + 1, cells);
+}
+
+bool isSection(int sec, int *cells)
+{
+    int times[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    for (int i = sec / 3 * 3; i <= sec / 3 * 3 + 2; i++)
     {
-        cin >> x >> y;
-        if (ufo.connected(x - 1, y - 1))
-            cout << "Yes" << endl;
-        else
-            cout << "No" << endl;
+        for (int j = sec % 3 * 3; j <= sec % 3 * 3 + 2; j++)
+        {
+            times[cells[i * 9 + j]]--;
+            if (times[cells[i * 9 + j]] < 0)
+                return false;
+        }
     }
-    return 0;
+    return sec == 8 ? true : isSection(sec + 1, cells);
+}
+
+TEST_CASE("is work")
+{
+    int cells[81] = {5,
+                     8,
+                     1,
+                     4,
+                     9,
+                     3,
+                     7,
+                     6,
+                     2,
+                     9,
+                     6,
+                     3,
+                     7,
+                     1,
+                     2,
+                     5,
+                     8,
+                     4,
+                     2,
+                     7,
+                     4,
+                     8,
+                     6,
+                     5,
+                     9,
+                     3,
+                     1,
+                     1,
+                     2,
+                     9,
+                     5,
+                     4,
+                     6,
+                     3,
+                     7,
+                     8,
+                     4,
+                     3,
+                     6,
+                     1,
+                     8,
+                     7,
+                     2,
+                     9,
+                     5,
+                     7,
+                     5,
+                     8,
+                     3,
+                     2,
+                     9,
+                     1,
+                     4,
+                     6,
+                     8,
+                     9,
+                     2,
+                     6,
+                     7,
+                     1,
+                     4,
+                     5,
+                     3,
+                     6,
+                     1,
+                     5,
+                     9,
+                     3,
+                     4,
+                     8,
+                     2,
+                     7,
+                     3,
+                     4,
+                     7,
+                     2,
+                     5,
+                     8,
+                     6,
+                     1,
+                     9};
+
+    REQUIRE(isRow(0, cells) == true);
+    REQUIRE(isCol(0, cells) == true);
+    REQUIRE(isSection(0, cells) == true);
 }
