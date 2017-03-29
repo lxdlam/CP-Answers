@@ -29,4 +29,4 @@
 *.app
 
 #ignore Test
-/Test/*
+Test/*
