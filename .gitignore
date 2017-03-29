@@ -1,3 +1,6 @@
+#ignore Test
+/Test/*
+
 # Compiled Object files
 *.slo
 *.lo
@@ -27,6 +30,3 @@
 *.exe
 *.out
 *.app
-
-#ignore Test
-Test/*
