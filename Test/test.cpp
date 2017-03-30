@@ -5,17 +5,21 @@
 
 using namespace std;
 
-string reverse(string src)
+int mod(int n, int m)
 {
-    string res = "";
-    for (int i = src.size() - 1; i >= 0; i--)
-        res += src[i];
+    return (n + m) % m;
+}
+
+bool check(string a, string b)
+{
+    bool res = true;
+    for (int i = 0; i < a.size(); i++)
+        if (mod(a[i] - a[i + 1], 27) != mod(b[i] - b[i + 1], 27))
+            res = false;
     return res;
 }
 
-TEST_CASE("reverse")
+TEST_CASE("Check")
 {
-    REQUIRE(reverse("") == "");
-    REQUIRE(reverse("A") == "A");
-    REQUIRE(reverse("123456789") == "987654321");
+    REQUIRE(check("bcde", "zabc") == true);
 }
