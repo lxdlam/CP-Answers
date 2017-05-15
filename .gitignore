@@ -338,3 +338,10 @@ __pycache__/
 *.xsd.cs
 
 # End of https://www.gitignore.io/api/c++,linux,visualstudio
+
+# Ignore all inputs
+*.in
+# And test files
+a.out
+# And Test
+Test
