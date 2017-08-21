@@ -62,6 +62,4 @@
 # Ignore all inputs 
 *.in 
 # And test files 
-a.out 
-# And Test 
-Test
+a.out
