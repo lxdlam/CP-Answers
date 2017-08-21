@@ -63,3 +63,5 @@
 *.in 
 # And test files 
 a.out
+# And test sources
+test.cpp
