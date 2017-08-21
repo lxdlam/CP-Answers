@@ -1,13 +1,12 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <cstdio>
+#include <string>
 
 using namespace std;
 
-class UFO
+class UF
 {
   public:
-    UFO(int n)
+    UF(int n)
     {
         count = length = n;
         id = new int[n];
@@ -18,7 +17,7 @@ class UFO
             sz[i] = 1;
     }
 
-    ~UFO()
+    ~UF()
     {
         delete[] id;
         delete[] sz;
@@ -71,59 +70,44 @@ class UFO
 
   private:
     int count;
-    int *id int *sz;
+    int *id;
+    int *sz;
     int length;
 };
 
-class Node
+long long pow(int num, int expr)
 {
-  public:
-    int a;
-    int b;
-    int money;
-
-    Node(int a, int b, int money)
-    {
-        this->a = a;
-        this->b = b;
-        this->money = money;
-    }
-
-    bool operator<(const Node &n) const
-    {
-        return money < n.money;
-    }
-};
+    long long res = 1;
+    while (expr--)
+        res *= num;
+    return res;
+}
 
 int main()
 {
-    int n, m;
-    int i, j, k;
-    int count;
-    vector<Node> v;
-    while (cin >> n >> m && n != 0)
+    int n, m, op, u, v;
+    long long res = 0;
+    scanf("%d%d", &n, &m);
+    UF uf(n);
+    string ans = "";
+    while (m--)
     {
-        v.clear();
-        count = 0;
-        UFO ufo(n);
-        while (m--)
+        scanf("%d%d%d", &op, &u, &v);
+        switch (op)
         {
-            cin >> i >> j >> k;
-            Node n(i, j, k);
-            v.push_back(n);
+        case 0:
+            uf.Union(u, v);
+            break;
+        case 1:
+            if (uf.connected(u, v))
+                ans += "1";
+            else
+                ans += "0";
+            break;
         }
-        sort(v.begin(), v.end());
-        for (vector<Node>::iterator it = v.begin(); it != v.end(); it++)
-        {
-            if (ufo.getCount() <= 1)
-                break;
-            if (!ufo.connected(it->a - 1, it->b - 1))
-            {
-                ufo.Union(it->a - 1, it->b - 1);
-                count += it->money;
-            }
-        }
-        cout << count << endl;
     }
+    for (int i = 0; i < ans.size(); i++)
+        res += (ans[i] - '0') ? pow(2, ans.size() - i - 1) : 0;
+    printf("%lld\n", res % 998244353);
     return 0;
 }
