@@ -1,53 +1,53 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-int pattern(int a, int b, int c)
+int change(vector<int> &v, int l, int r)
 {
-    if (a == c && a != b)
-        return b == 1 ? 0 : 1;
+    if (l == r)
+        return 0;
+    else if (v[l] == v[r])
+    {
+        for (int i = l + 1; i < r; i++)
+            v[i] = v[r];
+        return (r - l) / 2;
+    }
     else
-        return b;
-}
-
-template <typename T>
-void copy(vector<T> &src, vector<T> &dest)
-{
-    dest.resize(src.size());
-    copy(src.begin(), src.end(), dest.begin());
+    {
+        int m = (l + r + 1) / 2;
+        for (int i = l + 1; i < m; i++)
+            v[i] = v[l];
+        for (int i = m; i < r; i++)
+            v[i] = v[r];
+        return (r - l - 1) / 2;
+    }
 }
 
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(0);
-    int T, t;
+    int T, t, l = 0;
+    int ans = 0;
+    vector<int> v;
     cin >> T;
-    vector<int> v1, v2;
-    int count = 0;
-    while (T--)
+    for (int i = 0; i < T; i++)
     {
         cin >> t;
-        v1.emplace_back(t);
+        v.emplace_back(t);
     }
-    copy(v1, v2);
-    int n = v1.size();
-    while (true)
+    for (int i = 0; i < T; i++)
     {
-        for (int i = 1; i < n - 1; i++)
-            v2[i] = pattern(v1[i - 1], v1[i], v1[i + 1]);
-        count++;
-
-        if (v1 == v2)
+        if (i == T - 1 || v[i] == v[i + 1])
         {
-            count--;
-            break;
+            ans = max(ans, change(v, l, i));
+            l = i + 1;
         }
-        copy(v2, v1);
     }
-    cout << count << "\n";
-    for (auto i : v1)
+    cout << ans << "\n";
+    for (auto i : v)
         cout << i << " ";
     return 0;
 }
