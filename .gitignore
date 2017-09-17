@@ -67,3 +67,5 @@
 test.cpp
 # Also remove Random files.
 Random/*
+# Ignore *.pdf
+*.pdf
