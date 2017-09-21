@@ -12,14 +12,11 @@ int main()
     cin >> n;
     while (cin >> temp)
         v.push_back(temp);
-    sort(v.begin(), v.end());
-    for (int i = 0; i < v.size(); i++)
+    while (true)
     {
-        if (!i)
-            ans += v[i] * (n - 1);
-        else
-            ans += v[i] * n;
-        n--;
+        sort(v.begin(), v.end(), [](int x, int y) {
+            return x > y;
+        });
     }
     v.clear();
     cout << ans << endl;

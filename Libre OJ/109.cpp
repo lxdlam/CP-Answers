@@ -75,21 +75,12 @@ class UF
     int length;
 };
 
-long long pow(int num, int expr)
-{
-    long long res = 1;
-    while (expr--)
-        res *= num;
-    return res;
-}
-
 int main()
 {
     int n, m, op, u, v;
-    long long res = 0;
+    long long ans = 0;
     scanf("%d%d", &n, &m);
     UF uf(n);
-    string ans = "";
     while (m--)
     {
         scanf("%d%d%d", &op, &u, &v);
@@ -100,14 +91,12 @@ int main()
             break;
         case 1:
             if (uf.connected(u, v))
-                ans += "1";
+                ans = ((ans << 1) + 1) % 998244353;
             else
-                ans += "0";
+                ans = (ans << 1) % 998244353;
             break;
         }
     }
-    for (int i = 0; i < ans.size(); i++)
-        res += (ans[i] - '0') ? pow(2, ans.size() - i - 1) : 0;
-    printf("%lld\n", res % 998244353);
+    printf("%lld\n", ans);
     return 0;
 }
