@@ -18,6 +18,16 @@ int ZeroOnePack(vector<int> &costs, vector<int> &values, int size)
     return dp[size];
 }
 
+int CompletePack(vector<int> &costs, vector<int> &values, int size)
+{
+    for (int i = 0; i < costs.size(); i++)
+    {
+        for (int j = costs[i]; j <= size; j++)
+            dp[j] = max(dp[j], dp[j - costs[i]] + values[i]);
+    }
+    return dp[size];
+}
+
 int main()
 {
     ios::sync_with_stdio(false);
@@ -32,6 +42,6 @@ int main()
         costs.push_back(cost);
         values.push_back(value);
     }
-    cout << ZeroOnePack(costs, values, size) << endl;
+    cout << CompletePack(costs, values, size) << endl;
     return 0;
 }

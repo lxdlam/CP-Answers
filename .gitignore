@@ -57,8 +57,6 @@
 
 # Ignore all inputs 
 *.in 
-# And test files 
-*.out
 # And test sources
 test.cpp
 # Also remove Random files.
