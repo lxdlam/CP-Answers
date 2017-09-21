@@ -10,7 +10,12 @@ int dp[MAX] = {0};
 
 int ZeroOnePack(vector<int> &costs, vector<int> &values, int size)
 {
-    return 0;
+    for (int i = 0; i < costs.size(); i++)
+    {
+        for (int j = size; j >= costs[i]; j--)
+            dp[j] = max(dp[j], dp[j - costs[i]] + values[i]);
+    }
+    return dp[size];
 }
 
 int main()
