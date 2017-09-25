@@ -1,28 +1,64 @@
-#include <cstdio>
+#include <iostream>
 #include <string>
 #include <map>
-#include <sstream>
+#include <vector>
 
 using namespace std;
 
-inline void clean()
+vector<string> split(string s)
 {
-    getchar();
-    getchar();
-    getchar(); //###
-    getchar(); //\n
+    vector<string> res;
+    int i = 0;
+    for (int pos = 0; pos < s.size(); pos++)
+    {
+        if (s[pos] == ',' || s[pos] == '.')
+        {
+            res.push_back(s.substr(i, pos - i));
+            i = pos + 1;
+        }
+    }
+    res.push_back(s.substr(i, s.size() - i));
+    return res;
+}
+
+vector<string> split(string s, char token)
+{
+    vector<string> res;
+    int i = 0;
+    for (int pos = 0; pos < s.size(); pos++)
+    {
+        if (s[pos] == token)
+        {
+            res.push_back(s.substr(i, pos - i));
+            i = pos + 1;
+        }
+    }
+    res.push_back(s.substr(i, s.size() - i));
+    return res;
+}
+
+void discard(string &s, char token)
+{
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (s[i] == token)
+        {
+            while (s[i + 1] == token)
+                s.erase(i, 1);
+        }
+    }
 }
 
 int main()
 {
-    stringstream ss;
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     map<string, int> m;
     string temp;
-    char ch;
     int max;
-    while ((ch = getchar()) != EOF)
+    while (getline(cin, temp))
     {
-        if (ch == '#')
+        if (temp == "####")
         {
             map<string, int>::iterator it = m.begin();
             max = it->second;
@@ -36,36 +72,34 @@ int main()
                         temp = it->first;
                 }
             }
-            printf("%s:%d\n", temp.c_str(), max);
+            cout << temp << ":" << max << endl;
             temp.clear();
             m.clear();
-            ss.str("");
-            clean();
             continue;
-        }
-        else if (ch != ' ' && ch != '\n' && ch != ',' && ch != '.')
-        {
-            ss << ch;
-            continue;
-        }
-
-        if (temp.empty())
-        {
-            temp = ss.str();
-            ss.str("");
         }
         else
         {
-            temp = temp + " " + ss.str();
-            if (m.count(temp) == 0)
-                m[temp] = 1;
-            else
-                m[temp]++;
-            if (ch == '\n' || ch == ',' || ch == '.')
-                temp.clear();
-            else
-                temp = ss.str();
-            ss.str("");
+            discard(temp, ',');
+            discard(temp, '.');
+            vector<string> lines = split(temp);
+            for (int i = 0; i < lines.size(); i++)
+            {
+                discard(lines[i], ' ');
+                vector<string> words = split(lines[i], ' ');
+                if (words.size() <= 1)
+                    continue;
+                else
+                {
+                    for (int i = 0; i < words.size() - 1; i++)
+                    {
+                        temp = words[i] + " " + words[i + 1];
+                        if (m.count(temp) == 0)
+                            m[temp] = 1;
+                        else
+                            m[temp]++;
+                    }
+                }
+            }
         }
     }
     return 0;

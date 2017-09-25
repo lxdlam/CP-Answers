@@ -1,31 +1,24 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
-const int MAX = 1e5 + 10;
+const int SIZE = 1e6 + 10;
 
-int dp[MAX] = {0};
+int dp[SIZE] = {0};
 
-int ZeroOnePack(vector<int> &costs, vector<int> &values, int size)
+//call it N times, n stands for the number of items
+void ZeroOnePack(int cost, int value, int size)
 {
-    for (int i = 0; i < costs.size(); i++)
-    {
-        for (int j = size; j >= costs[i]; j--)
-            dp[j] = max(dp[j], dp[j - costs[i]] + values[i]);
-    }
-    return dp[size];
+    for (int i = size; i >= cost; i--)
+        dp[i] = max(dp[i], dp[i - cost] + value);
 }
 
-int CompletePack(vector<int> &costs, vector<int> &values, int size)
+void CompletePack(int cost, int value, int size)
 {
-    for (int i = 0; i < costs.size(); i++)
-    {
-        for (int j = costs[i]; j <= size; j++)
-            dp[j] = max(dp[j], dp[j - costs[i]] + values[i]);
-    }
-    return dp[size];
+    for (int i = cost; i <= size; i++)
+        dp[i] = max(dp[i], dp[i - cost] + value);
 }
 
 int main()
@@ -42,6 +35,8 @@ int main()
         costs.push_back(cost);
         values.push_back(value);
     }
-    cout << CompletePack(costs, values, size) << endl;
+    for (int i = 0; i < costs.size(); i++)
+        ZeroOnePack(costs[i], values[i], size);
+    cout << dp[size] << endl;
     return 0;
 }
