@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <set>
 #include <algorithm>
 
 using namespace std;
@@ -22,19 +23,23 @@ vector<string> split(string s)
 
 int solve(string s)
 {
-    bool appear[26];
-    for (auto &i : appear)
-        i = false;
-    int count = 0;
+    // bool appear[26];
+    // for (auto &i : appear)
+    //     i = false;
+    // int count = 0;
+    // for (int i = 0; i < s.size(); i++)
+    // {
+    //     if (!appear[s[i] - 'a'])
+    //     {
+    //         count++;
+    //         appear[s[i] - 'a'] = true;
+    //     }
+    // }
+    // return count;
+    set<char> app;
     for (int i = 0; i < s.size(); i++)
-    {
-        if (!appear[s[i] - 'a'])
-        {
-            count++;
-            appear[s[i] - 'a'] = true;
-        }
-    }
-    return count;
+        app.insert(s[i]);
+    return app.size();
 }
 
 int main()
