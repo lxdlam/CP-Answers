@@ -59,8 +59,8 @@
 *.in 
 # And test sources
 test.cpp
-# Also remove Random files.
-Random/*
+# Also remove Playground files.
+Playground/*
 # Ignore *.pdf
 *.pdf
 # Ignore All java bytecode file
