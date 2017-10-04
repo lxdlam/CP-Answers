@@ -35,3 +35,7 @@ int match(const string &t, const string &p)
     }
     return count;
 }
+
+int main()
+{
+}
