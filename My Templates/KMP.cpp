@@ -1,4 +1,4 @@
-#include <string>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -14,15 +14,15 @@ using namespace std;
 // so the current state is last state plus 1
 // i.e. j+1+1, otherwise, reset the state to
 // initial state.
-void getNext(const string &s, int next[])
+void getNext(const string &s, vector<int> &next)
 {
-    int j;
-    j = next[0] = -1;
+    int j = -1;
+    next.push_back(-1);
     for (int i = 0; i < s.size(); i++)
     {
         while (j != -1 && s[i] != s[j])
             j = next[j];
-        next[i + 1] = ++j;
+        next.push_back(++j);
     }
 }
 
@@ -40,10 +40,9 @@ void getNext(const string &s, int next[])
 int match(const string &t, const string &p)
 {
     //change size here
-    int next[(int)(1e5 + 10)];
     int count = 0;
-    int j;
-    j = 0;
+    int j = 0;
+    vector<int> next;
     getNext(p, next);
     for (int i = 0; i < t.size(); i++)
     {

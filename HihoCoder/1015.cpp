@@ -1,43 +1,38 @@
 #include <iostream>
 #include <string>
-#include <cstring>
+#include <vector>
 
 using namespace std;
 
-#define MEM(x) memset(x, 0, sizeof(x))
-
-const int SIZE = 1e4 + 10;
-
-int KMPnext[SIZE] = {0};
-
-void getNext(const string &s)
+void getNext(const string &s, vector<int> &next)
 {
-    MEM(KMPnext);
-    int k = 0;
+    int j = -1;
+    next.push_back(-1);
     for (int i = 0; i < s.size(); i++)
     {
-        while (k > 0 && s[k] != s[i])
-        {
-            k = KMPnext[k];
-        }
-        KMPnext[i + 1] = ++k;
+        while (j != -1 && s[i] != s[j])
+            j = next[j];
+        next.push_back(++j);
     }
 }
 
 int match(const string &t, const string &p)
 {
+    //change size here
     int count = 0;
-    getNext(p);
-    int q = 0;
+    int j = 0;
+    vector<int> next;
+    getNext(p, next);
     for (int i = 0; i < t.size(); i++)
     {
-        while (q > 0 && p[q] != t[i])
-            q = KMPnext[q];
-        q++;
-        if (q == p.size())
+        while (j != -1 && t[i] != p[j])
+            j = next[j];
+        j++;
+        if (j == p.size())
         {
+            //matched, change behavior here
             count++;
-            q = KMPnext[q];
+            j = next[j]; // important, start new match process
         }
     }
     return count;
