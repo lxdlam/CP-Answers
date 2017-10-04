@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <string>
 
 using namespace std;
 
@@ -14,40 +16,42 @@ void getNext(const string &s, vector<int> &next)
     }
 }
 
+// j is the longest suffix length
 int match(const string &t, const string &p)
 {
-    //change size here
     int count = 0;
     int j = 0;
     vector<int> next;
     getNext(p, next);
-    for (int i = 0; i < t.size();)
+    for (int i = 0; i < t.size(); i++)
     {
         while (j != -1 && t[i] != p[j])
             j = next[j];
         j++;
-        if (j == p.size())
-        {
-            //matched, change behavior here
-            count++;
-            j = 0; // important, start new match process
-            //i += j;
-            //continue;
-        }
-        i++;
     }
-    return count;
+    return j == -1 ? 0 : j;
 }
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
-    string t, p;
-    while (cin >> t && t != "#")
+    int T;
+    string a, b;
+    while (cin >> a >> b)
     {
-        cin >> p;
-        cout << match(t, p) << endl;
+        int la = match(a, b);
+        int lb = match(b, a);
+        if (la > lb || (la == lb && a <= b))
+        {
+            cout << a;
+            cout << b.substr(la, b.size() - la) << endl;
+        }
+        else
+        {
+            cout << b;
+            cout << a.substr(lb, a.size() - lb) << endl;
+        }
     }
     return 0;
 }

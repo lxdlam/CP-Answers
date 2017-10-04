@@ -16,7 +16,6 @@ void getNext(const string &s, vector<int> &next)
 
 int match(const string &t, const string &p)
 {
-    //change size here
     int count = 0;
     int j = 0;
     vector<int> next;
