@@ -7,8 +7,8 @@ using namespace std;
 const int MOD = 998244353;
 const int SIZE = 5000 + 10;
 
-int c[SIZE][SIZE] = {0};
-int n[SIZE] = {1};
+ll c[SIZE][SIZE] = {0};
+ll n[SIZE] = {1};
 
 void init()
 {
