@@ -1,21 +1,19 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
 class UF
 {
   public:
     UF(int n)
     {
         count = length = n;
-        id = new int[n];
+        id.resize(n);
         for (int i = 0; i < length; i++)
             id[i] = i;
-        sz = new int[n];
+        sz.resize(n);
         for (int i = 0; i < length; i++)
             sz[i] = 1;
-    }
-
-    ~UF()
-    {
-        delete[] id;
-        delete[] sz;
     }
 
     int getCount()
@@ -65,7 +63,7 @@ class UF
 
   private:
     int count;
-    int *id;
-    int *sz;
+    vector<int> id;
+    vector<int> sz;
     int length;
 };

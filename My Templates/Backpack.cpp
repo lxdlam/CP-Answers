@@ -1,12 +1,14 @@
-#include <algorithm>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-const int SIZE = 1e6 + 10;
+vector<int> dp;
 
-int dp[SIZE] = {0};
+void init(int size)
+{
+    dp.resize(size);
+}
 
-//call it N times, n stands for the number of items
 void ZeroOnePack(int cost, int value, int size)
 {
     for (int i = size; i >= cost; i--)
