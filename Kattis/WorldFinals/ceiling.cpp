@@ -1,5 +1,5 @@
 #include <iostream>
-#include <set>
+#include <vector>
 
 using namespace std;
 
@@ -41,11 +41,6 @@ struct Tree
         return compare(root, t.root);
     }
 
-    bool operator!=(const Tree &t) const
-    {
-        return !(this->operator==(t));
-    }
-
     bool compare(Node *l, Node *r) const
     {
         if (l == r && l == nullptr)
@@ -57,14 +52,6 @@ struct Tree
     }
 };
 
-struct cmp
-{
-    bool operator()(const Tree &ta, const Tree &tb)
-    {
-        return ta == tb;
-    }
-};
-
 int main()
 {
     ios::sync_with_stdio(false);
@@ -72,20 +59,31 @@ int main()
 
     int n, m;
     long long t;
-    set<Tree, cmp> s;
+    bool flag;
+    vector<Tree> v;
     cin >> n >> m;
     while (n--)
     {
+        flag = true;
         Tree tmp;
         for (int i = 0; i < m; i++)
         {
             cin >> t;
             tmp.insert(t);
         }
-        s.insert(tmp);
+        for (int i = 0; i < v.size(); i++)
+        {
+            if (v[i] == tmp)
+            {
+                flag = false;
+                break;
+            }
+        }
+        if (flag)
+            v.emplace_back(tmp);
     }
 
-    cout << s.size() << endl;
+    cout << v.size() << endl;
 
     return 0;
 }
