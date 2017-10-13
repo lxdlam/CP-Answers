@@ -1,25 +1,14 @@
-// Figure it out
-// Source: http://blog.csdn.net/zhang_di233/article/details/48108347
 #include <iostream>
 #include <string>
+#include <map>
 
 using namespace std;
-
-const int SIZE = 100000 + 10;
-
-int pos[SIZE * 2];
-
-void init()
-{
-    for (auto &i : pos)
-        i = -1;
-}
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
-    init();
+    map<int, int> pos;
     int s, len = 0, res = 0;
     string t;
     cin >> s >> t;
@@ -34,10 +23,10 @@ int main()
             res = max(res, i + 1);
             continue;
         }
-        if (pos[len + SIZE] == -1)
-            pos[len + SIZE] = i;
+        if (pos.count(len))
+            res = max(res, i - pos[len]);
         else
-            res = max(res, i - pos[len + SIZE]);
+            pos[len] = i;
     }
     cout << res << endl;
     return 0;
