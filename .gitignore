@@ -61,8 +61,8 @@
 test.cpp
 # Also remove Playground files.
 Playground/*
-# Ignore *.pdf
-*.pdf
+# Ignore all pdfs in PDFs
+PDFs
 # Ignore All java bytecode file
 *.class
 
