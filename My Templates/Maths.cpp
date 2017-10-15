@@ -24,6 +24,12 @@ void getCom()
         c[i][0] = 1;
         for (int j = 1; j <= i; j++)
             c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
-            // Will be extremely large!
+        // Will be extremely large!
     }
+}
+
+// GCD for small integers
+int gcd(int a, int b)
+{
+    return b == 0 ? a : gcd(b, a % b);
 }

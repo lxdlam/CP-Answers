@@ -2,7 +2,18 @@
 
 using namespace std;
 
-int gcd(int a, int b)
+vector<string> split(const string &s)
 {
-    return b == 0 ? a : gcd(b, a % b);
+    vector<string> res;
+    int i = 0;
+    for (int pos = 0; pos < s.size(); pos++)
+    {
+        if (s[pos] <= 'Z' && s[pos] >= 'A')
+        {
+            res.push_back(s.substr(i, pos - i));
+            i = pos + 1;
+        }
+    }
+    res.push_back(s.substr(i, s.size() - i));
+    return res;
 }
