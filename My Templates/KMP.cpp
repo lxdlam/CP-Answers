@@ -29,7 +29,7 @@ int match(const string &t, const string &p)
         {
             //matched, change behavior here
             count++;
-            j = next[j]; // important, start new match process
+            j = next[j]; // important, start a new match process
         }
     }
     return count;
