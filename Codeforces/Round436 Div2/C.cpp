@@ -6,45 +6,64 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
-    long long a, b, f, k, l, r;
-    long long tank = 0, res = 0;
+    int a, b, f, k;
     cin >> a >> b >> f >> k;
-    tank = b;
-    l = f;
-    r = 2 * a - 2 * f;
+    int tank = b;
+    int l = f, r = a - f;
+    int t = 0;
     while (true)
     {
-        tank = tank - l;
+        // 0 -> a
+        // arrive f
+        tank -= l;
         if (tank < 0)
-            break;
-        if (tank >= r)
-            tank = tank - r;
-        else
         {
-            res++;
-            tank = b - r;
+            t = -1;
+            break;
         }
-        if (--k == 0)
-            break;
-        if (tank < 0)
-            break;
-        if (tank >= 2 * l)
-            tank = tank - l;
-        else
+        // refuel
+        if (k == 1)
         {
-            tank = b - l;
-            res++;
+            if (b < r)
+                t = -1;
+            else if (tank < r)
+                t++;
+            break;
         }
+        if (tank < 2 * r)
+        {
+            tank = b;
+            t++;
+        }
+        // arrive a
+        tank -= r;
+        k--;
+
+        // a -> 0
+        tank -= r;
         if (tank < 0)
+        {
+            t = -1;
             break;
-        if (--k == 0)
+        }
+        if (k == 1)
+        {
+            if (b < l)
+                t = -1;
+            else if (tank < l)
+                t++;
             break;
+        }
+        // refuel
+        if (tank < 2 * l)
+        {
+            tank = b;
+            t++;
+        }
+        // arrive 0
+        tank -= l;
+        k--;
     }
-    if (k != 0)
-        cout << -1 << endl;
-    else if (tank > l)
-        cout << res - 1 << endl;
-    else
-        cout << res << endl;
+    cout << t << endl;
     return 0;
 }
