@@ -65,4 +65,5 @@ Playground/*
 PDFs
 # Ignore All java bytecode file
 *.class
-
+# All Codeforces Editorials
+Codeforces/Editorial/*
