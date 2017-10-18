@@ -4,7 +4,7 @@ using namespace std;
 
 const int SIZE = 110;
 
-int pre[110] = {0};
+int pre[SIZE] = {0};
 
 int main()
 {
