@@ -65,3 +65,5 @@ Playground/*
 *.pdf
 # Ignore All java bytecode file
 *.class
+# Remove all .zip
+*.zip
