@@ -61,9 +61,7 @@
 test.cpp
 # Also remove Playground files.
 Playground/*
-# Ignore all pdfs in PDFs
-PDFs
+# Ignore all pdfs
+*.pdf
 # Ignore All java bytecode file
 *.class
-# All Codeforces Editorials
-Codeforces/Editorial/*
