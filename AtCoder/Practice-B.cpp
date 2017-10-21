@@ -18,6 +18,7 @@ char ask(char a, char b)
         cout << "? " << a << " " << b << endl;
         cin >> ch;
         m[make_pair(a, b)] = ch;
+        m[make_pair(b, a)] = ch == '>' ? '<' : '>';
         return ch;
     }
     return m[make_pair(a, b)];
@@ -32,24 +33,54 @@ genVec(int size)
     return v;
 }
 
-int sort(vector<char> &v, int cnt, char c)
+int getPartion(vector<char> &v, int l, int r)
 {
-    int l = 0, r = cnt;
-    while (l < r)
+    char k = v[r];
+    int i = l - 1;
+    for (int j = l; j < r; j++)
     {
-        int mid = (l + r) >> 1;
-        if (ask(c, v[mid]) == '>')
-            l = mid + 1;
-        else
-            r = mid;
+        if (ask(v[j], k) == '<')
+        {
+            i++;
+            swap(v[i], v[j]);
+        }
     }
-    cnt++;
-    if (ask(c, v[r]) == '>')
-        r++;
-    for (int i = cnt; i >= r + 1; i--)
-        v[i] = v[i - 1];
-    v[r] = c;
-    return cnt;
+    swap(v[i + 1], v[r]);
+    return i + 1;
+}
+
+void quickAsk(vector<char> &v, int l, int r)
+{
+    int m;
+    if (l < r)
+    {
+        m = getPartion(v, l, r);
+        quickAsk(v, l, m - 1);
+        quickAsk(v, m + 1, r);
+    }
+}
+
+void bsort(vector<char> &v)
+{
+    int mid, l, r;
+    char t;
+    for (int i = 1; i < v.size(); i++)
+    {
+        l = 0;
+        r = i - 1;
+        t = v[i];
+        while (l <= r)
+        {
+            mid = (l + r) >> 1;
+            if (ask(v[mid], t) == '>')
+                r = mid - 1;
+            else
+                l = mid + 1;
+        }
+        for (int j = i; j > l; j--)
+            v[j] = v[j - 1];
+        v[l] = t;
+    }
 }
 
 int main()
@@ -72,9 +103,7 @@ int main()
         }
         else if (q == 100)
         {
-            int cnt = 0;
-            for (auto i : v)
-                cnt = sort(v, cnt, i);
+            bsort(v);
         }
     }
     else if (n == 5)
