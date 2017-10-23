@@ -67,3 +67,7 @@ Playground/*
 *.class
 # Remove all .zip
 *.zip
+# Ignore all images
+*.jpg
+*.png
+*.bmp
