@@ -9,9 +9,9 @@ You can compile them using:
 - Clang 4.0
 - GCC 6.3.0
 
-Also, there are some Python3 and Haskell source files,you can run them using Python 3.6.0 and GHC 8.1.2.
+Also, there are some Python3 and Haskell source files, you can run them using Python 3.6.0 and GHC 8.1.2.
 
-If you have some question, just open an issue.
+If you have a question, just open an issue.
 
 Hope these codes will help you.
 
