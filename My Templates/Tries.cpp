@@ -5,7 +5,6 @@ using namespace std;
 const int CHARSIZE = 26;
 const char START = 'a';
 
-// Standard Linked Trie
 struct Node
 {
     Node *next[CHARSIZE];
