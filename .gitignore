@@ -71,3 +71,5 @@ Playground/*
 *.jpg
 *.png
 *.bmp
+# Ignore TopCoder Arena Client and Dependencies
+TopCoder/ArenaClient/
