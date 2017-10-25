@@ -12,7 +12,7 @@ You can use any compilers which supports C++14 standard well to compile them. Yo
 
 Also, there are some Python3 and Haskell source files, you can run them using Python 3.6.0 and GHC 8.1.2.
 
-If you have a question, just open an issue.
+If you have any question, feel free to open an issue.
 
 Hope these codes will help you.
 
