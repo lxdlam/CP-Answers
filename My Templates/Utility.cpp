@@ -17,3 +17,10 @@ vector<string> split(const string &s)
     res.push_back(s.substr(i, s.size() - i));
     return res;
 }
+
+string reverse(const string &s)
+{
+    string res = s;
+    reverse(res.begin(), res.end());
+    return res;
+}
