@@ -2,10 +2,9 @@
 
 There are Ramen's ACM-ICPC problem answers.
 
-All of the codes here are AC codes, but many of them can be optimized. Some of them may just partial solution.
+All of the codes here are AC codes, but many of them can be optimized. Some of them are just partial solutions.
 
 Many of them are written under C++14 standard.
-
 You can compile them using:
 - Clang 4.0
 - GCC 6.3.0
