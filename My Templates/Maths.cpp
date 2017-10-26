@@ -34,6 +34,23 @@ int gcd(int a, int b)
     return b == 0 ? a : gcd(b, a % b);
 }
 
+// Stein GCD
+int sgcd(int a, int b)
+{
+    if (a == 0)
+        return b;
+    if (b == 0)
+        return a;
+    if (a % 2 == 0 && b % 2 == 0)
+        return 2 * sgcd(a >> 1, b >> 1);
+    else if (a % 2 == 0)
+        return sgcd(a >> 1, b);
+    else if (b % 2 == 0)
+        return sgcd(a, b >> 1);
+    else
+        return sgcd(abs(a - b), min(a, b));
+}
+
 // Prime check
 bool notprime[SIZE] = {false};
 

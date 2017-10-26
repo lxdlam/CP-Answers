@@ -1,8 +1,11 @@
 # Ramen's ACM Templates
 
-## 标准解答模板
+## Standard Answer Template
 
-注意，标准解答模板里面涉及到关闭`cin/cout`与`std`流同步的部分，关闭后不能与`scanf/printf`混用。
+注意：
+
+1. 标准解答模板里面涉及到关闭`cin/cout`与`std`流同步的部分，关闭后不能与`scanf/printf`混用。
+2. 如果编译器不支持`#include <bits/stdc++.h>`，换成对应头文件的写法。
 
 ```c++
 #include <bits/stdc++.h>
@@ -426,14 +429,38 @@ void getCom()
 }
 ```
 
-### GCD for small integer
+### GCD
 
-**较小型数据的最大公约数**
+#### Euclid
+
+**欧几里得法**，大素数较慢
 
 ```c++
 int gcd(int a, int b)
 {
     return b == 0 ? a : gcd(b, a % b);
+}
+```
+
+#### Stein
+
+**Stein**法，大素数下也能取得很高的效率。
+
+```c++
+int sgcd(int a, int b)
+{
+    if (a == 0)
+        return b;
+    if (b == 0)
+        return a;
+    if (a % 2 == 0 && b % 2 == 0)
+        return 2 * sgcd(a >> 1, b >> 1);
+    else if (a % 2 == 0)
+        return sgcd(a >> 1, b);
+    else if (b % 2 == 0)
+        return sgcd(a, b >> 1);
+    else
+        return sgcd(abs(a - b), min(a, b));
 }
 ```
 
@@ -446,17 +473,17 @@ int gcd(int a, int b)
 ```c++
 long long extend_gcd(long long a, long long b, long long &x, long long &y)
 {
-	if (a == 0 && b == 0)
-		return -1;
-	if (b == 0)
-	{
-		x = 1;
-		y = 0;
-		return a;
-	}
-	long long d = extend_gcd(b, a % b, y, x);
-	y -= a / b * x;
-	return d;
+    if (a == 0 && b == 0)
+        return -1;
+    if (b == 0)
+    {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    long long d = extend_gcd(b, a % b, y, x);
+    y -= a / b * x;
+    return d;
 }
 ```
 
@@ -469,12 +496,12 @@ long long extend_gcd(long long a, long long b, long long &x, long long &y)
 ```c++
 long long mod_reverse(long long a, long long n)
 {
-	long long x, y;
-	long long d = extend_gcd(a, n, x, y);
-	if (d == 1)
-		return (x % n + n) % n;
-	else
-		return -1;
+    long long x, y;
+    long long d = extend_gcd(a, n, x, y);
+    if (d == 1)
+        return (x % n + n) % n;
+    else
+        return -1;
 }
 ```
 
@@ -491,15 +518,15 @@ bool notprime[SIZE] = {false};
 
 void init()
 {
-	notprime[0] = notprime[1] = true;
-	for (int i = 2; i < SIZE; i++)
-		if (!notprime[i])
-		{
-			if (i > SIZE / i)
-				continue;
-			for (int j = i * i; j < SIZE; j += i)
-				notprime[j] = true;
-		}
+    notprime[0] = notprime[1] = true;
+    for (int i = 2; i < SIZE; i++)
+        if (!notprime[i])
+        {
+            if (i > SIZE / i)
+                continue;
+            for (int j = i * i; j < SIZE; j += i)
+                notprime[j] = true;
+        }
 }
 ```
 
@@ -513,17 +540,17 @@ void init()
 int prime[SIZE + 1] = {0};
 void getPrime()
 {
-	for (int i = 2; i <= SIZE; i++)
-	{
-		if (!prime[i])
-			prime[++prime[0]] = i;
-		for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
-		{
-			prime[prime[j] * i] = 1;
-			if (i % prime[j] == 0)
-				break;
-		}
-	}
+    for (int i = 2; i <= SIZE; i++)
+    {
+        if (!prime[i])
+            prime[++prime[0]] = i;
+        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
+        {
+            prime[prime[j] * i] = 1;
+            if (i % prime[j] == 0)
+                break;
+        }
+    }
 }
 ```
 
@@ -538,28 +565,28 @@ long long factor[100][2];
 int fatCnt;
 int getFactors(long long x)
 {
-	fatCnt = 0;
-	long long tmp = x;
-	for (int i = 1; prime[i] <= tmp / prime[i]; i++)
-	{
-		factor[fatCnt][1] = 0;
-		if (tmp % prime[i] == 0)
-		{
-			factor[fatCnt][0] = prime[i];
-			while (tmp % prime[i] == 0)
-			{
-				factor[fatCnt][1]++;
-				tmp /= prime[i];
-			}
-			fatCnt++;
-		}
-	}
-	if (tmp != 1)
-	{
-		factor[fatCnt][0] = tmp;
-		factor[fatCnt++][1] = 1;
-	}
-	return fatCnt;
+    fatCnt = 0;
+    long long tmp = x;
+    for (int i = 1; prime[i] <= tmp / prime[i]; i++)
+    {
+        factor[fatCnt][1] = 0;
+        if (tmp % prime[i] == 0)
+        {
+            factor[fatCnt][0] = prime[i];
+            while (tmp % prime[i] == 0)
+            {
+                factor[fatCnt][1]++;
+                tmp /= prime[i];
+            }
+            fatCnt++;
+        }
+    }
+    if (tmp != 1)
+    {
+        factor[fatCnt][0] = tmp;
+        factor[fatCnt++][1] = 1;
+    }
+    return fatCnt;
 }
 ```
 
