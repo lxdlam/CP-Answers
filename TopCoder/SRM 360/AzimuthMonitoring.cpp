@@ -1,19 +1,18 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include <iostream>
 
 using namespace std;
 
 class AzimuthMonitoring
 {
   public:
-    int getAzimuth(vector<string> &v)
+    int getAzimuth(vector<string> instructions)
     {
         int res = 0;
         string a;
         int t;
-        for (auto i : v)
+        for (auto i : instructions)
         {
             if (i == "HALT")
                 break;
