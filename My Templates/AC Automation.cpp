@@ -56,7 +56,7 @@ struct ACAuto
             while (temp != root)
             {
                 res += temp->num;
-                temp->num = 0;
+                temp->num = 0; // Avoid matches too many times
                 temp = temp->fail;
             }
         }
