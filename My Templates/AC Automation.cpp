@@ -5,6 +5,102 @@ using namespace std;
 const int CHARSIZE = 26;
 const char START = 'a';
 
+const int SIZE = 5e5 + 10; // Change the size here to avoid MLE
+
+// Array based AC-Automation
+struct ACAuto
+{
+    int next[SIZE][CHARSIZE];
+    int fail[SIZE], num[SIZE];
+    int root;
+    int size;
+
+    ACAuto()
+    {
+        memset(next, 0, sizeof(next));
+        memset(fail, 0, sizeof(fail));
+        memset(num, 0, sizeof(num));
+        init();
+    }
+
+    void init()
+    {
+        size = 0;
+        root = newnode();
+    }
+
+    int newnode()
+    {
+        for (int i = 0; i < CHARSIZE; i++)
+            next[size][i] = -1;
+        num[size++] = 0;
+
+        return size - 1;
+    }
+
+    void insert(const string &s)
+    {
+        int cur = root;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (next[cur][s[i] - START] == -1)
+                next[cur][s[i] - START] = newnode();
+            cur = next[cur][s[i] - START];
+        }
+        num[cur]++;
+    }
+
+    void build()
+    {
+        queue<int> q;
+        int cur;
+        fail[root] = root;
+        for (int i = 0; i < CHARSIZE; i++)
+        {
+            if (next[root][i] == -1)
+                next[root][i] = root;
+            else
+            {
+                fail[next[root][i]] = root;
+                q.push(next[root][i]);
+            }
+        }
+        while (!q.empty())
+        {
+            cur = q.front();
+            q.pop();
+            for (int i = 0; i < CHARSIZE; i++)
+            {
+                if (next[cur][i] == -1)
+                    next[cur][i] = next[fail[cur]][i];
+                else
+                {
+                    fail[next[cur][i]] = next[fail[cur]][i];
+                    q.push(next[cur][i]);
+                }
+            }
+        }
+    }
+
+    int query(const string &s)
+    {
+        int cur = root, res = 0, temp;
+        for (int i = 0; i < s.size(); i++)
+        {
+            cur = next[cur][s[i] - 'a'];
+            temp = cur;
+            while (temp != root)
+            {
+                res += num[temp];
+                num[temp] = 0;
+                temp = fail[temp];
+            }
+        }
+        return res;
+    }
+};
+
+// Below are linked implementation, may cause some problem
 struct Node
 {
     Node *next[CHARSIZE];
