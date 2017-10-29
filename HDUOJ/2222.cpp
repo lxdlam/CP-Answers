@@ -23,7 +23,6 @@ struct Node
 struct ACAuto
 {
     Node *root;
-    set<Node *> vis;
 
     ACAuto()
     {
