@@ -2,8 +2,6 @@
 
 using namespace std;
 
-using namespace std;
-
 const int CHARSIZE = 26;
 const char START = 'a';
 
