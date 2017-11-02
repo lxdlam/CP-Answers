@@ -5,6 +5,22 @@ using namespace std;
 const int CHARSIZE = 26;
 const char START = 'a';
 
+struct Node
+{
+    Node *next[CHARSIZE];
+    Node *fail;
+    int num;
+
+    Node() : num(0), fail(NULL)
+    {
+        for (int i = 0; i < CHARSIZE; i++)
+        {
+            next[i] = NULL;
+        }
+    }
+};
+
+
 struct ACAuto
 {
     Node *root;
@@ -170,21 +186,5 @@ struct ACAuto
             }
         }
         return res;
-    }
-};
-
-// Below are linked implementation, may cause some problem
-struct Node
-{
-    Node *next[CHARSIZE];
-    Node *fail;
-    int num;
-
-    Node() : num(0), fail(NULL)
-    {
-        for (int i = 0; i < CHARSIZE; i++)
-        {
-            next[i] = NULL;
-        }
     }
 };
