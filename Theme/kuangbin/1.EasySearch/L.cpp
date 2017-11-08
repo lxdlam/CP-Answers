@@ -6,19 +6,10 @@ using namespace std;
 const int size = 100;
 char grid[size][size] = {0};
 
-inline void clean()
-{
-  while (getchar() != '\n')
-    ;
-}
-
 void mark(const int &x, const int &y)
 {
-  if (grid[x][y] == '*' || grid[x][y] == 0 || x < 0 || x >= size || y < 0 ||
-      y >= size)
-  {
+  if (grid[x][y] == '*' || grid[x][y] == 0 || x < 0 || x >= size || y < 0 || y >= size)
     return;
-  }
   else
   {
     grid[x][y] = '*';
