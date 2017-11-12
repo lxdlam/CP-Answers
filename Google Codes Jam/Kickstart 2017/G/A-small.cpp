@@ -16,9 +16,7 @@ inline long long solve(long long base, long long expr, long long p)
 {
     long long res = 1;
     while (expr--)
-    {
         res = (res * base) % p;
-    }
     return res;
 }
 
