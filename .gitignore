@@ -73,3 +73,5 @@ Playground/*
 *.bmp
 # Ignore TopCoder Arena Client and Dependencies
 TopCoder/ArenaClient/
+# Tools :)
+Deleter
