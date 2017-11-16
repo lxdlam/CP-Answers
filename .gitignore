@@ -55,23 +55,23 @@
 
 # End of https://www.gitignore.io/api/c++,linux,visualstudiocode
 
-# Ignore all inputs 
+# All inputs 
 *.in 
-# And test sources
+# Eest sources
 test.cpp
-# Also remove Playground files.
+# Playground files
 Playground/*
-# Ignore all pdfs
+# All pdfs
 *.pdf
-# Ignore All java bytecode file
+# All java bytecode files
 *.class
-# Remove all .zip
+# All .zip files
 *.zip
-# Ignore all images
+# All images
 *.jpg
 *.png
 *.bmp
-# Ignore TopCoder Arena Client and Dependencies
+# TopCoder Arena Client and Dependencies
 TopCoder/ArenaClient/
 # Tools :)
 Deleter
