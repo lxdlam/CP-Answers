@@ -41,14 +41,51 @@ int main()
         y = min(x, y);
         l++;
     }
-    if (y >= 0)
+    if (y >= 0) // We can start from 0
     {
         cout << 0 << endl;
         return 0;
     }
 
-    // TODO:
-    // Solve it
+    for (int i = 0; i < n; i++)
+    {
+        if (pp[i].second == 1)
+        {
+            x += a - c;
+            z += a; // Before
+            y += a - c;
+        }
+        else
+        {
+            x -= b - d;
+            z -= b;
+            y -= b - d;
+        }
+        if (z < 0)
+        {
+            /* 
+             * From time pp[0].first to current, 
+             * we find no solution
+             * and from now on, no solution available.
+             */
+            cout << -1 << endl;
+            return 0;
+        }
+        while (l < n && pp[i].first + len >= pp[l].first)
+        {
+            if (pp[l].second == 1)
+                x += c;
+            else
+                x -= d;
+            y = min(y, x);
+            l++;
+        }
+        if (y >= 0)
+        {
+            cout << pp[i].first + 1 << endl; // Found a solution
+            return 0;
+        }
+    }
 
     cout << -1 << endl; // no solution
     return 0;
