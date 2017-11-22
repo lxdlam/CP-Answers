@@ -806,12 +806,12 @@ long long fp(long long base, long long expr, long long mod = 1e9 + 7)
     base %= mod;
     while (expr)
     {
-        if (expr & 1)
+        if (expr & 1LL)
             ans = (ans * base) % mod;
-        base *= base % mod;
-        expr >>= 1;
+        base = (base * base) % mod;
+        expr >>= 1LL;
     }
-    return ans;
+    return ans % mod;
 }
 ```
 
