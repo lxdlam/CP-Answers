@@ -22,7 +22,7 @@ int main()
         cin >> i;
 
     if (n == 1)
-        cout << abs(z - v[0]) << endl;
+        cout << abs(w - v[0]) << endl;
     else
         cout << max(abs(v[n - 1] - v[n - 2]), abs(v.back() - w)) << endl;
 
