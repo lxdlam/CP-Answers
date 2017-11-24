@@ -4,60 +4,59 @@ using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> pii;
-
-int n;
-
-inline int add(int i) { return i + 1 > n ? i + 1 - n : i + 1; }
-
-inline int miu(int i) { return i - 1 < n ? i - 1 + n : i - 1; }
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef set<int> si;
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
-    int k, t;
+
+    int n, k;
+    int p;
+    int m1, m2;
+    m1 = m2 = 0;
     cin >> n >> k;
-    set<int> fox, hp;
-    vector<int> os, ts, ns;
 
-    int count = 0;
+    vi v(n + 1, 0);
 
     for (int i = 0; i < k; i++)
     {
-        cin >> t;
-        fox.insert(t);
+        cin >> p;
+        v[p] = 1;
     }
 
     for (int i = 0; i < k; i++)
     {
-        cin >> t;
-        hp.insert(t);
+        cin >> p;
+        v[p] = 2;
     }
 
-    for (auto i : fox)
+    // match clockwisely
+    for (int i = 1; i < n; i++)
     {
-        if (!hp.count(add(i)) && !hp.count(miu(i)))
-            ns.emplace_back(i);
-        else if (hp.count(add(i)) && hp.count(miu(i)))
-            ts.emplace_back(i);
-        else if (hp.count(add(i)) || hp.count(miu(i)))
-            os.emplace_back(i);
+        if (v[i] + v[i + 1] == 3)
+        {
+            m1++;
+            i++;
+        }
     }
 
-    for (auto i : os)
+    // match anti-clockwisely
+    if (v[1] + v[n] == 3)
+        m2++;
+    for (int i = n - 1; i > 2; i--)
     {
-        if (hp.count(add(i)))
-            hp.erase(add(i));
-        else
-            hp.erase(miu(i));
+        if (v[i] + v[i - 1] == 3)
+        {
+            m2++;
+            i--;
+        }
     }
 
-    for (auto i : ts)
-        if (hp.count(add(i)) || hp.count(miu(i)))
-            count++;
-
-    cout << ns.size() * 2 + os.size() + count + (ts.size() - count) * 2 << endl;
+    cout << 2 * k - max(m1, m2) << endl;
 
     return 0;
 }
