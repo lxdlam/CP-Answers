@@ -5,8 +5,10 @@ using namespace std;
 class UF
 {
   public:
-    UF(int n)
+    void init(int n)
     {
+        id.clear();
+        sz.clear();
         count = length = n;
         id.resize(n);
         for (int i = 0; i < length; i++)
