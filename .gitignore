@@ -73,6 +73,10 @@ Playground/*
 *.bmp
 # TopCoder Arena Client and Dependencies
 TopCoder/ArenaClient/
+TopCoder/cpp.tmpl
+TopCoder/greed.conf
+TopCoder/*/*.html
+TopCoder/*/*.sample
 # Tools :)
 Deleter
 # Datas
