@@ -151,6 +151,25 @@ long long mod_reverse(long long a, long long n)
         return -1;
 }
 
+// Solve a*x + b*y = n
+long long cal(long long a, long long b, long long n)
+{
+    long long x, y;
+    long long gcd = extend_gcd(a, b, x, y);
+    if (n % gcd != 0)
+        return -1;
+    x *= n / gcd;
+    b /= gcd;
+    if (b < 0)
+        b = -b;
+    long long ans = x % b;
+    if (ans <= 0)
+        ans += b;
+    return ans;
+    // answer:
+    // x = ans, y = (n - ans * a) / b
+}
+
 // Fast pow
 long long fp(long long base, long long expr, long long mod = 1e9 + 7)
 {
