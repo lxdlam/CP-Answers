@@ -15,17 +15,14 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    ll n, a, b;
-    cin >> n >> a >> b;
-    for (int i = 0; a * i <= n; i++)
-    {
-        if ((n - a * i) % b == 0)
-        {
-            cout << "YES" << endl;
-            return cout << i << " " << (n - a * i) / b << endl, 0;
-        }
-    }
-    cout << "NO" << endl;
+    string s, t;
+    cin >> s >> t;
+    sort(s.begin(), s.end());
+    sort(t.begin(), t.end(), greater<char>());
+    if (s < t)
+        cout << "Yes" << endl;
+    else
+        cout << "No" << endl;
 
     return 0;
 }
