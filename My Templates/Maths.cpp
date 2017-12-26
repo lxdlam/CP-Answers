@@ -3,9 +3,10 @@
 using namespace std;
 
 const int SIZE = 1e6 + 10;
+typedef long long ll;
 
 // Factorials
-long long n[SIZE] = {1};
+ll n[SIZE] = {1};
 
 void getFac()
 {
@@ -14,7 +15,7 @@ void getFac()
 }
 
 // Combinations
-long long c[SIZE][SIZE] = {0};
+ll c[SIZE][SIZE] = {0};
 
 void getCom()
 {
@@ -29,11 +30,11 @@ void getCom()
 }
 
 // Derangement Problem
-long long d[SIZE];
+ll d[SIZE];
 
 void getD()
 {
-    long long res;
+    ll res;
     d[1] = 0, d[2] = 1;
     for (int i = 3; i < SIZE; i++)
         d[i] = (i - 1) * (d[i - 1] + d[i - 2]);
@@ -46,7 +47,7 @@ int gcd(int a, int b)
 }
 
 // Stein GCD
-int sgcd(int a, int b)
+ll sgcd(ll a, ll b)
 {
     if (a == 0)
         return b;
@@ -60,6 +61,12 @@ int sgcd(int a, int b)
         return sgcd(a, b >> 1);
     else
         return sgcd(abs(a - b), min(a, b));
+}
+
+// LCM
+ll lcm(ll a, ll b)
+{
+    return a / sgcd(a, b) * b;
 }
 
 // Prime check
@@ -96,12 +103,12 @@ void getPrime()
 }
 
 // Factors
-long long factor[100][2];
+ll factor[100][2];
 int fatCnt;
-int getFactors(long long x)
+int getFactors(ll x)
 {
     fatCnt = 0;
-    long long tmp = x;
+    ll tmp = x;
     for (int i = 1; prime[i] <= tmp / prime[i]; i++)
     {
         factor[fatCnt][1] = 0;
@@ -125,7 +132,7 @@ int getFactors(long long x)
 }
 
 // Extend GCD
-long long extend_gcd(long long a, long long b, long long &x, long long &y)
+ll extend_gcd(ll a, ll b, ll &x, ll &y)
 {
     if (a == 0 && b == 0)
         return -1;
@@ -135,16 +142,16 @@ long long extend_gcd(long long a, long long b, long long &x, long long &y)
         y = 0;
         return a;
     }
-    long long d = extend_gcd(b, a % b, y, x);
+    ll d = extend_gcd(b, a % b, y, x);
     y -= a / b * x;
     return d;
 }
 
 // Inverse element
-long long mod_reverse(long long a, long long n)
+ll mod_reverse(ll a, ll n)
 {
-    long long x, y;
-    long long d = extend_gcd(a, n, x, y);
+    ll x, y;
+    ll d = extend_gcd(a, n, x, y);
     if (d == 1)
         return (x % n + n) % n;
     else
@@ -152,17 +159,17 @@ long long mod_reverse(long long a, long long n)
 }
 
 // Solve a*x + b*y = n
-long long cal(long long a, long long b, long long n)
+ll cal(ll a, ll b, ll n)
 {
-    long long x, y;
-    long long gcd = extend_gcd(a, b, x, y);
+    ll x, y;
+    ll gcd = extend_gcd(a, b, x, y);
     if (n % gcd != 0)
         return -1;
     x *= n / gcd;
     b /= gcd;
     if (b < 0)
         b = -b;
-    long long ans = x % b;
+    ll ans = x % b;
     if (ans <= 0)
         ans += b;
     return ans;
@@ -171,9 +178,9 @@ long long cal(long long a, long long b, long long n)
 }
 
 // Fast pow
-long long fp(long long base, long long expr, long long mod = 1e9 + 7)
+ll fp(ll base, ll expr, ll mod = 1e9 + 7)
 {
-    long long ans = 1;
+    ll ans = 1;
     base %= mod;
     while (expr)
     {
