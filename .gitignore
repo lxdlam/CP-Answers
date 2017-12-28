@@ -79,6 +79,7 @@ TopCoder/*/*.html
 TopCoder/*/*.sample
 # Tools :)
 Deleter
+clean.py
 # Datas
 Data/*
 # School Contest

@@ -25,7 +25,7 @@ int main()
         iss = isq = ispq = true;
         stack<int> s;
         queue<int> q;
-        priority_queue<int> pq;
+        priority_queue<int, deque<int>, less<int>> pq;
         while (n--)
         {
             cin >> op >> num;
@@ -43,9 +43,12 @@ int main()
                     isq = false;
                 if (pq.empty() || num != pq.top())
                     ispq = false;
-                s.pop();
-                q.pop();
-                pq.pop();
+                if (s.size())
+                    s.pop();
+                if (q.size())
+                    q.pop();
+                if (pq.size())
+                    pq.pop();
             }
         }
         if (!iss && !isq && !ispq)
