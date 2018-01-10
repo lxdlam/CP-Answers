@@ -84,3 +84,5 @@ clean.py
 Data/*
 # School Contest
 School/*
+# Data generator
+generator.py
