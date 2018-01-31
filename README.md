@@ -2,7 +2,7 @@
 
 There are Ramen's ACM-ICPC problem answers.
 
-All of the codes here are AC codes, but many of them can be optimized. Some of them are just partial solutions.
+Most of the codes here are AC codes, but many of them can be optimized. Some of them are just partial solutions. Some of them just stay here. (I will check them later.)
 
 Many of them are written under C++14 standard. I compile them using:
 
