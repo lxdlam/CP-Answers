@@ -1,6 +1,6 @@
-# Ramen's ACM-ICPC Answers
+# Ramen's Competitive Progamming Answers
 
-There are Ramen's ACM-ICPC problem answers.
+There are Ramen's competitive progamming answers.
 
 Most of the codes here are AC codes, but many of them can be optimized. Some of them are just partial solutions. Some of them just stay here. (I will check them later.)
 
@@ -11,10 +11,21 @@ Many of them are written under C++14 standard. I compile them using:
 
 It should work using any compilers which support C++14 well like MSVC++. I don't check if all the codes can run perfectly under C++11 or C++03 standard. Make your own change.
 
-Also, there are some Python3 source files, you can run them using Python 3.6.4.
+Also, I'm begin using Python to solve problems.
+
+Python interpreter I'm currently using is:
+
+- CPython 3.6.4
 
 Haskell sources files are just remained, no more new Haskell solutions.
 
-If you have any question, feel free to open an issue.
+Here are sites I've mostly involved:
+
+- [Codeforces](http://codeforces.com/)
+- [AtCoder](http://atcoder.jp/)
+- [Virtual Judge](https://vjudge.net/)(I use it as an adapter to many other ojs.)
+- and so on...
+
+If you have any question, feel free to contact me. Issue is welcome.
 
 Keep coding, keep going.

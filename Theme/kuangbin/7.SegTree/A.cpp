@@ -150,11 +150,11 @@ int main()
         {
             cin >> i >> j;
             if (op == "Add")
-                st.update(i, j);
+                st.update(i - 1, j);
             else if (op == "Sub")
-                st.update(i, -j);
+                st.update(i - 1, -j);
             else if (op == "Query")
-                cout << st.query(i, j) << endl;
+                cout << st.query(i - 1, j - 1) << endl;
         }
     }
 
