@@ -28,35 +28,35 @@ void err(istream_iterator<string> it, T a, Args... args)
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(istream &in, Args &... args)
+void readln(Args &... args)
 {
-    ((in >> args), ...);
+    ((cin >> args), ...);
 }
 template <typename... Args>
-void writeln(ostream &out, Args... args)
+void writeln(Args... args)
 {
-    ((out << args << " "), ...);
-    out << endl;
+    ((cout << args << " "), ...);
+    cout << endl;
 }
 #elif __cplusplus >= 201103L
-void readln(istream &in)
+void readln()
 {
 }
 template <typename T, typename... Args>
-void readln(istream &in, T &a, Args &... args)
+void readln(T &a, Args &... args)
 {
-    in >> a;
-    readln(in, args...);
+    cin >> a;
+    readln(args...);
 }
-void writeln(ostream &out)
+void writeln()
 {
     out << endl;
 }
 template <typename T, typename... Args>
-void writeln(ostream &out, T a, Args... args)
+void writeln(T a, Args... args)
 {
-    out << a << " ";
-    writeln(out, args...);
+    cout << a << " ";
+    writeln(args...);
 }
 #endif
 #if __cplusplus >= 201103L
@@ -110,6 +110,7 @@ void build()
 // Actual Solver
 void solve()
 {
+    
 }
 
 int main()
@@ -119,15 +120,14 @@ int main()
     cout.tie(nullptr);
 
 #ifdef LOCAL
-    auto _begin = chrono::steady_clock::now();
+    clock_t _begin = clock();
 #endif
 
     build();
     solve();
 
 #ifdef LOCAL
-    chrono::duration<double, milli> _duration = chrono::steady_clock::now() - _begin;
-    cerr << "Elapsed Time: " << _duration.count() << "ms." << endl;
+    cerr << "Elapsed Time: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
     return 0;
