@@ -1,33 +1,80 @@
 #include <bits/stdc++.h>
 
+using namespace std;
+
 // Useful Marcos
 //====================START=====================
-#define FOR(_i, _s, _e) for (int _i = _s; _i < _e; _i++)
+// Compile use C++11 and above
 #ifdef LOCAL
-#define debug1(_a) cout << #_a << ": " << _a << endl
-#define debug2(_a, _b) cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << endl
-#define debug3(_a, _b, _c) cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " << _c << " " << endl
-#define debug4(_a, _b, _c, _d) cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " << _c << " " << #_d << ": " << _d << " " << endl
+#define debug(args...)                           \
+    {                                            \
+        string _s = #args;                       \
+        replace(_s.begin(), _s.end(), ',', ' '); \
+        stringstream _ss(_s);                    \
+        istream_iterator<string> _it(_ss);       \
+        err(_it, args);                          \
+    }
+void err(istream_iterator<string> it)
+{
+}
+template <typename T, typename... Args>
+void err(istream_iterator<string> it, T a, Args... args)
+{
+    cerr << *it << " = " << a << endl;
+    err(++it, args...);
+}
 #else
-#define debug1(_a)
-#define debug2(_a, _b)
-#define debug3(_a, _b, _c)
-#define debug4(_a, _b, _c, _d)
+#define debug(args...)
 #endif
-#if __cpluscplus > 201103L
-#define FORE(_c) for (auto i : _c)
-#define FORER(_c) for (auto &i : _c)
+#if __cplusplus >= 201703L
+template <typename... Args>
+void readln(istream &in, Args &... args)
+{
+    ((in >> args), ...);
+}
+template <typename... Args>
+void writeln(ostream &out, Args... args)
+{
+    ((out << args << " "), ...);
+    out << endl;
+}
+#elif __cplusplus >= 201103L
+void readln(istream &in)
+{
+}
+template <typename T, typename... Args>
+void readln(istream &in, T &a, Args &... args)
+{
+    in >> a;
+    readln(in, args...);
+}
+void writeln(ostream &out)
+{
+    out << endl;
+}
+template <typename T, typename... Args>
+void writeln(ostream &out, T a, Args... args)
+{
+    out << a << " ";
+    writeln(out, args...);
+}
+#endif
+#if __cplusplus >= 201103L
+#define FOR(_i, _begin, _end) for (auto _i = _begin - (_begin > _end); _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
+#define FORE(_i, _c) for (auto _i : _c)
+#define FORER(_i, _c) for (auto &_i : _c)
 #else
-#define FORE(_c)
-#define FORER(_c)
+#define FOR(_i, _begin, _end) for (__typeof(_end) _i = _begin - (_begin > _end); _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
+#define FORE(_i, _c)
+#define FORER(_i, _c)
 #define nullptr NULL
 #endif
-#if __cplusplus > 201402L
+#if __cplusplus >= 201402L
 #define VIS(_kind, _name, _size) \
     vector<_kind> _name(_size);  \
     for (auto &i : v)            \
         cin >> i;
-#elif __cpluscplus > 201103L
+#elif __cpluscplus >= 201103L
 #define VIS(_kind, _name, _size) \
     vector<_kind> _name;         \
     _name.resize(_size);         \
@@ -40,9 +87,11 @@
     for (int i = 0; i < _size; i++) \
         cin >> v[i];
 #endif
+// alias
+#define mp make_pair
+#define pb push_back
+#define eb emplace_back
 //====================END=====================
-
-using namespace std;
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -70,14 +119,15 @@ int main()
     cout.tie(nullptr);
 
 #ifdef LOCAL
-    clock_t begin = clock();
+    auto _begin = chrono::steady_clock::now();
 #endif
 
     build();
     solve();
 
 #ifdef LOCAL
-    cout << "Runtime: " << (double)(clock() - begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+    chrono::duration<double, milli> _duration = chrono::steady_clock::now() - _begin;
+    cerr << "Elapsed Time: " << _duration.count() << "ms." << endl;
 #endif
 
     return 0;
