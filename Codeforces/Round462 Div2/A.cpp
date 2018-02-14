@@ -110,6 +110,11 @@ void build()
 // Actual Solver
 void solve()
 {
+    int n, m;
+    readln(cin, n, m);
+    VIS(int, v1, n);
+    VIS(int, v2, m);
+    int pos = 0;
 }
 
 int main()
