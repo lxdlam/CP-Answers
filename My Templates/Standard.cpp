@@ -50,7 +50,7 @@ void readln(T &a, Args &... args)
 }
 void writeln()
 {
-    out << endl;
+    cout << endl;
 }
 template <typename T, typename... Args>
 void writeln(T a, Args... args)
@@ -72,12 +72,6 @@ void writeln(T a, Args... args)
 #if __cplusplus >= 201402L
 #define VIS(_kind, _name, _size) \
     vector<_kind> _name(_size);  \
-    for (auto &i : _name)        \
-        cin >> i;
-#elif __cpluscplus >= 201103L
-#define VIS(_kind, _name, _size) \
-    vector<_kind> _name;         \
-    _name.resize(_size);         \
     for (auto &i : _name)        \
         cin >> i;
 #else
@@ -110,7 +104,6 @@ void build()
 // Actual Solver
 void solve()
 {
-    
 }
 
 int main()
