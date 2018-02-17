@@ -23,10 +23,8 @@ void err(istream_iterator<string> it, T a, Args... args)
     cerr << *it << " = " << a << endl;
     err(++it, args...);
 }
-#define MSG cout << "Finished" << endl
 #else
 #define debug(args...)
-#define MSG
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
@@ -106,6 +104,26 @@ void build()
 // Actual Solver
 void solve()
 {
+    int n;
+    cin >> n;
+    int t;
+    map<int, int> m;
+    si vis;
+    FOR(i, 1, n + 1)
+    {
+        cin >> t;
+        m[i] = t;
+    }
+    for (auto[a, b] : m)
+    {
+        int c = m[b];
+        if (m[c] == a)
+        {
+            cout << "YES" << endl;
+            return;
+        }
+    }
+    cout << "NO" << endl;
 }
 
 int main()

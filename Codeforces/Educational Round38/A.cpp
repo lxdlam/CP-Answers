@@ -23,10 +23,8 @@ void err(istream_iterator<string> it, T a, Args... args)
     cerr << *it << " = " << a << endl;
     err(++it, args...);
 }
-#define MSG cout << "Finished" << endl
 #else
 #define debug(args...)
-#define MSG
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
@@ -97,6 +95,7 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
+set<char> s = {'a', 'e', 'i', 'o', 'u', 'y'};
 
 // Pre-Build Function
 void build()
@@ -106,6 +105,27 @@ void build()
 // Actual Solver
 void solve()
 {
+    int t;
+    cin >> t;
+    string ss;
+    cin >> ss;
+    stringstream ans;
+    int i = 0;
+    while (i < t)
+    {
+        if (s.count(ss[i]))
+        {
+            ans << ss[i];
+            while (s.count(ss[i]))
+                i++;
+        }
+        else
+        {
+            ans << ss[i];
+            i++;
+        }
+    }
+    cout << ans.str() << endl;
 }
 
 int main()
