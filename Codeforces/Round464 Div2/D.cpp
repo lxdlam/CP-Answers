@@ -23,8 +23,10 @@ void err(istream_iterator<string> it, T a, Args... args)
     cerr << *it << " = " << a << endl;
     err(++it, args...);
 }
+#define MSG cout << "Finished" << endl
 #else
 #define debug(args...)
+#define MSG
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
@@ -95,6 +97,73 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
+class UF
+{
+  public:
+    void init(int n)
+    {
+        id.clear();
+        sz.clear();
+        count = length = n;
+        id.resize(n);
+        for (int i = 0; i < length; i++)
+            id[i] = i;
+        sz.resize(n);
+        for (int i = 0; i < length; i++)
+            sz[i] = 1;
+    }
+
+    int getCount()
+    {
+        return count;
+    }
+
+    bool connected(int p, int q)
+    {
+        return find(p) == find(q);
+    }
+
+    int find(int p)
+    {
+        int k = p, j;
+        while (p != id[p])
+            p = id[p];
+        while (k != p)
+        {
+            j = id[k];
+            id[k] = p;
+            k = j;
+        }
+        return p;
+    }
+
+    void Union(int p, int q)
+    {
+        int pRoot = find(p);
+        int qRoot = find(q);
+
+        if (pRoot == qRoot)
+            return;
+
+        if (sz[pRoot] < sz[qRoot])
+        {
+            id[pRoot] = qRoot;
+            sz[qRoot] += sz[pRoot];
+        }
+        else
+        {
+            id[qRoot] = pRoot;
+            sz[pRoot] += sz[qRoot];
+        }
+        count--;
+    }
+
+  private:
+    int count;
+    vector<int> id;
+    vector<int> sz;
+    int length;
+};
 
 // Pre-Build Function
 void build()
@@ -106,34 +175,22 @@ void solve()
 {
     int n;
     cin >> n;
-    VIS(int, v, n);
-    int s, f;
-    readln(s, f);
-    int len = f - s;
-    int p = 0;
-    int t;
+    string s, t;
+    readln(s, t);
+    UF uf;
+    uf.init(26);
     FOR(i, 0, n)
+    uf.Union(s[i] - 'a', t[i] - 'a');
+    vector<pair<char, char>> v;
+    for (int i = 0; i < 26; i++)
     {
-        int st = n - i;
-        t = 0;
-        FOR(j, st, st + len)
-        t += v[j % n];
-        if (t > p)
-        {
-            k = i + s;
-            k %= n + s;
-            p = t;
-        }
-        else if (t == p)
-        {
-            int tmp = k;
-            k = i + s;
-            k %= n + s;
-            if (tmp < k)
-                k = tmp;
-        }
+        int ta = uf.find(i);
+        if (i != ta)
+            v.eb(mp(i + 'a', ta + 'a'));
     }
-    cout << k << endl;
+    cout << v.size() << endl;
+    for (auto[x, y] : v)
+        cout << x << " " << y << endl;
 }
 
 int main()
