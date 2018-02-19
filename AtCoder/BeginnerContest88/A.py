@@ -1,8 +1,1 @@
-n = int(input())
-a = int(input())
-
-n %= 500
-if n <= a:
-    print("Yes")
-else:
-    print('No')
+print('Yes' if int(input()) % 500 <= int(input()) else 'No')
