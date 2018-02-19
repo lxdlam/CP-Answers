@@ -59,6 +59,10 @@
 *.in 
 # Eest sources
 test.cpp
+test.py
+# Data Generators
+gen.py
+generator.py
 # Playground files
 Playground/*
 # All pdfs
