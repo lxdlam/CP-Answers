@@ -97,6 +97,9 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
+const int SIZE = 100 + 10;
+int p[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+int v[SIZE];
 
 // Pre-Build Function
 void build()
@@ -106,6 +109,26 @@ void build()
 // Actual Solver
 void solve()
 {
+    char k;
+    int len = 0;
+    while (cin >> k)
+        v[len++] = k - '0';
+    int i;
+    int cnt = 0;
+    do
+    {
+        i = 0;
+        FOR(j, 0, len)
+        {
+            if (p[i] == v[j])
+                i++;
+            if (i > 9)
+                break;
+        }
+        if (i == 10)
+            cnt++;
+    } while (next_permutation(p, p + 10));
+    cout << cnt << endl;
 }
 
 int main()
@@ -122,7 +145,7 @@ int main()
     solve();
 
 #ifdef LOCAL
-    cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+    cerr << "Time Elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
     return 0;

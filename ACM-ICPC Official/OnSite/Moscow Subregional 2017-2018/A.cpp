@@ -97,33 +97,58 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
-
-// Pre-Build Function
-void build()
+ll res(ll n, ll x, ll o)
 {
-}
+    ll ans = 1;
+    ll a = 0, b, k, pre;
+    while (1)
+    {
+        pre = a;
+        k = min(n - a, x);
+        b = a + k;
+        x -= k;
+        a = b + min(b, (n - b) / 2);
+        if (a == n)
+            return ans;
+        if (a + o >= n)
+            return ans + 1;
+        if (a == pre)
+            return LONG_LONG_MAX;
+        ans++;
+    }
 
-// Actual Solver
-void solve()
-{
-}
+    // Pre-Build Function
+    void build()
+    {
+    }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+    // Actual Solver
+    void solve()
+    {
+        ll n, k;
+        readln(n, k);
+        ll ans = LONG_LONG_MAX;
+        for (int i = 0; i < k; i++)
+            ans = min(ans, res(n, k - i, i));
+        cout << ans << endl;
+    }
+
+    int main()
+    {
+        ios::sync_with_stdio(false);
+        cin.tie(nullptr);
+        cout.tie(nullptr);
 
 #ifdef LOCAL
-    clock_t _begin = clock();
+        clock_t _begin = clock();
 #endif
 
-    build();
-    solve();
+        build();
+        solve();
 
 #ifdef LOCAL
-    cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+        cerr << "Elapsed Time: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
-    return 0;
-}
+        return 0;
+    }

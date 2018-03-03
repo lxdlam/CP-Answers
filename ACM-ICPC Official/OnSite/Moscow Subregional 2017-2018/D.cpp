@@ -97,15 +97,46 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
+const int SIZE = 70;
+ll tt[SIZE] = {1};
+ll decode(ll x)
+{
+    if (x & 1)
+        return -(x + 1) / 2;
+    return x / 2;
+}
 
 // Pre-Build Function
 void build()
 {
+    FOR(i, 1, SIZE)
+    tt[i] = tt[i - 1] * 2;
 }
 
 // Actual Solver
 void solve()
 {
+    int n;
+    cin >> n;
+    ll t;
+    ll ans = 0;
+    int k = 0;
+    while (n--)
+    {
+        cin >> t;
+        if (t <= 128)
+        {
+            ans += t * tt[k];
+            cout << decode(ans) << endl;
+            ans = 0;
+            k = 0;
+        }
+        else
+        {
+            ans += (t - 128) * tt[k];
+            k += 7;
+        }
+    }
 }
 
 int main()
@@ -122,7 +153,7 @@ int main()
     solve();
 
 #ifdef LOCAL
-    cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+    cerr << "Elapsed Time: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
     return 0;
