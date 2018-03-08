@@ -71,7 +71,7 @@ void writeln(T a, Args... args)
 #define FORER(_i, _c)
 #define nullptr NULL
 #endif
-#if __cplusplus >= 201402L
+#if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
     vector<_kind> _name(_size);  \
     for (auto &i : _name)        \

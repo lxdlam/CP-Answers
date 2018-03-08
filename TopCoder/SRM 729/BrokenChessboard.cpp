@@ -22,7 +22,7 @@ class BrokenChessboard
         return !vis[i][j];
     }
 
-    int dfs(int i, int j, int s /* if B */)
+    int dfs(int i, int j, int s)
     {
         int res = 0;
         if (!check(i, j))
@@ -48,10 +48,9 @@ class BrokenChessboard
     {
         build();
 
-        for (int i = 0; i < _board.size(); i++)
-            board.emplace_back(_board[i]);
+        board = _board;
         n = _board.size();
-        m = board[0].size();
+        m = _board[0].size();
         int res = dfs(0, 0, 0);
         memset(vis, false, sizeof(vis));
         res = min(res, dfs(0, 0, 1));
