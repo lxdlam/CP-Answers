@@ -104,12 +104,6 @@ bool smin(T &a, const T &b)
     a = b;
     return true;
 }
-// ceil divide
-template <typename T>
-T cd(T a, T b)
-{
-    return (a + b - 1) / b;
-}
 //====================END=====================
 
 typedef long long ll;
@@ -129,6 +123,21 @@ void build()
 // Actual Solver
 void solve()
 {
+    int T;
+    cin >> T;
+    si s;
+    while (T--)
+    {
+        s.clear();
+        int n, t;
+        cin >> n;
+        FOR(i, 0, n)
+        {
+            cin >> t;
+            s.insert(t);
+        }
+        cout << n - s.size() << endl;
+    }
 }
 
 int main()

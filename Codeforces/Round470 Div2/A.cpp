@@ -87,29 +87,6 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
-// Swap max/min
-template <typename T>
-bool smax(T &a, const T &b)
-{
-    if (a > b)
-        return false;
-    a = b;
-    return true;
-}
-template <typename T>
-bool smin(T &a, const T &b)
-{
-    if (a < b)
-        return false;
-    a = b;
-    return true;
-}
-// ceil divide
-template <typename T>
-T cd(T a, T b)
-{
-    return (a + b - 1) / b;
-}
 //====================END=====================
 
 typedef long long ll;
@@ -120,6 +97,7 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
+int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
 // Pre-Build Function
 void build()
@@ -129,6 +107,43 @@ void build()
 // Actual Solver
 void solve()
 {
+    int r, c;
+    readln(r, c);
+    VIS(string, v, r);
+    auto check = [r, c](int x, int y) {
+        if (x < 0 || x >= r)
+            return false;
+        if (y < 0 || y >= c)
+            return false;
+        return true;
+    };
+    FOR(i, 0, r)
+    {
+        FOR(j, 0, c)
+        {
+            if (v[i][j] == 'S')
+            {
+                FOR(k, 0, 4)
+                {
+                    int ii = i + dir[k][0];
+                    int jj = j + dir[k][1];
+                    if (check(ii, jj))
+                    {
+                        if (v[ii][jj] == 'W')
+                        {
+                            cout << "No" << endl;
+                            return;
+                        }
+                        else if (v[ii][jj] == '.')
+                            v[ii][jj] = 'D';
+                    }
+                }
+            }
+        }
+    }
+    cout << "Yes" << endl;
+    for (auto i : v)
+        cout << i << endl;
 }
 
 int main()

@@ -104,7 +104,6 @@ bool smin(T &a, const T &b)
     a = b;
     return true;
 }
-// ceil divide
 template <typename T>
 T cd(T a, T b)
 {
@@ -129,6 +128,33 @@ void build()
 // Actual Solver
 void solve()
 {
+    int T;
+    cin >> T;
+    while (T--)
+    {
+        int n, k, t;
+        readln(n, k);
+        multiset<int, greater<int>> s;
+        int res = 0;
+        int m = cd(k, n);
+        int cnt = k % n;
+        FOR(i, 0, n)
+        {
+            cin >> t;
+            s.insert(t);
+        }
+        for (auto i : s)
+        {
+            if (cnt)
+            {
+                smax(res, cd(i, m));
+                cnt--;
+            }
+            else
+                smax(res, i);
+        }
+        cout << res << endl;
+    }
 }
 
 int main()

@@ -104,12 +104,6 @@ bool smin(T &a, const T &b)
     a = b;
     return true;
 }
-// ceil divide
-template <typename T>
-T cd(T a, T b)
-{
-    return (a + b - 1) / b;
-}
 //====================END=====================
 
 typedef long long ll;
@@ -120,6 +114,8 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
+const int FRONT = 1;
+const int BACK = 2;
 
 // Pre-Build Function
 void build()
@@ -129,6 +125,32 @@ void build()
 // Actual Solver
 void solve()
 {
+    int T;
+    cin >> T;
+    int status;
+    while (T--)
+    {
+        status = FRONT | BACK;
+        int n;
+        cin >> n;
+        VIS(int, f, n);
+        VIS(int, g, n);
+        FOR(i, 0, n)
+        {
+            if (g[i] < f[i] && status & FRONT)
+                status ^= FRONT;
+            if (g[n - i - 1] < f[i] && status & BACK)
+                status ^= BACK;
+        }
+        if (status & FRONT && status & BACK)
+            cout << "both" << endl;
+        else if (status & FRONT)
+            cout << "front" << endl;
+        else if (status & BACK)
+            cout << "back" << endl;
+        else
+            cout << "none" << endl;
+    }
 }
 
 int main()

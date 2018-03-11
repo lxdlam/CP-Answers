@@ -104,12 +104,6 @@ bool smin(T &a, const T &b)
     a = b;
     return true;
 }
-// ceil divide
-template <typename T>
-T cd(T a, T b)
-{
-    return (a + b - 1) / b;
-}
 //====================END=====================
 
 typedef long long ll;
@@ -120,15 +114,55 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
+const int SIZE = 1e6 + 10;
+int prime[SIZE + 1] = {0};
+bool pc[SIZE] = {false};
 
 // Pre-Build Function
 void build()
 {
+    for (int i = 2; i <= SIZE; i++)
+    {
+        if (!prime[i])
+            prime[++prime[0]] = i;
+        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
+        {
+            prime[prime[j] * i] = 1;
+            if (i % prime[j] == 0)
+                break;
+        }
+    }
+    FOR(i, 1, SIZE)
+    {
+        if (prime[i] >= SIZE)
+            break;
+        pc[i] = true;
+    }
 }
 
 // Actual Solver
 void solve()
 {
+    int n, k;
+    cin >> n;
+    k = n + 1;
+    int m;
+    do
+    {
+        k = *(upper_bound(prime + 1, prime + prime[0], k - 1) - 1);
+    } while (n % k);
+    int res = n - k + 1;
+    FOR(i, n - k + 1, min(n, n - k + 301))
+    {
+        m = i + 1;
+        do
+        {
+            m = *(upper_bound(prime + 1, prime + prime[0], m - 1) - 1);
+        } while (i % m);
+        if (i != m)
+            smin(res, i - m + 1);
+    }
+    cout << res << endl;
 }
 
 int main()

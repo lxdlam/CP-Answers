@@ -129,6 +129,10 @@ void build()
 // Actual Solver
 void solve()
 {
+    int n;
+    cin >> n;
+    VIS(ll, v, n);
+    VIS(ll, t, n);
 }
 
 int main()
