@@ -116,7 +116,6 @@ typedef set<int> si;
 // Constants here
 const int SIZE = 1e6 + 10;
 int prime[SIZE + 1] = {0};
-bool pc[SIZE] = {false};
 
 // Pre-Build Function
 void build()
@@ -131,12 +130,6 @@ void build()
             if (i % prime[j] == 0)
                 break;
         }
-    }
-    FOR(i, 1, SIZE)
-    {
-        if (prime[i] >= SIZE)
-            break;
-        pc[i] = true;
     }
 }
 
