@@ -120,52 +120,48 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
-const int SIZE = 100;
-int board[SIZE][SIZE];
+// Stein GCD
+ll sgcd(ll a, ll b)
+{
+    if (a == 0)
+        return b;
+    if (b == 0)
+        return a;
+    if (a % 2 == 0 && b % 2 == 0)
+        return 2 * sgcd(a >> 1, b >> 1);
+    else if (a % 2 == 0)
+        return sgcd(a >> 1, b);
+    else if (b % 2 == 0)
+        return sgcd(a, b >> 1);
+    else
+        return sgcd(abs(a - b), min(a, b));
+}
+
+// LCM
+ll lcm(ll a, ll b)
+{
+    return a / sgcd(a, b) * b;
+}
 
 // Pre-Build Function
 void build()
 {
-    memset(board, 0, sizeof(board));
 }
 
 // Actual Solver
 void solve()
 {
-    int n;
-    cin >> n;
-    int i = n / 2, j = n / 2;
-    int num = 1;
-    for (int k = 1;; k += 2)
+    // x0*y0=p*q
+    ll cnt = 0;
+    ll x0, y0;
+    cin >> x0 >> y0;
+    for (ll p = x0; p <= x0 * y0; p += x0)
     {
-        // right
-        while (i - j > -1)
-            board[i][j++] = num++;
-        if (i >= n || j >= n)
-            break;
-        // up
-        while (j - i < k + 1)
-            board[i--][j] = num++;
-        // left
-        while (i != j)
-            board[i][j--] = num++;
-        // down
-        while (i - j < k + 1)
-            board[i++][j] = num++;
+        ll q = x0 * y0 / p;
+        if (sgcd(p, q) == x0 && lcm(p, q) == y0)
+            cnt++;
     }
-
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-    {
-        ans += board[i][i];
-        ans += board[i][n - i - 1];
-    }
-
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            cout << board[i][j] << " \n"[j == n - 1];
-
-    cout << ans - 1 << endl;
+    cout << cnt << endl;
 }
 
 int main()

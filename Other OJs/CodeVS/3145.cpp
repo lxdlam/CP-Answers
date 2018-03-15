@@ -120,13 +120,29 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
-const int SIZE = 100;
-int board[SIZE][SIZE];
+int pow(int base, int expr)
+{
+    int res = 1;
+    while (expr--)
+        res *= base;
+    return res;
+}
+
+void han(int n, char from, char buffer, char to)
+{
+    if (n == 1)
+        printf("%d from %c to %c\n", n, from, to);
+    else
+    {
+        han(n - 1, from, to, buffer);
+        printf("%d from %c to %c\n", n, from, to);
+        han(n - 1, buffer, from, to);
+    }
+}
 
 // Pre-Build Function
 void build()
 {
-    memset(board, 0, sizeof(board));
 }
 
 // Actual Solver
@@ -134,38 +150,8 @@ void solve()
 {
     int n;
     cin >> n;
-    int i = n / 2, j = n / 2;
-    int num = 1;
-    for (int k = 1;; k += 2)
-    {
-        // right
-        while (i - j > -1)
-            board[i][j++] = num++;
-        if (i >= n || j >= n)
-            break;
-        // up
-        while (j - i < k + 1)
-            board[i--][j] = num++;
-        // left
-        while (i != j)
-            board[i][j--] = num++;
-        // down
-        while (i - j < k + 1)
-            board[i++][j] = num++;
-    }
-
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-    {
-        ans += board[i][i];
-        ans += board[i][n - i - 1];
-    }
-
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            cout << board[i][j] << " \n"[j == n - 1];
-
-    cout << ans - 1 << endl;
+    printf("%d\n", pow(2, n) - 1);
+    han(n, 'A', 'B', 'C');
 }
 
 int main()

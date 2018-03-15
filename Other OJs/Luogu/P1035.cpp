@@ -1,4 +1,13 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <algorithm>
+#include <queue>
+#include <ctime>
+#include <iterator>
 
 using namespace std;
 
@@ -120,52 +129,32 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
-const int SIZE = 100;
-int board[SIZE][SIZE];
+const int SIZE = 1e7;
+double num[SIZE];
 
 // Pre-Build Function
 void build()
 {
-    memset(board, 0, sizeof(board));
+    num[1] = 1;
+    for (int i = 2; i < SIZE; i++)
+    {
+        num[i] = num[i - 1] + 1.0 / i;
+    }
 }
 
 // Actual Solver
 void solve()
 {
-    int n;
-    cin >> n;
-    int i = n / 2, j = n / 2;
-    int num = 1;
-    for (int k = 1;; k += 2)
+    int k;
+    cin >> k;
+    for (int i = 1; i < SIZE; i++)
     {
-        // right
-        while (i - j > -1)
-            board[i][j++] = num++;
-        if (i >= n || j >= n)
-            break;
-        // up
-        while (j - i < k + 1)
-            board[i--][j] = num++;
-        // left
-        while (i != j)
-            board[i][j--] = num++;
-        // down
-        while (i - j < k + 1)
-            board[i++][j] = num++;
+        if (num[i] > k)
+        {
+            cout << i << endl;
+            return;
+        }
     }
-
-    int ans = 0;
-    for (int i = 0; i < n; i++)
-    {
-        ans += board[i][i];
-        ans += board[i][n - i - 1];
-    }
-
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            cout << board[i][j] << " \n"[j == n - 1];
-
-    cout << ans - 1 << endl;
 }
 
 int main()
