@@ -118,6 +118,7 @@ typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
+typedef vector<string> cb;
 
 // Constants here
 

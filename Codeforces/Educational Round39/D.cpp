@@ -71,7 +71,7 @@ void writeln(T a, Args... args)
 #define FORER(_i, _c)
 #define nullptr NULL
 #endif
-#if __cplusplus >= 201402L
+#if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
     vector<_kind> _name(_size);  \
     for (auto &i : _name)        \
@@ -87,6 +87,29 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
+// Swap max/min
+template <typename T>
+bool smax(T &a, const T &b)
+{
+    if (a > b)
+        return false;
+    a = b;
+    return true;
+}
+template <typename T>
+bool smin(T &a, const T &b)
+{
+    if (a < b)
+        return false;
+    a = b;
+    return true;
+}
+// ceil divide
+template <typename T>
+T cd(T a, T b)
+{
+    return (a + b - 1) / b;
+}
 //====================END=====================
 
 typedef long long ll;
@@ -95,12 +118,13 @@ typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
+typedef vector<string> cb;
 
 // Constants here
-int len(int start, int end)
-{
-    return end - start + 1;
-}
+const int SIZE = 500 + 10;
+
+int len[SIZE][SIZE];
+int dp[SIZE][SIZE];
 
 // Pre-Build Function
 void build()
@@ -112,84 +136,37 @@ void solve()
 {
     int n, m, k;
     readln(n, m, k);
-    vector<deque<int>> v(n);
-    string s;
-    int total = 0, cls = 0;
-    FOR(i, 0, n)
+    VIS(string, v, n);
+    deque<int> q;
+    for (int i = 0; i < n; i++)
     {
-        cin >> s;
-        FOR(j, 0, m)
-        if (s[j] == '1')
-            v[i].push_back(j), cls++;
-        if (v[i].size() == 1)
-            total++;
-        else if (v[i].size() > 1)
-            total += len(v[i].front(), v[i].back());
-    }
-    debug(total, cls);
-    int side;
-    int length;
-    int pos;
-    int tmp, tlen;
-    while (k && cls)
-    {
-        pos = length = side = 0;
-        FOR(i, 0, n)
+        q.clear();
+        int p = 0;
+        for (int j = 0; j < m; j++)
+            if (v[i][j] == '1')
+                q.push_back(j);
+        for (int j = 0; j <= k; j++)
         {
-            if (v[i].size() != 0)
-            {
-                if (v[i].size() == 1)
-                {
-                    if (length < 1)
-                    {
-                        length = 1;
-                        side = 0;
-                        pos = i;
-                    }
-                }
-                else if (v[i].size() == 2)
-                {
-                    if (length < len(v[i].front(), v[i].back()) - 1)
-                    {
-                        length = len(v[i].front(), v[i].back()) - 1;
-                        side = 0;
-                        pos = i;
-                    }
-                }
-                else
-                {
-                    tmp = v[i].back();
-                    tlen = len(v[i].front(), v[i].back());
-                    v[i].pop_back();
-                    if (length < tlen - len(v[i].front(), v[i].back()))
-                    {
-                        length = tlen - len(v[i].front(), v[i].back());
-                        pos = i;
-                        side = 1;
-                    }
-                    v[i].push_back(tmp);
-
-                    tmp = v[i].front();
-                    tlen = len(v[i].front(), v[i].back());
-                    v[i].pop_front();
-                    if (length < tlen - len(v[i].front(), v[i].back()))
-                    {
-                        length = tlen - len(v[i].front(), v[i].back());
-                        pos = i;
-                        side = 0;
-                    }
-                    v[i].push_front(tmp);
-                }
-            }
+            if (j >= q.size())
+                break;
+            len[i][j] = INT_MAX;
+            for (int l = 0; l <= j; l++)
+                smin(len[i][j], q[l + q.size() - j - 1] - q[l] + 1);
         }
-        if (side == 0)
-            v[pos].pop_front();
-        else
-            v[pos].pop_back();
-        total -= length;
-        k--, cls--;
     }
-    cout << total << endl;
+
+    for (int i = 0; i < SIZE; i++)
+        for (int j = 0; j < SIZE; j++)
+            dp[i][j] = INT_MAX;
+
+    for (int i = 0; i <= k; i++)
+        dp[0][i] = len[0][i];
+    for (int i = 1; i < n; i++)
+        for (int j = 0; j <= k; j++)
+            for (int cur = 0; cur <= j; cur++)
+                smin(dp[i][j], dp[i - 1][j - cur] + len[i][cur]);
+
+    cout << dp[n - 1][k] << endl;
 }
 
 int main()

@@ -120,7 +120,6 @@ typedef vector<ll> vll;
 typedef set<int> si;
 
 // Constants here
-const ll base = 1e9;
 
 // Pre-Build Function
 void build()
@@ -130,59 +129,21 @@ void build()
 // Actual Solver
 void solve()
 {
-    int n, m;
-    readln(n, m);
-    int amax = 0, bmax = 0;
-    vector<int> a(n);
-    for (auto &i : a)
+    int n;
+    cin >> n;
+    VIS(int, v, n);
+    vi tmp = v;
+    sort(tmp.begin(), tmp.end());
+    for (auto i : v)
     {
-        cin >> i;
-        smax(amax, i);
-    }
-    vector<int> b(m);
-    for (auto &i : b)
-    {
-        cin >> i;
-        smax(bmax, i);
-    }
-    ll ans = 0;
-    int af, al, bf;
-    for (int i = 0; i < n; i++)
-    {
-        if (a[i] == amax)
+        if (i == tmp.back())
+            cout << tmp[0] << " ";
+        else
         {
-            af = i;
-            break;
+            auto it = find(tmp.begin(), tmp.end(), i);
+            cout << *(it + 1) << " ";
         }
     }
-    for (int i = n - 1; i >= 0; i--)
-    {
-        if (a[i] == amax)
-        {
-            al = i;
-            break;
-        }
-    }
-    for (int i = 0; i < m; i++)
-    {
-        if (b[i] == bmax)
-        {
-            bf = i;
-            break;
-        }
-    }
-    debug(af, al, bf);
-    for (int i = 0; i <= af; i++)
-        ans += a[i] * base + b[0];
-    for (int i = 1; i <= bf; i++)
-        ans += a[af] * base + b[i];
-    for (int i = af + 1; i <= al; i++)
-        ans += a[i] * base + b[bf];
-    for (int i = bf + 1; i < m; i++)
-        ans += a[al] * base + b[i];
-    for (int i = al + 1; i < n; i++)
-        ans += a[i] * base + b[m - 1];
-    cout << ans << endl;
 }
 
 int main()
