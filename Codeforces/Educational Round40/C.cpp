@@ -129,6 +129,35 @@ void build()
 // Actual Solver
 void solve()
 {
+    int n;
+    int mc = 1;
+    cin >> n;
+    VIS(int, v, n);
+    FOR(i, 0, n - 1)
+    {
+        int sub = abs(v[i] - v[i + 1]);
+        if (sub != 1)
+        {
+            if ((mc != 1 && sub != mc) || sub == 0)
+            {
+                cout << "NO" << endl;
+                return;
+            }
+            else
+                mc = sub;
+        }
+    }
+    FOR(i, 0, n - 1)
+    {
+        int sub = abs(v[i] - v[i + 1]);
+        if (cd(v[i], mc) != cd(v[i + 1], mc) && sub != mc)
+        {
+            cout << "NO" << endl;
+            return;
+        }
+    }
+    cout << "YES" << endl;
+    cout << (int)1e9 << " " << mc << endl;
 }
 
 int main()

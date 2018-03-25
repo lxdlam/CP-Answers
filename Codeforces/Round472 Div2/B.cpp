@@ -129,6 +129,29 @@ void build()
 // Actual Solver
 void solve()
 {
+    int n, m;
+    readln(n, m);
+    VIS(string, v, n);
+    sort(v.begin(), v.end());
+    si col;
+    FOR(i, 0, n)
+    {
+        if (i != n - 1 && v[i] == v[i + 1])
+            continue;
+        FOR(j, 0, m)
+        {
+            if (v[i][j] == '#')
+            {
+                if (col.count(j))
+                {
+                    cout << "No" << endl;
+                    return;
+                }
+                col.insert(j);
+            }
+        }
+    }
+    cout << "Yes" << endl;
 }
 
 int main()

@@ -129,6 +129,23 @@ void build()
 // Actual Solver
 void solve()
 {
+    int n;
+    string s;
+    cin >> n >> s;
+    FOR(i, 0, s.size() - 1)
+    {
+        if (s[i] == 'U' && s[i + 1] == 'R')
+        {
+            n--;
+            i++;
+        }
+        else if (s[i] == 'R' && s[i + 1] == 'U')
+        {
+            n--;
+            i++;
+        }
+    }
+    cout << n << endl;
 }
 
 int main()

@@ -129,6 +129,36 @@ void build()
 // Actual Solver
 void solve()
 {
+    string s;
+    cin >> s;
+    map<char, int> m;
+    for (auto i : s)
+        m[i]++;
+    if (m.size() > 4 || m.size() <= 1)
+        cout << "No" << endl;
+    else if (m.size() == 4)
+        cout << "Yes" << endl;
+    else if (m.size() == 2)
+    {
+        bool acc = true;
+        for (auto[_, x] : m)
+            acc = acc && x >= 2;
+        if (acc)
+            cout << "Yes" << endl;
+        else
+            cout << "No" << endl;
+    }
+    else if (m.size() == 3)
+    {
+        bool acc = false;
+        for (auto[_, x] : m)
+            if (x >= 2)
+                acc = true;
+        if (acc)
+            cout << "Yes" << endl;
+        else
+            cout << "No" << endl;
+    }
 }
 
 int main()

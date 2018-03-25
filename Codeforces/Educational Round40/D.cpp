@@ -120,15 +120,65 @@ typedef set<int> si;
 typedef vector<string> cb;
 
 // Constants here
+const int SIZE = 1000 + 10;
+int graph[SIZE][SIZE] = {{0}};
+bool vis[SIZE] = {false};
+int dis[SIZE] = {0};
+const int MAX = 0x3f3f3f3f;
+
+void dijkstra(int n, int q)
+{
+    FOR(i, 1, n + 1)
+    {
+        dis[i] = MAX;
+        vis[i] = false;
+    }
+    dis[q] = 0;
+    FOR(j, 1, n + 1)
+    {
+        int k = -1;
+        int Min = MAX;
+        FOR(i, 1, n + 1)
+        {
+            if (!vis[i] && dis[i] < Min)
+            {
+                Min = dis[i];
+                k = i;
+            }
+        }
+        if (k == -1)
+            break;
+        vis[k] = true;
+        FOR(i, 1, n + 1)
+        if (!vis[i] && dis[k] + graph[k][i] < dis[i])
+            dis[i] = dis[k] + graph[k][i];
+    }
+}
 
 // Pre-Build Function
 void build()
 {
+    FOR(i, 0, SIZE)
+    FOR(j, 0, SIZE)
+    graph[i][j] = MAX;
 }
 
 // Actual Solver
 void solve()
 {
+    int n, m, s, t;
+    readln(n, m, s, t);
+    int b, e;
+    int ans = n * (n - 1) / 2 - m;
+    while (m--)
+    {
+        cin >> b >> e;
+        graph[b][e] = 1;
+        graph[e][b] = 1;
+    }
+    dijkstra(n, s);
+    int len = dis[t] + 1;
+    cout << ans - (len * (len - 1) / 2 - dis[t]) << endl;
 }
 
 int main()
