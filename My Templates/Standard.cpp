@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.0"
+#define TemplateVersion "3.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -122,12 +122,12 @@ typedef vector<string> cb;
 // Constants here
 
 // Pre-Build Function
-void build()
+inline void build()
 {
 }
 
 // Actual Solver
-void solve()
+inline void solve()
 {
 }
 

@@ -57,6 +57,9 @@
 
 # All inputs 
 *.in 
+# All outputs
+*.out
+*.ans
 # Eest sources
 test.cpp
 test.py
