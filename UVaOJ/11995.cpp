@@ -1,6 +1,3 @@
-// FIXME:
-// Runtime Error
-
 #include <bits/stdc++.h>
 
 using namespace std;
