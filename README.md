@@ -6,8 +6,8 @@ Most of the codes here are AC codes, but many of them can be optimized. Some of 
 
 Many of them are written under the C++14 standard. I compile them using:
 
-- Clang 5.0.1
-- GCC 7.3.0
+- Clang 6.0.0
+- GCC 7.3.1
 
 It should work using any compilers which support C++14 well like MSVC++. I don't check if all the codes can run perfectly under C++11 or C++03 standard. Make your own change.
 

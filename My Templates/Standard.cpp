@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.1"
+#define TemplateVersion "3.1.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -109,7 +109,6 @@ T cd(T a, T b)
 {
     return (a + b - 1) / b;
 }
-//====================END=====================
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -118,6 +117,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
 typedef vector<string> cb;
+//====================END=====================
 
 // Constants here
 
