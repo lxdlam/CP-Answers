@@ -90,7 +90,7 @@ void writeln(T a, Args... args)
 template <typename T>
 bool smax(T &a, const T &b)
 {
-    if (a > b)
+    if (a >= b)
         return false;
     a = b;
     return true;
@@ -98,7 +98,7 @@ bool smax(T &a, const T &b)
 template <typename T>
 bool smin(T &a, const T &b)
 {
-    if (a < b)
+    if (a <= b)
         return false;
     a = b;
     return true;
@@ -120,13 +120,18 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
-struct cmp
+si s;
+int dfs(int p, int len)
 {
-    bool operator()(const pii &a, const pii &b)
-    {
-        return a.first > b.first;
-    }
-};
+    int k = 0;
+    if (s.count(p + len - 1))
+        smax(k, dfs(p + len - 1, len));
+    if (s.count(p + len))
+        smax(k, dfs(p + len, len));
+    if (s.count(p + len + 1))
+        smax(k, dfs(p + len + 1, len));
+    return k + 1;
+}
 
 // Pre-Build Function
 inline void build()
@@ -136,34 +141,49 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    int n, t;
-    ll ans = 0, ps = 0;
+    int n;
     cin >> n;
-    VIS(int, v, n);
-    map<int, int, greater<int>> m;
+    vector<string> w(n);
+    vi l;
+    int mlen = 0;
+    int c = 0;
     FOR(i, 0, n)
     {
-        cin >> t;
-        m[v[i]] += t;
+        cin >> w[i];
+        l.pb(w[i].size());
+        c += w[i].size() + 1;
+        smax(mlen, (int)w[i].size());
     }
-
-    for (auto i : m)
+    int ans = 0, width = mlen;
+    FOR(i, mlen, c + 1)
     {
-        if (i.second == 0)
-            continue;
-        FOR(j, 0, i.second)
+        s.clear();
+        int ret = 0, p = 1;
+        for (auto len : l)
         {
-            ps += i.first;
-            if (ps < 0)
+            if (ret + len <= i * p)
+                s.insert(ret);
+            if (ret % i == 0 && ret != 0)
+                p++;
+            else if (ret + len > i * p)
             {
-                cout << ans << endl;
-                return;
+                while (ret < i * p)
+                    ret++;
+                p++;
             }
-            ans += ps;
+            ret += len;
+            if (ret % i)
+                ret += 1;
         }
+
+        s.erase(0);
+
+        for (auto k : s)
+            if (smax(ans, dfs(k, i)))
+                width = i;
     }
 
-    cout << ans << endl;
+    writeln(width, ans);
 }
 
 int main()

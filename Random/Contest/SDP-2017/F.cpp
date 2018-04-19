@@ -120,13 +120,6 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
-struct cmp
-{
-    bool operator()(const pii &a, const pii &b)
-    {
-        return a.first > b.first;
-    }
-};
 
 // Pre-Build Function
 inline void build()
@@ -136,34 +129,45 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    int n, t;
-    ll ans = 0, ps = 0;
-    cin >> n;
-    VIS(int, v, n);
-    map<int, int, greater<int>> m;
-    FOR(i, 0, n)
+    int T;
+    int a, b, c;
+    cin >> T;
+    while (T--)
     {
-        cin >> t;
-        m[v[i]] += t;
-    }
-
-    for (auto i : m)
-    {
-        if (i.second == 0)
-            continue;
-        FOR(j, 0, i.second)
+        readln(a, b, c);
+        if (a == 0 && b == 0)
         {
-            ps += i.first;
-            if (ps < 0)
+            if (c == 0)
+                cout << "NO" << endl;
+            else
+                cout << "YES" << endl;
+        }
+        else if (a == 0)
+        {
+            if (abs(c) % abs(b))
+                cout << "NO" << endl;
+            else
+                cout << "YES" << endl;
+        }
+        else
+        {
+            if (b * b < 4 * a * c)
+                cout << "YES" << endl;
+            else
             {
-                cout << ans << endl;
-                return;
+                int x = 0;
+                FOR(i, -10, 10)
+                if (a * i * i + b * i + c == 0)
+                    x++;
+                if (b * b == 4 * a * c && x == 1)
+                    cout << "YES" << endl;
+                else if (b * b > 4 * a * c && x == 2)
+                    cout << "YES" << endl;
+                else
+                    cout << "NO" << endl;
             }
-            ans += ps;
         }
     }
-
-    cout << ans << endl;
 }
 
 int main()

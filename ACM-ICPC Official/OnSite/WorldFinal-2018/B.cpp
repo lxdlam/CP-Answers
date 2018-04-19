@@ -86,6 +86,7 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
+
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -95,6 +96,7 @@ bool smax(T &a, const T &b)
     a = b;
     return true;
 }
+
 template <typename T>
 bool smin(T &a, const T &b)
 {
@@ -103,6 +105,7 @@ bool smin(T &a, const T &b)
     a = b;
     return true;
 }
+
 // ceil divide
 template <typename T>
 T cd(T a, T b)
@@ -120,15 +123,33 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
-struct cmp
-{
-    bool operator()(const pii &a, const pii &b)
-    {
-        return a.first > b.first;
-    }
-};
+const int SIZE = 1e6 + 10;
+vi front[SIZE], tail[SIZE];
+bool fc[SIZE] = {false}, ec[SIZE] = {false};
+vector<string> v(1), vt(1);
+unordered_map<string, int> h;
 
 // Pre-Build Function
+void fdfs(int pos);
+
+void edfs(int pos)
+{
+    if (ec[pos])
+        return;
+    ec[pos] = true;
+    for (auto i : tail[pos])
+        fdfs(i);
+}
+
+void fdfs(int pos)
+{
+    if (fc[pos])
+        return;
+    fc[pos] = true;
+    for (auto i : front[pos])
+        edfs(i);
+}
+
 inline void build()
 {
 }
@@ -136,34 +157,50 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    int n, t;
-    ll ans = 0, ps = 0;
-    cin >> n;
-    VIS(int, v, n);
-    map<int, int, greater<int>> m;
-    FOR(i, 0, n)
+    string line;
+    getline(cin, line);
+    stringstream ss(line);
+    string t, s;
+    int cnt = 1;
+    while (ss >> t)
     {
-        cin >> t;
-        m[v[i]] += t;
+        v.pb(t);
+        if (t.back() == '.' || t.back() == ',')
+            t.pop_back();
+        if (!h[t])
+            h[t] = cnt++;
+        vt.pb(t);
     }
-
-    for (auto i : m)
+    FOR(i, 1, vt.size() - 1)
     {
-        if (i.second == 0)
-            continue;
-        FOR(j, 0, i.second)
+        t = vt[i];
+        s = vt[i + 1];
+        if (v[i].back() != '.')
         {
-            ps += i.first;
-            if (ps < 0)
-            {
-                cout << ans << endl;
-                return;
-            }
-            ans += ps;
+            tail[h[t]].pb(h[s]);
+            front[h[s]].pb(h[t]);
         }
     }
-
-    cout << ans << endl;
+    FOR(i, 1, vt.size() - 1)
+    {
+        t = vt[i];
+        s = vt[i + 1];
+        if (v[i].back() == ',' || (v[i].back() != '.' && ec[h[t]]) || (v[i].back() != '.' && fc[h[s]]))
+        {
+            edfs(h[t]);
+            fdfs(h[s]);
+        }
+    }
+    FOR(i, 1, v.size())
+    {
+        if (v[i].back() == ',' || v[i].back() == '.')
+            cout << v[i] << " ";
+        else if (ec[h[vt[i]]])
+            cout << v[i] << ", ";
+        else
+            cout << v[i] << " ";
+    }
+    cout << endl;
 }
 
 int main()
