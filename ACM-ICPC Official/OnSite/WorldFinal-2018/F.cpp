@@ -86,6 +86,8 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
+#define us unordered_set
+#define um unordered_map
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -120,7 +122,7 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
-si s;
+unordered_set<int> s;
 int dfs(int p, int len)
 {
     int k = 0;
@@ -143,20 +145,22 @@ inline void solve()
 {
     int n;
     cin >> n;
-    vector<string> w(n);
+    string t;
     vi l;
     int mlen = 0;
     int c = 0;
     FOR(i, 0, n)
     {
-        cin >> w[i];
-        l.pb(w[i].size());
-        c += w[i].size() + 1;
-        smax(mlen, (int)w[i].size());
+        cin >> t;
+        l.pb(t.size());
+        c += t.size() + 1;
+        smax(mlen, (int)t.size());
     }
     int ans = 0, width = mlen;
     FOR(i, mlen, c + 1)
     {
+        if (ans * i >= c)
+            break;
         s.clear();
         int ret = 0, p = 1;
         for (auto len : l)
@@ -167,8 +171,7 @@ inline void solve()
                 p++;
             else if (ret + len > i * p)
             {
-                while (ret < i * p)
-                    ret++;
+                ret = i * p;
                 p++;
             }
             ret += len;

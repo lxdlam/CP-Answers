@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.1.1"
+#define TemplateVersion "3.2.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -109,6 +109,17 @@ T cd(T a, T b)
 {
     return (a + b - 1) / b;
 }
+// min exchange
+template <typename T>
+bool se(T &a, T &b)
+{
+    if (a < b)
+        return false;
+    swap(a, b);
+    return true;
+}
+// A better MAX choice
+const int INF = 0x3f3f3f3f;
 
 typedef long long ll;
 typedef unsigned long long ull;

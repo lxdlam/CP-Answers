@@ -120,65 +120,112 @@ typedef set<int> si;
 typedef vector<string> cb;
 
 // Constants here
-const int SIZE = 1000 + 10;
+int N, M, S, T;
+const int INF = 0x3f3f3f3f;
+const int SIZE = 1010;
 int graph[SIZE][SIZE] = {{0}};
-bool vis[SIZE] = {false};
-int dis[SIZE] = {0};
-const int MAX = 0x3f3f3f3f;
+int ds[SIZE], dt[SIZE];
+bool vis[SIZE];
 
-void dijkstra(int n, int q)
+struct Node
 {
-    FOR(i, 1, n + 1)
+    int pos;
+    int step;
+
+    Node() : pos(0), step(0) {}
+};
+
+void bfss()
+{
+    memset(vis, false, sizeof(vis));
+    queue<Node> q;
+    Node n, t;
+    n.pos = S;
+
+    q.push(n);
+
+    while (q.size())
     {
-        dis[i] = MAX;
-        vis[i] = false;
-    }
-    dis[q] = 0;
-    FOR(j, 1, n + 1)
-    {
-        int k = -1;
-        int Min = MAX;
-        FOR(i, 1, n + 1)
+        t = q.front();
+        q.pop();
+        smin(ds[t.pos], t.step);
+
+        FOR(i, 1, N + 1)
         {
-            if (!vis[i] && dis[i] < Min)
+            n = t;
+            if (vis[i])
+                continue;
+            if (graph[n.pos][i])
             {
-                Min = dis[i];
-                k = i;
+                n.pos = i;
+                n.step++;
+                vis[i] = true;
+                q.push(n);
             }
         }
-        if (k == -1)
-            break;
-        vis[k] = true;
-        FOR(i, 1, n + 1)
-        if (!vis[i] && dis[k] + graph[k][i] < dis[i])
-            dis[i] = dis[k] + graph[k][i];
+    }
+}
+
+void bfst()
+{
+    memset(vis, false, sizeof(vis));
+    queue<Node> q;
+    Node n, t;
+    n.pos = T;
+
+    q.push(n);
+
+    while (q.size())
+    {
+        t = q.front();
+        q.pop();
+        smin(dt[t.pos], t.step);
+
+        FOR(i, 1, N + 1)
+        {
+            n = t;
+            if (vis[i])
+                continue;
+            if (graph[n.pos][i])
+            {
+                n.pos = i;
+                n.step++;
+                vis[i] = true;
+                q.push(n);
+            }
+        }
     }
 }
 
 // Pre-Build Function
 void build()
 {
-    FOR(i, 0, SIZE)
-    FOR(j, 0, SIZE)
-    graph[i][j] = MAX;
+    memset(ds, 0x3f, sizeof(ds));
+    memset(dt, 0x3f, sizeof(dt));
 }
 
 // Actual Solver
 void solve()
 {
-    int n, m, s, t;
-    readln(n, m, s, t);
-    int b, e;
-    int ans = n * (n - 1) / 2 - m;
-    while (m--)
+    readln(N, M, S, T);
+    int b, e, ans = 0;
+    FOR(i, 0, M)
     {
-        cin >> b >> e;
+        readln(b, e);
         graph[b][e] = 1;
         graph[e][b] = 1;
     }
-    dijkstra(n, s);
-    int len = dis[t] + 1;
-    cout << ans - (len * (len - 1) / 2 - dis[t]) << endl;
+    bfss();
+    bfst();
+
+    int min = ds[T];
+
+    FOR(i, 1, N + 1)
+    FOR(j, i + 1, N + 1)
+    if (!graph[i][j] && ds[i] + dt[j] + 1 >= min && ds[j] + dt[i] + 1 >= min)
+        ans++;
+
+    cout << ans << endl;
 }
 
 int main()
