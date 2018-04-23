@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.1.1"
+#define TemplateVersion "3.2.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -109,6 +109,17 @@ T cd(T a, T b)
 {
     return (a + b - 1) / b;
 }
+// min exchange
+template <typename T>
+bool se(T &a, T &b)
+{
+    if (a < b)
+        return false;
+    swap(a, b);
+    return true;
+}
+// A better MAX choice
+const int INF = 0x3f3f3f3f;
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -120,17 +131,68 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+ll s[18 + 10] = {1, 1};
+ll as[18 + 10] = {1, 9};
+ll t[110] = {0};
+
+ll getres(ll num)
+{
+    ll res = 0;
+    int cnt = 1;
+    while (num)
+    {
+        ll k = num % 10;
+        ll total = k * s[cnt];
+
+        if (total <= 100)
+        {
+            res += t[total];
+            num /= 10;
+            cnt++;
+            continue;
+        }
+
+        if (k == 1)
+        {
+            res += total - 9 * as[cnt - 2] - total / 9 + 9 * as[cnt - 3];
+        }
+        else if (k != 0)
+        {
+            if (k == 9)
+                k = 8;
+            res += total - k * as[cnt - 1] - total / 9 + k * as[cnt - 2];
+        }
+
+        num /= 10;
+        cnt++;
+    }
+    return res;
+}
 
 // Pre-Build Function
 inline void build()
 {
+    FOR(i, 2, 20)
+    {
+        s[i] = s[i - 1] * 10;
+        as[i] = as[i - 1] * 9;
+    }
+    FOR(i, 1, 101)
+    t[i] = t[i - 1] + (i % 9 != 0 && (i % 10 == 9 || i / 10 == 9));
 }
 
 // Actual Solver
 inline void solve()
 {
-    int n;
-    cin >> n;
+    int T;
+    ll l, r;
+    cin >> T;
+    FOR(i, 1, T + 1)
+    {
+        cout << "Case #" << i << ": ";
+        readln(l, r);
+        cout << r - l + 1 - r / 9 + (l - 1) / 9 - getres(r) + getres(l) << endl;
+    }
 }
 
 int main()
