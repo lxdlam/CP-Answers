@@ -2,31 +2,50 @@
 
 using namespace std;
 
-typedef vector<int> vi;
-
-inline int lowbit(int k)
+template <typename T>
+class FenTree
 {
-    return k & -k;
-}
+  private:
+    vector<T> v;
+    size_t size;
 
-void update(vi &v, int pos, int val)
-{
-    int len = v.size();
-    while (pos < len)
+    inline int lowbit(int k)
     {
-        //change behavior here
-        v[pos] += val;
-        pos += lowbit(pos);
+        return k & -k;
     }
-}
 
-int getVal(vi &v, int pos)
-{
-    int res = 0;
-    while (pos)
+  public:
+    void init(vector<T> base)
     {
-        res += v[pos];
-        pos -= lowbit(pos);
+        this->size = base.size() + 1;
+        v.clear();
+        v.resize(size + 1);
+        for (int i = 1; i < size; i++)
+            this->update(i, base[i - 1]);
     }
-    return res;
-}
+
+    void update(int pos, T val)
+    {
+        while (pos < size)
+        {
+            v[pos] += val;
+            pos += lowbit(pos);
+        }
+    }
+
+    T get(int pos)
+    {
+        T res = 0;
+        while (pos)
+        {
+            res += v[pos];
+            pos -= lowbit(pos);
+        }
+        return res;
+    }
+
+    T getSeg(int l, int r)
+    {
+        return get(r) - get(l - 1);
+    }
+};

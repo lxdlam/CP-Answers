@@ -131,36 +131,22 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
-ll as[18 + 10] = {1, 9};
+const int SIZE = 64 + 10;
+ll n[SIZE] = {1};
 
-ll getres(ll num)
+ll getRes(ll num)
 {
-    ll res = 0;
-    int cnt = 1;
-    while (num)
-    {
-        ll k = num % 10;
-
-        if (cnt == 1)
-        {
-            for (ll i = num - k; i <= num; i++)
-                if (i % 9 != 0 && i % 10 != 9)
-                    res++;
-        }
-        else
-            res += 8 * k * as[cnt - 1] / 9;
-
-        num /= 10;
-        cnt++;
-    }
-    return res;
+    if (num == 0)
+        return 0;
+    ll t = log2(num) + 1;
+    return num - n[t - 1] + 1 + getRes(n[t] - num - 1);
 }
 
 // Pre-Build Function
 inline void build()
 {
-    FOR(i, 2, 20)
-    as[i] = as[i - 1] * 9;
+    FOR(i, 1, SIZE)
+    n[i] = n[i - 1] * 2LL;
 }
 
 // Actual Solver
@@ -169,11 +155,10 @@ inline void solve()
     int T;
     ll l, r;
     cin >> T;
-    FOR(i, 1, T + 1)
+    while (T--)
     {
-        cout << "Case #" << i << ": ";
         readln(l, r);
-        cout << getres(r) - getres(l) + 1 << endl;
+        cout << getRes(r) - getRes(l - 1) << endl;
     }
 }
 
