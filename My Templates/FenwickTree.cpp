@@ -15,13 +15,11 @@ class FenTree
     }
 
   public:
-    void init(vector<T> base)
+    void init(size_t size)
     {
-        this->size = base.size() + 1;
+        this->size = size + 1;
         v.clear();
         v.resize(size + 1);
-        for (int i = 1; i < size; i++)
-            this->update(i, base[i - 1]);
     }
 
     void update(int pos, T val)
