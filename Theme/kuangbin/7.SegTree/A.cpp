@@ -1,162 +1,128 @@
 #include <bits/stdc++.h>
 
-#define FOR(_i, _s, _e) for (int _i = _s; _i < _e; _i++)
-#if __cpluscplus > 201103L
-#define FORE(_c) for (auto i : _c)
-#define FORER(_c) for (auto &i : _c)
-#else
-#define FORE(_c)
-#define FORER(_c)
-#endif
-#if __cpluscplus > 201402L
-#define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : v)            \
-        cin >> i;
-#elif __cpluscplus > 201103L
-#define VIS(_kind, _name, _size) \
-    vector<_kind> _name;         \
-    _name.resize(_size);         \
-    for (auto &i : v)            \
-        cin >> i;
-#else
-#define VIS(_kind, _name, _size)    \
-    vector<_kind> _name;            \
-    _name.resize(_size);            \
-    for (int i = 0; i < _size; i++) \
-        cin >> v[i];
-#endif
-
-#define DEBUG(a) cout << #a << ": " << a << endl
-
 using namespace std;
 
-typedef long long ll;
-typedef unsigned long long ull;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef set<int> si;
-
-struct SegTree
+// Recursive version
+template <typename T>
+class SegTree
 {
-    // inner struct
-    struct Node
-    {
-        int val;
-    };
-
-    vector<Node> tree;
-    int size;
-
-    SegTree() : size(0)
-    {
-        tree.clear();
-    }
-
-    void init(int size)
-    {
-        this->size = size;
-        tree.resize(size << 2);
-    }
-
-    void clear()
-    {
-        tree.clear();
-        size = 0;
-    }
-
-    void build(const vector<int> &v)
-    {
-        build(0, 0, size - 1, v);
-    }
-
-    void update(int index, int val)
-    {
-        update(0, 0, size - 1, index - 1, val);
-    }
-
-    int query(int l, int r)
-    {
-        return query(0, 0, size - 1, l - 1, r - 1);
-    }
-
   private:
-    // 0-index
-    inline int left(int i) { return (i << 1) + 1; }
-    inline int right(int i) { return (i << 1) + 2; }
+    size_t size;
+    vector<T> data;
+    vector<T> flag;
+    vector<T> *base; // Avoid copy
 
-    void build(int node, int l, int r, const vector<int> &v)
+    void pushup(int pos)
     {
-        if (l == r)
-            tree[node].val = v[l];
-        else
-        {
-            int mid = (l + r) >> 1;
-            build(left(node), l, mid, v);
-            build(right(node), mid + 1, r, v);
-            tree[node].val = tree[left(node)].val + tree[right(node)].val;
-        }
+        data[pos] = data[pos << 1] + data[pos << 1 | 1];
     }
 
-    void update(int node, int l, int r, int index, int val)
+    int calSize(int num)
     {
-        if (l == r)
-            tree[node].val += val;
-        else
-        {
-            int mid = (l + r) >> 1;
-            if (l <= index && index <= mid)
-                update(left(node), l, mid, index, val);
-            else
-                update(right(node), mid + 1, r, index, val);
-            tree[node].val = tree[left(node)].val + tree[right(node)].val;
-        }
+        int i = 1, j = num;
+        while ((j >>= 1) || (i < num))
+            i <<= 1;
+        return i * 2;
     }
 
-    // start and end is current section, l and r is our expect section
-    int query(int node, int start, int end, int l, int r)
+    void build(int l, int r, int cur)
     {
-        if (r < start || l > end)
-            return 0;
-        if (l <= start && end <= r)
-            return tree[node].val;
-        int mid = (start + end) >> 1;
-        int lv = query(left(node), start, mid, l, r);
-        int rv = query(right(node), mid + 1, end, l, r);
-        return lv + rv;
+        if (l == r)
+        {
+            data[cur] = (*base)[l - 1];
+            return;
+        }
+
+        int m = ((r - l) >> 1) + l;
+        build(l, m, cur << 1);
+        build(m + 1, r, cur << 1 | 1);
+        pushup(cur);
+    }
+
+    void update(int pos, int val, int l, int r, int cur)
+    {
+        if (l == r)
+        {
+            data[cur] += val;
+            return;
+        }
+
+        int m = ((r - l) >> 1) + l;
+        if (pos <= m)
+            update(pos, val, l, m, cur << 1);
+        else
+            update(pos, val, m + 1, r, cur << 1 | 1);
+        pushup(cur);
+    }
+
+    T query(int ql, int qr, int l, int r, int cur)
+    {
+        if (ql <= l && r <= qr)
+            return data[cur];
+
+        int m = ((r - l) >> 1) + l;
+        // pushdown(cur,m-l+1,r-m);
+
+        T ans = 0;
+        if (ql <= m)
+            ans += query(ql, qr, l, m, cur << 1);
+        if (qr > m)
+            ans += query(ql, qr, m + 1, r, cur << 1 | 1);
+        return ans;
+    }
+
+  public:
+    void init(vector<T> v)
+    {
+        size = v.size();
+        int realsize = calSize(size);
+        data.clear();
+        flag.clear();
+        data.resize(calSize(size)); // *4
+        flag.resize(calSize(size));
+        base = &v;
+        build(1, size, 1);
+    }
+
+    void update(int pos, int val)
+    {
+        update(pos, val, 1, size, 1);
+    }
+
+    T query(int l, int r)
+    {
+        return query(l, r, 1, size, 1);
     }
 };
-
 int main()
 {
     ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+    cin.tie(0);
+    cout.tie(0);
 
-    int t, n, i, j;
+    int T, l, r, n;
     string op;
-    SegTree st;
-    cin >> t;
-    for (int i = 1; i <= t; i++)
+    cin >> T;
+    SegTree<long long> st;
+
+    for (int i = 1; i <= T; i++)
     {
-        cout << "Case " << i << ":" << endl;
+        cout << "Case " << i << ":\n";
         cin >> n;
-        VIS(int, v, n);
-        st.clear();
-        st.init(n);
-        st.build(v);
+        vector<long long> v(n);
+        for (auto &i : v)
+            cin >> i;
+        st.init(v);
+
         while (cin >> op && op != "End")
         {
-            cin >> i >> j;
-            if (op == "Add")
-                st.update(i - 1, j);
+            cin >> l >> r;
+            if (op == "Query")
+                cout << st.query(l, r) << endl;
+            else if (op == "Add")
+                st.update(l, r);
             else if (op == "Sub")
-                st.update(i - 1, -j);
-            else if (op == "Query")
-                cout << st.query(i - 1, j - 1) << endl;
+                st.update(l, -r);
         }
     }
-
-    return 0;
 }

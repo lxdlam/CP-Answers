@@ -1,6 +1,16 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <algorithm>
+#include <queue>
+#include <ctime>
+#include <iterator>
 
 using namespace std;
+typedef long long ll;
 
 // Recursive version
 template <typename T>
@@ -107,12 +117,12 @@ class SegTree
     }
 
   public:
-    void build(vector<T> v)
+    void init(vector<T> v)
     {
         size = v.size();
         data.clear();
         flag.clear();
-        data.resize(calSize(size));
+        data.resize(calSize(size)); // *4
         flag.resize(calSize(size));
         base = &v;
         build(1, size, 1);
@@ -133,3 +143,37 @@ class SegTree
         return query(l, r, 1, size, 1);
     }
 };
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    int n, q;
+    string op;
+    ll t, l, r, a;
+    cin >> n >> q;
+    vector<ll> v;
+    while (n--)
+    {
+        cin >> t;
+        v.push_back(t);
+    }
+    SegTree<ll> st;
+    st.init(v);
+
+    while (q--)
+    {
+        cin >> op;
+        if (op == "Q")
+        {
+            cin >> l >> r;
+            cout << st.query(l, r) << endl;
+        }
+        else
+        {
+            cin >> l >> r >> a;
+            st.update(l, r, a);
+        }
+    }
+}
