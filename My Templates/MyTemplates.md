@@ -1,7 +1,5 @@
 # Ramen's ACM Templates
 
-[TOC]
-
 ## 1. Random Stuff
 
 ### 标准解答模板
