@@ -40,8 +40,8 @@ void getD()
         d[i] = (i - 1) * (d[i - 1] + d[i - 2]);
 }
 
-// GCD for small integers
-int gcd(int a, int b)
+// Euler GCD
+ll gcd(ll a, ll b)
 {
     return b == 0 ? a : gcd(b, a % b);
 }
@@ -190,4 +190,9 @@ ll fp(ll base, ll expr, ll mod = 1e9 + 7)
         expr >>= 1LL;
     }
     return ans % mod;
+}
+
+ll inverse(ll a, ll mod = 1e9 + 7)
+{
+    return fp(a, mod - 2);
 }

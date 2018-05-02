@@ -1,190 +1,110 @@
 # Ramen's ACM Templates
 
-## Standard Answer Template
+[TOC]
 
-注意：原版解答模板太长，仅摘取必要部分
+## 1. Random Stuff
 
-- 运行时间计算：
-
-  ```c++
-  // C风格
-  clock_t begin = now();
-  cout << "Elapsed Time: " << (double)(clock() - begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
-  // C++风格
-  auto _begin = chrono::steady_clock::now();
-  chrono::duration<double, milli> _duration = chrono::steady_clock::now() - _begin;
-  cerr << "Elapsed Time: " << _duration.count() << "ms." << endl;
-  ```
-
-- 快速`cin/cout`：
-
-  ```c++
-  ios::sync_with_stdio(false);
-  cin.tie(nullptr);
-  cout.tie(nullptr);
-  ```
-
-- Debug宏：
-
-  ```c++
-  #define debug(_a) cout << #a << " = " << a << endl;
-  ```
-
-## Data Structures
-
-### FenwickTree
-
-**树状数组**
-
-两点注意：
-
-1. 数组下标从1开始
-
-2. 匹配修改位置，可求和、差、积、最大最小值等
+### 标准解答模板
 
 ```c++
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll; // 可以使用__int64代替，但是最好使用long long
+typedef unsigned long long ull;
+typedef pair<int, int> pii;
+typedef set<int> si;
 typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<string> cb; // char[][]的替代品，可能会超时
 
-inline int lowbit(int k)
-{
-    return k & -k;
-}
+#define FOR(_i, _begin, _end) for (int _i = _begin; _i < _end; _i++)
 
-void update(vi &v, int pos, int val)
-{
-    int len = v.size();
-    while (pos < len)
-    {
-        //change behavior here
-        v[pos] += val;
-        pos += lowbit(pos);
-    }
-}
+#define mp make_pair
+#define pb push_back
 
-int getVal(vi &v, int pos)
-{
-    int res = 0;
-    while (pos)
-    {
-        res += v[pos];
-        pos -= lowbit(pos);
-    }
-    return res;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr); // 事先测试是否支持C++11
+    cout.tie(nullptr);
+    
+    #ifdef LOCAL
+    clock_t _begin = clock(); // time.h
+    #endif
+    
+    // 解题代码
+    
+    #ifdef LOCAL
+    cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl; // 时间测试，打到stderr上
+    #endif
+    
+    return 0;
 }
 ```
 
-### Union-Set
+### 现场赛常用测试
 
-**并查集**
+- C++11支持：
 
-最终优化版。
+  ```c++
+  for(auto &i : v)
+      cin >> i;
+  ```
 
-```c++
-class UF
-{
-  public:
-    void init(int n)
-    {
-        id.clear();
-        sz.clear();
-        count = length = n;
-        id.resize(n);
-        for (int i = 0; i < length; i++)
-            id[i] = i;
-        sz.resize(n);
-        for (int i = 0; i < length; i++)
-            sz[i] = 1;
-    }
+  编译成功即有支持。
 
-    int getCount()
-    {
-        return count;
-    }
+  也可以选择：
 
-    bool connected(int p, int q)
-    {
-        return find(p) == find(q);
-    }
+  ```c++
+  #if __cplusplus >= 201103L
+  int test[(ll)1e12];
+  #endif
+  ```
 
-    int find(int p)
-    {
-        int k = p, j;
-        while (p != id[p])
-            p = id[p];
-        while (k != p)
-        {
-            j = id[k];
-            id[k] = p;
-            k = j;
-        }
-        return p;
-    }
+  精准测试，只要支持必定有RE。C++14：2014
 
-    void Union(int p, int q)
-    {
-        int pRoot = find(p);
-        int qRoot = find(q);
+- 最大内存
 
-        if (pRoot == qRoot)
-            return;
+  开栈：
 
-        if (sz[pRoot] < sz[qRoot])
-        {
-            id[pRoot] = qRoot;
-            sz[qRoot] += sz[pRoot];
-        }
-        else
-        {
-            id[qRoot] = pRoot;
-            sz[pRoot] += sz[qRoot];
-        }
-        count--;
-    }
+  ```c++
+  const int SIZE = 1e7 + 10;
+  int test[SIZE];
+  ```
 
-  private:
-    int count;
-    vector<int> id;
-    vector<int> sz;
-    int length;
-};
-```
+  看RE时机。
 
-## Big Integer
+- 最大时间
 
-**大数模板**，裸模板题强烈建议使用Python3，否则可以选择Java。
+  $O(n)$：
 
-C++下的NTT适用于很多种情况。
+  ```c++
+  const int BOUND = 1e7;
+  int t = 1;
+  FOR(i, 1, BOUND)
+      t  = (t * i) % 10007
+  ```
 
-### Python3
+  $O(n^2)$：
 
-无论是速度还是占用秒杀Java。
+  ```c++
+  const int BOUND = 1e4;
+  int t = 1;
+  FOR(i, 1, BOUND)
+      FOR(j, 1, BOUND)
+          t  = (t * i * j) % 10007
+  ```
 
-```python
-def main():
-    a = int(input())
-    b = int(input())
-    print(a * b)
+- 排版问题
 
+  - 行尾空行
+  - 行尾空格
 
-main()
-```
-
-### Java
-
-五点注意:
-
-1. 没有运算符可以直接运算，所有的都是方法
-
-2. 除法包含两个部分，得数和余数
-
-3. 内置常量：`BigInteger.ONE`、`BigInteger.ZERO`、`BigInteger.TEN`
-
-4. 可以使用字符串构造，如果从输入输出流直接读取就`sc.nextBigInteger()`
-
-5. 一些输入输出流方法要掌握，如`sc.hasNext()`
+### Java解答模板
 
 ```java
-import java.util.Scanner;
+import java.util.*;
 import java.math.BigInteger;
 
 public class BigIntTemplate {
@@ -199,27 +119,218 @@ public class BigIntTemplate {
         sc.close();
     }
 }
+
+// 大数问题选择
 ```
 
-### C++ With NTT
+## 2. 数学相关
 
-NTT是快速数论变换，速度极快。
+### 组合数表
 
-（等待补完）
+```c++
+ll c[SIZE][SIZE] = {0};
 
-## Strings
+void getCom()
+{
+    c[0][0] = 1;
+    for (int i = 1; i < SIZE; i++)
+    {
+        c[i][0] = 1;
+        for (int j = 1; j <= i; j++)
+            c[i][j] = c[i - 1][j] + c[i - 1][j - 1]; // 必要的一步一模
+    }
+}
+```
+
+### 错排问题
+
+```c++
+ll d[SIZE];
+
+void getD()
+{
+    ll res;
+    d[1] = 0, d[2] = 1;
+    for (int i = 3; i < SIZE; i++)
+        d[i] = (i - 1) * (d[i - 1] + d[i - 2]);
+}
+```
+
+### 两种GCD与LCM
+
+```c++
+ll gcd(ll a, ll b)
+{
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+ll sgcd(ll a, ll b)
+{
+    if (a == 0)
+        return b;
+    if (b == 0)
+        return a;
+    if (a % 2 == 0 && b % 2 == 0)
+        return 2 * sgcd(a >> 1, b >> 1);
+    else if (a % 2 == 0)
+        return sgcd(a >> 1, b);
+    else if (b % 2 == 0)
+        return sgcd(a, b >> 1);
+    else
+        return sgcd(abs(a - b), min(a, b));
+}
+
+ll lcm(ll a, ll b)
+{
+    return a / sgcd(a, b) * b;
+}
+```
+
+### 质数表
+
+```c++
+bool notprime[SIZE] = {false};
+
+void init()
+{
+    notprime[0] = notprime[1] = true;
+    for (int i = 2; i < SIZE; i++)
+        if (!notprime[i])
+        {
+            if (i > SIZE / i)
+                continue;
+            for (int j = i * i; j < SIZE; j += i)
+                notprime[j] = true;
+        }
+}
+```
+
+### 简易欧拉筛
+
+```c++
+int prime[SIZE + 1] = {0};
+void getPrime()
+{
+    for (int i = 2; i <= SIZE; i++)
+    {
+        if (!prime[i])
+            prime[++prime[0]] = i;
+        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
+        {
+            prime[prime[j] * i] = 1;
+            if (i % prime[j] == 0)
+                break;
+        }
+    }
+}
+```
+
+### 合数分解
+
+```c++
+ll factor[100][2];
+int fatCnt;
+int getFactors(ll x)
+{
+    fatCnt = 0;
+    ll tmp = x;
+    for (int i = 1; prime[i] <= tmp / prime[i]; i++)
+    {
+        factor[fatCnt][1] = 0;
+        if (tmp % prime[i] == 0)
+        {
+            factor[fatCnt][0] = prime[i];
+            while (tmp % prime[i] == 0)
+            {
+                factor[fatCnt][1]++;
+                tmp /= prime[i];
+            }
+            fatCnt++;
+        }
+    }
+    if (tmp != 1)
+    {
+        factor[fatCnt][0] = tmp;
+        factor[fatCnt++][1] = 1;
+    }
+    return fatCnt;
+}
+```
+
+### 扩展GCD以及逆元
+
+```c++
+ll extend_gcd(ll a, ll b, ll &x, ll &y)
+{
+    if (a == 0 && b == 0)
+        return -1;
+    if (b == 0)
+    {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    ll d = extend_gcd(b, a % b, y, x);
+    y -= a / b * x;
+    return d;
+}
+
+ll mod_reverse(ll a, ll n)
+{
+    ll x, y;
+    ll d = extend_gcd(a, n, x, y);
+    if (d == 1)
+        return (x % n + n) % n;
+    else
+        return -1;
+}
+
+// Solve a*x + b*y = n
+ll cal(ll a, ll b, ll n)
+{
+    ll x, y;
+    ll gcd = extend_gcd(a, b, x, y);
+    if (n % gcd != 0)
+        return -1;
+    x *= n / gcd;
+    b /= gcd;
+    if (b < 0)
+        b = -b;
+    ll ans = x % b;
+    if (ans <= 0)
+        ans += b;
+    return ans;
+    // answer:
+    // x = ans, y = (n - ans * a) / b
+}
+```
+
+### 快速幂与逆元
+
+```c++
+ll fp(ll base, ll expr, ll mod = 1e9 + 7)
+{
+    ll ans = 1;
+    base %= mod;
+    while (expr)
+    {
+        if (expr & 1LL)
+            ans = (ans * base) % mod;
+        base = (base * base) % mod;
+        expr >>= 1LL;
+    }
+    return ans % mod;
+}
+
+ll inverse(ll a, ll mod = 1e9 + 7)
+{
+    return fp(a, mod - 2);
+}
+```
+
+## 3. 字符串
 
 ### KMP
-
-**标准KMP算法**
-
-两点注意：
-
-1. 使用了`vector<int>`重构，必要时可以换成数组，注意方法的修改
-
-2. `next`数组意义：最长前缀与后缀匹配长度，最小循环节长度：`i / next[i]`当`i % next[i] == 0`
-
-3. 启动新匹配流程以及匹配行为的修改
 
 ```c++
 void getNext(const string &s, vector<int> &next)
@@ -254,29 +365,21 @@ int match(const string &t, const string &p)
     }
     return count;
 }
+
+// 注意，必要时把vector改成数组
+// next数组意义：最长前缀与后缀匹配长度
+// 最小循环节长度：i / next[i]当i % next[i] == 0
 ```
 
-### Trie
-
-**链式Trie树**
-
-两点注意：
-
-1. `START`是字母表首的字符，`CHARSIZE`是字母表大小。一些常见的取值有：
-
-   A~Z：`START = 'a', CHARSIZE = 26`
-
-   0~9：`START = '0', CHARSIZE = 10`
-
-2. 注意如何修改插入行为和匹配行为
+### Trie树
 
 ```c++
-const int CHARSIZE = 26;
-const char START = 'a';
+const int CHARSIZE = 26; // 字母表大小
+const char START = 'a'; // 字母表起点
 
 struct Node
 {
-    Node *next[CHARSIZE];
+    Node *next[CHARSIZE]; // 无规律字母表：离散化或者map<char, Node*>
     int num;
 
     Node() : num(0)
@@ -350,22 +453,14 @@ struct Trie
 };
 ```
 
-### AC Automation
+### AC自动机
 
-**AC自动机**
+#### 链式实现
 
-注意定义：
+```C++
+const int CHARSIZE = 26;
+const char START = 'a';
 
-```c++
-const int CHARSIZE = 26; // 字母表大小
-const char START = 'a'; // 字母表起始
-```
-
-#### Linked Trie
-
-**链树实现**
-
-```c++
 struct Node
 {
     Node *next[CHARSIZE];
@@ -455,11 +550,14 @@ struct ACAuto
 };
 ```
 
-#### Static Array Trie
-
-**静态数组**，注意调整`SIZE`预防超时
+#### 静态数组
 
 ```c++
+const int CHARSIZE = 26;
+const char START = 'a';
+
+const int SIZE = 5e5 + 10; // 小心RE
+
 struct ACAuto
 {
     int next[SIZE][CHARSIZE];
@@ -553,318 +651,273 @@ struct ACAuto
 };
 ```
 
-## Dynamic Programming
+## 4. 数据结构
 
-### Backpack
+### 区间查询
 
-**背包问题**
-
-注意预存在代码：
+#### 树状数组
 
 ```c++
-vector<int> dp;
-
-void init(int size)
+template <typename T> // 不用泛型
+class FenTree
 {
-    dp.resize(size);
-}
-```
+  private:
+    vector<T> v;
+    size_t size;
 
-#### Zero-One
-
-注意：需要跑`n`次，`cost`和`value`一一对应。
-
-```c++
-void ZeroOnePack(int cost, int value, int size)
-{
-    for (int i = size; i >= cost; i--)
-        dp[i] = max(dp[i], dp[i - cost] + value);
-}
-```
-
-示例代码：
-
-```c++
-for (int i = 0; i < costs.size(); i++)
-        ZeroOnePack(costs[i], values[i], size);
-```
-
-#### Complete
-
-注意：与上面注意一样，不再给出示例代码。
-
-```c++
-void CompletePack(int cost, int value, int size)
-{
-    for (int i = cost; i <= size; i++)
-        dp[i] = max(dp[i], dp[i - cost] + value);
-}
-```
-
-## Maths
-
-一些常用**数学算法**与**打表算法**
-
-一般有定义：
-
-```c++
-const int SIZE = 1e6 + 10;
-```
-
-### Factorials
-
-**阶乘表**
-
-```c++
-long long n[SIZE] = {1};
-
-void getFac()
-{
-    for (int i = 1; i < SIZE; i++)
-        n[i] = n[i - 1] * i;
-}
-```
-
-### Combinations
-
-**组合数表**
-
-```c++
-long long c[SIZE][SIZE] = {0};
-
-void getCom()
-{
-    c[0][0] = 1;
-    for (int i = 1; i < SIZE; i++)
+    inline int lowbit(int k)
     {
-        c[i][0] = 1;
-        for (int j = 1; j <= i; j++)
-            c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
-            // Will be extremely large!
+        return k & -k;
     }
-}
-```
 
-### GCD
-
-#### Euclid
-
-**欧几里得法**，大素数较慢
-
-```c++
-int gcd(int a, int b)
-{
-    return b == 0 ? a : gcd(b, a % b);
-}
-```
-
-#### Stein
-
-**Stein**法，大素数下也能取得很高的效率。
-
-```c++
-int sgcd(int a, int b)
-{
-    if (a == 0)
-        return b;
-    if (b == 0)
-        return a;
-    if (a % 2 == 0 && b % 2 == 0)
-        return 2 * sgcd(a >> 1, b >> 1);
-    else if (a % 2 == 0)
-        return sgcd(a >> 1, b);
-    else if (b % 2 == 0)
-        return sgcd(a, b >> 1);
-    else
-        return sgcd(abs(a - b), min(a, b));
-}
-```
-
-### Extend GCD
-
-**扩展GCD算法**，用于求$ax+by=gcd(a,b)$中的一组$x$与$y$。
-
-注意：`x`与`y`均为引用变量。
-
-```c++
-long long extend_gcd(long long a, long long b, long long &x, long long &y)
-{
-    if (a == 0 && b == 0)
-        return -1;
-    if (b == 0)
+  public:
+    void init(size_t size)
     {
-        x = 1;
-        y = 0;
-        return a;
+        this->size = size + 1;
+        v.clear();
+        v.resize(size + 1);
     }
-    long long d = extend_gcd(b, a % b, y, x);
-    y -= a / b * x;
-    return d;
-}
-```
 
-### Inverse element
-
-**乘法逆元**，用于求解下列方程式$ax\equiv1(\mod m)$中的$x$。
-
-注意：必须有上面的扩展GCD算法。
-
-```c++
-long long mod_reverse(long long a, long long n)
-{
-    long long x, y;
-    long long d = extend_gcd(a, n, x, y);
-    if (d == 1)
-        return (x % n + n) % n;
-    else
-        return -1;
-}
-```
-
-### Primes
-
-#### Prime Check
-
-**检测素数表**
-
-用法：假设待检测的数字是`num`，则`notprime[num] == true`意味着`num`不是素数。
-
-```c++
-bool notprime[SIZE] = {false};
-
-void init()
-{
-    notprime[0] = notprime[1] = true;
-    for (int i = 2; i < SIZE; i++)
-        if (!notprime[i])
-        {
-            if (i > SIZE / i)
-                continue;
-            for (int j = i * i; j < SIZE; j += i)
-                notprime[j] = true;
-        }
-}
-```
-
-#### Primes Table
-
-**素数表**
-
-注意：`prime[0]`代表素数表长度。
-
-```c++
-int prime[SIZE + 1] = {0};
-void getPrime()
-{
-    for (int i = 2; i <= SIZE; i++)
+    void update(int pos, T val)
     {
-        if (!prime[i])
-            prime[++prime[0]] = i;
-        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
+        while (pos < size)
         {
-            prime[prime[j] * i] = 1;
-            if (i % prime[j] == 0)
-                break;
+            v[pos] += val;
+            pos += lowbit(pos);
         }
     }
-}
+
+    T get(int pos)
+    {
+        T res = 0;
+        while (pos)
+        {
+            res += v[pos];
+            pos -= lowbit(pos);
+        }
+        return res;
+    }
+
+    T getSeg(int l, int r)
+    {
+        return get(r) - get(l - 1);
+    }
+};
+
+// 比线段树好写且快
+// 支持单点修改，而且必须具有前缀和性质
+// 进一步来说，支持交换群操作
+// 区间修改还是敲线段树
 ```
 
-### Factors
-
-**质因数分解**
-
-注意：必须先得到上面的素数表才能进行分解
+#### 线段树
 
 ```c++
-long long factor[100][2];
-int fatCnt;
-int getFactors(long long x)
+template <typename T>
+class SegTree
 {
-    fatCnt = 0;
-    long long tmp = x;
-    for (int i = 1; prime[i] <= tmp / prime[i]; i++)
+  private:
+    size_t size;
+    vector<T> data;
+    vector<T> flag;  
+    vector<T> *base;
+
+    void pushup(int pos)
     {
-        factor[fatCnt][1] = 0;
-        if (tmp % prime[i] == 0)
+        data[pos] = data[pos << 1] + data[pos << 1 | 1];
+    }
+
+    void pushdown(int pos, int lcnt, int rcnt)
+    {
+        if (flag[pos])
         {
-            factor[fatCnt][0] = prime[i];
-            while (tmp % prime[i] == 0)
-            {
-                factor[fatCnt][1]++;
-                tmp /= prime[i];
-            }
-            fatCnt++;
+            flag[pos << 1] += flag[pos];
+            flag[pos << 1 | 1] += flag[pos];
+            data[pos << 1] += flag[pos] * lcnt;
+            data[pos << 1 | 1] += flag[pos] * rcnt;
+            flag[pos] = 0;
         }
     }
-    if (tmp != 1)
+
+    int calSize(int num)
     {
-        factor[fatCnt][0] = tmp;
-        factor[fatCnt++][1] = 1;
+        int i = 1, j = num;
+        while ((j >>= 1) || (i < num))
+            i <<= 1;
+        return i * 2;
     }
-    return fatCnt;
-}
-```
 
-### Fast Pow
-
-**快速幂**，原理即对于$a^b$，考虑把$b$转化为二进制，则加上位运算能大大减少运算次数和难度。
-
-注意：根据同余定理，假设要计算$a^b\mod m$，只需对每一步都取余即可，注意修改余数，默认$1000000007$
-
-```c++
-long long fp(long long base, long long expr, long long mod = 1e9 + 7)
-{
-    ll ans = 1;
-    base %= mod;
-    while (expr)
+    void build(int l, int r, int cur)
     {
-        if (expr & 1LL)
-            ans = (ans * base) % mod;
-        base = (base * base) % mod;
-        expr >>= 1LL;
-    }
-    return ans % mod;
-}
-```
-
-## Utilities
-
-**一些标准库没有的工具函数**
-
-### Split String
-
-**切割字符串**
-
-注意：修改匹配位置
-
-```c++
-vector<string> split(const string &s)
-{
-    vector<string> res;
-    int i = 0;
-    for (int pos = 0; pos < s.size(); pos++)
-    {
-        if (s[pos] <= 'Z' && s[pos] >= 'A')
+        if (l == r)
         {
-            res.push_back(s.substr(i, pos - i));
-            i = pos + 1;
+            data[cur] = (*base)[l - 1];
+            return;
         }
-    }
-    res.push_back(s.substr(i, s.size() - i));
-    return res;
-}
-```
-### Reverse String
 
-**翻转字符串**
+        int m = ((r - l) >> 1) + l;
+        build(l, m, cur << 1);
+        build(m + 1, r, cur << 1 | 1);
+        pushup(cur);
+    }
+
+    void update(int pos, T val, int l, int r, int cur)
+    {
+        if (l == r)
+        {
+            data[cur] += val;
+            return;
+        }
+
+        int m = ((r - l) >> 1) + l;
+        pushdown(cur, m - l + 1, r - m);
+        if (pos <= m)
+            update(pos, val, l, m, cur << 1);
+        else
+            update(pos, val, m + 1, r, cur << 1 | 1);
+        pushup(cur);
+    }
+
+    void update(int ul, int ur, T val, int l, int r, int cur)
+    {
+        if (ul <= l && r <= ur)
+        {
+            data[cur] += val * (r - l + 1);
+            flag[cur] += val;
+            return;
+        }
+
+        int m = ((r - l) >> 1) + l;
+        pushdown(cur, m - l + 1, r - m);
+
+        if (ul <= m)
+            update(ul, ur, val, l, m, cur << 1);
+        if (ur > m)
+            update(ul, ur, val, m + 1, r, cur << 1 | 1);
+        pushup(cur);
+    }
+
+    T query(int ql, int qr, int l, int r, int cur)
+    {
+        if (ql <= l && r <= qr)
+            return data[cur];
+
+        int m = ((r - l) >> 1) + l;
+        pushdown(cur, m - l + 1, r - m);
+
+        T ans = 0;
+        if (ql <= m)
+            ans += query(ql, qr, l, m, cur << 1);
+        if (qr > m)
+            ans += query(ql, qr, m + 1, r, cur << 1 | 1);
+        return ans;
+    }
+
+  public:
+    void build(vector<T> v)
+    {
+        size = v.size();
+        data.clear();
+        flag.clear();
+        data.resize(calSize(size));
+        flag.resize(calSize(size));
+        base = &v;
+        build(1, size, 1);
+    }
+
+    void update(int pos, T val)
+    {
+        update(pos, val, 1, size, 1);
+    }
+
+    void update(int ul, int ur, T val)
+    {
+        update(ul, ur, val, 1, size, 1);
+    }
+
+    T query(int l, int r)
+    {
+        return query(l, r, 1, size, 1);
+    }
+};
+
+// 类封装使用方便
+// 但是实际上基本不用类封装
+// 只需要实现以下重要函数
+// build, pushup, pushdown, updatePoint, updateSeg, query
+// 注意大小，要求不严格就*4，否则是大于它最近的2指数幂的2倍
+// 尤其注意pushdown，多种标记时推标记先后顺序
+```
+
+### 并查集
 
 ```c++
-string reverse(const string &s)
+class UF
 {
-  string res = s;
-  reverse(res.begin(), res.end());
-  return res;
-}
+  public:
+    void init(int n)
+    {
+        id.clear();
+        sz.clear();
+        count = length = n;
+        id.resize(n);
+        for (int i = 0; i < length; i++)
+            id[i] = i;
+        sz.resize(n);
+        for (int i = 0; i < length; i++)
+            sz[i] = 1;
+    }
+
+    int getCount()
+    {
+        return count;
+    }
+
+    bool connected(int p, int q)
+    {
+        return find(p) == find(q);
+    }
+
+    int find(int p) // 找根节点
+    {
+        int k = p, j;
+        while (p != id[p])
+            p = id[p];
+        while (k != p) // 路径压缩
+        {
+            j = id[k];
+            id[k] = p;
+            k = j;
+        }
+        return p;
+    }
+
+    void Union(int p, int q)
+    {
+        int pRoot = find(p);
+        int qRoot = find(q);
+
+        if (pRoot == qRoot)
+            return;
+
+        if (sz[pRoot] < sz[qRoot]) // 按秩合并
+        {
+            id[pRoot] = qRoot;
+            sz[qRoot] += sz[pRoot];
+        }
+        else
+        {
+            id[qRoot] = pRoot;
+            sz[pRoot] += sz[qRoot];
+        }
+        count--;
+    }
+
+  private:
+    int count;
+    vector<int> id; // 如果key不是int，做离散化
+    vector<int> sz;
+    int length;
+};
 ```
 
