@@ -79,3 +79,54 @@ struct Trie
         }
     }
 };
+
+// Array Based
+const int SIZE = 1e5 + 10; // size of the trie;
+
+struct Trie
+{
+    int next[SIZE][CHARSIZE];
+    int num[SIZE];
+    int root;
+    int size;
+
+    Trie()
+    {
+        memset(next, 0, sizeof(next));
+        memset(num, 0, sizeof(num));
+        size = 0;
+        root = newnode();
+    }
+
+    int newnode()
+    {
+        for (int i = 0; i < CHARSIZE; i++)
+            next[size][i] = -1;
+        num[size++] = 0;
+        return size - 1;
+    }
+
+    void insert(const string &s)
+    {
+        int cur = root;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (next[cur][s[i] - START] == -1)
+                next[cur][s[i] - START] = newnode();
+            cur = next[cur][s[i] - START];
+            num[cur]++;
+        }
+    }
+
+    int query(const string &s)
+    {
+        int cur = root;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (next[cur][s[i] - START] == -1)
+                return 0;
+            cur = next[cur][s[i] - START];
+        }
+        return num[cur];
+    }
+};
