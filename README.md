@@ -7,7 +7,7 @@ Most of the codes here are AC codes, but many of them can be optimized. Some of 
 Many of them are written under the C++14 standard. I compile them using:
 
 - Clang 6.0.0
-- GCC 7.3.1
+- GCC 8.1
 
 It should work using any compilers which support C++14 well like MSVC++. I don't check if all the codes can run perfectly under C++11 or C++03 standard. Make your own change.
 
@@ -17,7 +17,8 @@ Also, I begin using Python to solve problems.
 
 Python interpreter I'm currently using is:
 
-- CPython 3.6.4
+- CPython 3.6.5 (Python 3.6.5)
+- PyPy3 6.0.0 (Python 3.5.3)
 
 Haskell sources files are just remained, no more new Haskell solutions.
 
