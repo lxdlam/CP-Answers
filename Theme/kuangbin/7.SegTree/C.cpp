@@ -13,136 +13,96 @@ using namespace std;
 typedef long long ll;
 
 // Recursive version
-template <typename T>
-class SegTree
+const int SIZE = 1e5 + 10;
+
+ll flag[SIZE << 2], sum[SIZE << 2];
+ll num[SIZE];
+
+void pushup(int pos)
 {
-  private:
-    size_t size;
-    vector<T> data;
-    vector<T> flag;  // lazy flag, the current node has been updated but its children haven't
-    vector<T> *base; // Avoid copy
+    sum[pos] = sum[pos << 1] + sum[pos << 1 | 1];
+}
 
-    void pushup(int pos)
+void pushdown(int pos, int lcnt, int rcnt)
+{
+    if (flag[pos])
     {
-        data[pos] = data[pos << 1] + data[pos << 1 | 1];
+        flag[pos << 1] += flag[pos];
+        flag[pos << 1 | 1] += flag[pos];
+        sum[pos << 1] += flag[pos] * lcnt;
+        sum[pos << 1 | 1] += flag[pos] * rcnt;
+        flag[pos] = 0;
+    }
+}
+
+void build(int l, int r, int cur)
+{
+    if (l == r)
+    {
+        sum[cur] = num[l];
+        return;
     }
 
-    void pushdown(int pos, int lcnt, int rcnt)
+    int m = ((r - l) >> 1) + l;
+    build(l, m, cur << 1);
+    build(m + 1, r, cur << 1 | 1);
+    pushup(cur);
+}
+
+void update(int pos, ll val, int l, int r, int cur)
+{
+    if (l == r)
     {
-        if (flag[pos])
-        {
-            flag[pos << 1] += flag[pos];
-            flag[pos << 1 | 1] += flag[pos];
-            data[pos << 1] += flag[pos] * lcnt;
-            data[pos << 1 | 1] += flag[pos] * rcnt;
-            flag[pos] = 0;
-        }
+        sum[cur] += val;
+        return;
     }
 
-    int calSize(int num)
+    int m = ((r - l) >> 1) + l;
+
+    // if mixed
+    // pushdown(cur, m - l + 1, r - m);
+
+    if (pos <= m)
+        update(pos, val, l, m, cur << 1);
+    else
+        update(pos, val, m + 1, r, cur << 1 | 1);
+    pushup(cur);
+}
+
+void update(int ul, int ur, ll val, int l, int r, int cur)
+{
+    if (ul <= l && r <= ur)
     {
-        int i = 1, j = num;
-        while ((j >>= 1) || (i < num))
-            i <<= 1;
-        return i * 2;
+        sum[cur] += val * (r - l + 1);
+        flag[cur] += val;
+        return;
     }
 
-    void build(int l, int r, int cur)
-    {
-        if (l == r)
-        {
-            data[cur] = (*base)[l - 1];
-            return;
-        }
+    int m = ((r - l) >> 1) + l;
+    pushdown(cur, m - l + 1, r - m);
 
-        int m = ((r - l) >> 1) + l;
-        build(l, m, cur << 1);
-        build(m + 1, r, cur << 1 | 1);
-        pushup(cur);
-    }
+    if (ul <= m)
+        update(ul, ur, val, l, m, cur << 1);
+    if (ur > m)
+        update(ul, ur, val, m + 1, r, cur << 1 | 1);
+    pushup(cur);
+}
 
-    void update(int pos, T val, int l, int r, int cur)
-    {
-        if (l == r)
-        {
-            data[cur] += val;
-            return;
-        }
+ll query(int ql, int qr, int l, int r, int cur)
+{
+    if (ql <= l && r <= qr)
+        return sum[cur];
 
-        int m = ((r - l) >> 1) + l;
+    int m = ((r - l) >> 1) + l;
+    pushdown(cur, m - l + 1, r - m);
 
-        // if mixed
-        // pushdown(cur, m - l + 1, r - m);
-
-        if (pos <= m)
-            update(pos, val, l, m, cur << 1);
-        else
-            update(pos, val, m + 1, r, cur << 1 | 1);
-        pushup(cur);
-    }
-
-    void update(int ul, int ur, T val, int l, int r, int cur)
-    {
-        if (ul <= l && r <= ur)
-        {
-            data[cur] += val * (r - l + 1);
-            flag[cur] += val;
-            return;
-        }
-
-        int m = ((r - l) >> 1) + l;
-        pushdown(cur, m - l + 1, r - m);
-
-        if (ul <= m)
-            update(ul, ur, val, l, m, cur << 1);
-        if (ur > m)
-            update(ul, ur, val, m + 1, r, cur << 1 | 1);
-        pushup(cur);
-    }
-
-    T query(int ql, int qr, int l, int r, int cur)
-    {
-        if (ql <= l && r <= qr)
-            return data[cur];
-
-        int m = ((r - l) >> 1) + l;
-        pushdown(cur, m - l + 1, r - m);
-
-        T ans = 0;
-        if (ql <= m)
-            ans += query(ql, qr, l, m, cur << 1);
-        if (qr > m)
-            ans += query(ql, qr, m + 1, r, cur << 1 | 1);
-        return ans;
-    }
-
-  public:
-    void init(vector<T> v)
-    {
-        size = v.size();
-        data.clear();
-        flag.clear();
-        data.resize(calSize(size)); // *4
-        flag.resize(calSize(size));
-        base = &v;
-        build(1, size, 1);
-    }
-
-    void update(int pos, T val)
-    {
-        update(pos, val, 1, size, 1);
-    }
-
-    void update(int ul, int ur, T val)
-    {
-        update(ul, ur, val, 1, size, 1);
-    }
-
-    T query(int l, int r)
-    {
-        return query(l, r, 1, size, 1);
-    }
-};
+    ll ans = 0;
+    if (ql <= m)
+        ans += query(ql, qr, l, m, cur << 1);
+    if (qr > m)
+        ans += query(ql, qr, m + 1, r, cur << 1 | 1);
+    return ans;
+}
 
 int main()
 {
@@ -153,14 +113,10 @@ int main()
     string op;
     ll t, l, r, a;
     cin >> n >> q;
-    vector<ll> v;
-    while (n--)
-    {
-        cin >> t;
-        v.push_back(t);
-    }
-    SegTree<ll> st;
-    st.init(v);
+    for (int i = 1; i <= n; i++)
+        cin >> num[i];
+
+    build(1, n, 1);
 
     while (q--)
     {
@@ -168,12 +124,12 @@ int main()
         if (op == "Q")
         {
             cin >> l >> r;
-            cout << st.query(l, r) << endl;
+            cout << query(l, r, 1, n, 1) << endl;
         }
         else
         {
             cin >> l >> r >> a;
-            st.update(l, r, a);
+            update(l, r, a, 1, n, 1);
         }
     }
 }
