@@ -42,7 +42,7 @@ class UF
         return p;
     }
 
-    void Union(int p, int q)
+    void link(int p, int q)
     {
         int pRoot = find(p);
         int qRoot = find(q);
