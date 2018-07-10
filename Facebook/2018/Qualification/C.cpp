@@ -1,3 +1,6 @@
+// Not Valid Solution
+// Find the where the wrong part is
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -161,7 +164,6 @@ inline void solve()
         vi ne;
         getNext(s, ne);
         int p = 0, flag = false;
-        debug(p);
         FOR(i, 1, ne.size())
         {
             if (!p && ne[i] != 0)
