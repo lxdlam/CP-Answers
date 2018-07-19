@@ -2,23 +2,25 @@
 
 There are Ramen's competitive programming answers.
 
-Most of the codes here are AC codes, but many of them can be optimized. Some of them are just partial solutions. Some of them just stay here. (I will check them later.)
+Most of the codes here are AC codes, but many of them can be greatly optimized. Some of them are just partial solutions. ~~Some of them just stay here. (I will check them later.)~~ All of them should be removed or became AC code, if you still find any, just open a issue to let me know.
 
 Many of them are written under the C++14 standard. I compile them using:
 
-- Clang 6.0.0
-- GCC 8.1
+- Clang 6.0.0 (usually I use this one)
+- GCC 8.1.1
 
-It should work using any compilers which support C++14 well like MSVC++. I don't check if all the codes can run perfectly under C++11 or C++03 standard. Make your own change.
+It should work using any compilers which support C++17 well like MSVC++, and all of its features are support C++14 standard. I don't check if all the codes can run perfectly under C++11 or C++03 standard. Make your own change.
 
-Be careful, I'm moving to C++17 and you will see that my standard answer template include some new feature in C++17. All of its feature support C++11 and above, but only partial support for the older standard.
+You can find my standard answer template under the *My Templates* folder, there are many useful utils for problem solving. The recommend complie arguments are:
 
-Also, I begin using Python to solve problems.
+```shell
+-std=c++17 -O2 -DLOCAL -ferror-limit=3 # If you're using gcc, change the last one into -fmax-errors=3
+```
 
-Python interpreter I'm currently using is:
+Also, I begin using Python to solve problems. The Python interpreter I'm currently using is:
 
-- CPython 3.6.5 (Python 3.6.5)
-- PyPy3 6.0.0 (Python 3.5.3)
+- CPython 3.6.6 (Python 3.6.6)
+- PyPy3 6.0.1 (Python 3.5.3)
 
 Haskell sources files are just remained, no more new Haskell solutions.
 
