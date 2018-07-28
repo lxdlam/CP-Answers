@@ -131,9 +131,6 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
-const int SIZE = 1e5 + 10;
-
-int ans[SIZE];
 
 // Pre-Build Function
 inline void build()
@@ -150,7 +147,6 @@ inline void solve()
     {
         map<int, int> ma;
         map<int, set<int, greater<int>>, greater<int>> mb;
-        memset(ans, 0, sizeof ans);
         cin >> n >> m;
         int ans = -1;
         int total = 0;
