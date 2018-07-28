@@ -2,7 +2,7 @@
 
 using namespace std;
 
-template <class T = int>
+template <class T>
 struct Matrix
 {
     int row;
@@ -100,12 +100,12 @@ Matrix<T> mul(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7)
 
     temp.resize(a.row, b.col);
 
-    for (int i = 0; i < temp.row; i++)
+    for (int i = 0; i < a.row; i++)
     {
-        for (int k = 0; k < temp.col; k++)
+        for (int k = 0; k < a.col; k++)
         {
             auto t = a[i][k] % mod;
-            for (int j = 0; j < temp.col; j++)
+            for (int j = 0; j < b.col; j++)
                 temp[i][j] = (temp[i][j] + t * b[k][j] % mod) % mod;
         }
     }
