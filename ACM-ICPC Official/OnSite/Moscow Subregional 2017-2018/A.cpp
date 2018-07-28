@@ -116,39 +116,40 @@ ll res(ll n, ll x, ll o)
             return LONG_LONG_MAX;
         ans++;
     }
+}
 
-    // Pre-Build Function
-    void build()
-    {
-    }
+// Pre-Build Function
+void build()
+{
+}
 
-    // Actual Solver
-    void solve()
-    {
-        ll n, k;
-        readln(n, k);
-        ll ans = LONG_LONG_MAX;
-        for (int i = 0; i < k; i++)
-            ans = min(ans, res(n, k - i, i));
-        cout << ans << endl;
-    }
+// Actual Solver
+void solve()
+{
+    ll n, k;
+    readln(n, k);
+    ll ans = LONG_LONG_MAX;
+    for (int i = 0; i < k; i++)
+        ans = min(ans, res(n, k - i, i));
+    cout << ans << endl;
+}
 
-    int main()
-    {
-        ios::sync_with_stdio(false);
-        cin.tie(nullptr);
-        cout.tie(nullptr);
-
-#ifdef LOCAL
-        clock_t _begin = clock();
-#endif
-
-        build();
-        solve();
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
 
 #ifdef LOCAL
-        cerr << "Elapsed Time: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+    clock_t _begin = clock();
 #endif
 
-        return 0;
-    }
+    build();
+    solve();
+
+#ifdef LOCAL
+    cerr << "Elapsed Time: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+#endif
+
+    return 0;
+}
