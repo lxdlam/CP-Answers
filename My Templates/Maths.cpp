@@ -25,7 +25,6 @@ void getCom()
         c[i][0] = 1;
         for (int j = 1; j <= i; j++)
             c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
-        // Will be extremely large!
     }
 }
 
@@ -100,6 +99,51 @@ void getPrime()
                 break;
         }
     }
+}
+
+// Euler Phi Function
+// Also calculates the prime table
+ll phi[SIZE + 1];
+
+void getPhi()
+{
+    for (int i = 2; i <= SIZE; i++)
+    {
+        if (!phi[i])
+            phi[prime[++prime[0]] = i] = i - 1;
+        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
+        {
+            if (i % prime[j] == 0)
+            {
+                phi[i * prime[j]] = phi[i] * prime[j];
+                break;
+            }
+            else
+                phi[i * prime[j]] = phi[i] * (prime[j] - 1);
+        }
+    }
+}
+
+// O(sqrt(n)) get phi(n)
+ll Phi(ll n)
+{
+    ll phi = n;
+    for (ll i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            phi /= i;
+            phi *= i - 1;
+            while (n % i == 0)
+                n /= i;
+        }
+    }
+    if (n != 1)
+    {
+        phi /= n;
+        phi *= n - 1;
+    }
+    return phi;
 }
 
 // Factors
@@ -195,4 +239,15 @@ ll fp(ll base, ll expr, ll mod = 1e9 + 7)
 ll inverse(ll a, ll mod = 1e9 + 7)
 {
     return fp(a, mod - 2);
+}
+
+// O(n) inverse
+ll inv[SIZE];
+const ll MOD = 1e9 + 7;
+
+void getInv()
+{
+    inv[1] = 1;
+    for (int i = 2; i <= SIZE; i++)
+        inv[i] = MOD - (MOD / i * inv[MOD % i]) % MOD;
 }
