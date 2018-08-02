@@ -63,6 +63,7 @@
 # Eest sources
 test.cpp
 test.py
+test.hs
 # Data Generators
 gen.py
 generator.py
