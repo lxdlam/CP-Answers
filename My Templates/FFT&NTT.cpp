@@ -52,7 +52,17 @@ namespace NTT
 typedef long long ll;
 typedef std::vector<ll> vll;
 
-ll fp(ll base, ll expr, ll mod = 1e9 + 7)
+/*
+ * P = Rx2^K+1, G is pr
+ * Three recommend choices:
+ * p = 2281701377, r = 17, g = 3, k = 27
+ * p = 1004535809, r = 479, g = 3, k = 21
+ * p = 998244353, r = 119, g = 3, k = 23
+ * For more, see NTT_table.md
+ */
+const int P = 998244353, R = 119, G = 3, K = 23;
+
+ll fp(ll base, ll expr, ll mod = P)
 {
     ll ans = 1;
     base %= mod;
@@ -66,15 +76,34 @@ ll fp(ll base, ll expr, ll mod = 1e9 + 7)
     return ans % mod;
 }
 
-/*
- * P = Rx2^K+1, G is pr
- * Three recommend choices:
- * p = 2281701377, r = 17, g = 3, k = 27
- * p = 1004535809, r = 479, g = 3, k = 21
- * p = 998244353, r = 119, g = 3, k = 23
- * For more, see NTT_table.md
- */
-const int P = 998244353, R = 119, G = 3, K = 23;
+ll add(ll n, ll m)
+{
+    n += m;
+    if (n >= P)
+        n -= P;
+    return n;
+}
+
+ll sub(ll n, ll m)
+{
+    n -= m;
+    if (n < 0)
+        n += P;
+    return n;
+}
+
+ll mul(ll n, ll m)
+{
+    n = (n * m) % P;
+    return n;
+}
+
+ll div(ll n, ll m)
+{
+    ll inv = fp(m, P - 2);
+    n = (n * inv) % P;
+    return n;
+}
 
 void transform(int n, vll &x, bool idft = false)
 {
@@ -111,8 +140,3 @@ void transform(int n, vll &x, bool idft = false)
     }
 }
 } // namespace NTT
-
-int main()
-{
-    return 0;
-}
