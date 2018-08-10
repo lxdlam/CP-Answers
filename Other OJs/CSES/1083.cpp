@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.3.0"
+#define TemplateVersion "3.2.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -86,7 +86,6 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
-#define ALL(x) (x).begin(), (x).end()
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -141,6 +140,17 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    int n;
+    ll t;
+    cin >> n;
+    ll ans = n * 1LL * (n + 1) / 2;
+    debug(ans);
+    FOR(i, 0, n - 1)
+    {
+        cin >> t;
+        ans -= t;
+    }
+    cout << ans << '\n';
 }
 
 int main()

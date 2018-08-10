@@ -107,6 +107,7 @@ ll phi[SIZE + 1];
 
 void getPhi()
 {
+    phi[1] = 1;
     for (int i = 2; i <= SIZE; i++)
     {
         if (!phi[i])

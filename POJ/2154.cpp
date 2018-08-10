@@ -1,8 +1,18 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <algorithm>
+#include <queue>
+#include <ctime>
+#include <iterator>
 
 using namespace std;
 
-#define TemplateVersion "3.3.0"
+#define TemplateVersion "3.2.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -86,7 +96,6 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
-#define ALL(x) (x).begin(), (x).end()
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -132,15 +141,95 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 30010;
+ll g;
+
+ll Mod(ll n, ll m)
+{
+    if (g != 1)
+        return n < m ? n : (n % m + m);
+    else
+        return n % m;
+}
+
+ll fp(ll base, ll expr, ll mod = 1e9 + 7)
+{
+    ll ans = 1;
+    base %= mod;
+    while (expr)
+    {
+        if (expr & 1LL)
+            ans = (ans * base) % mod;
+        base = (base * base) % mod;
+        expr >>= 1LL;
+    }
+    return ans % mod;
+}
+
+int phi[SIZE + 1];
+int prime[SIZE + 1];
+
+void getPhi()
+{
+    phi[1] = 1;
+    for (int i = 2; i <= SIZE; i++)
+    {
+        if (!phi[i])
+            phi[prime[++prime[0]] = i] = i - 1;
+        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
+        {
+            if (i % prime[j] == 0)
+            {
+                phi[i * prime[j]] = phi[i] * prime[j];
+                break;
+            }
+            else
+                phi[i * prime[j]] = phi[i] * (prime[j] - 1);
+        }
+    }
+}
+
+ll gcd(ll a, ll b)
+{
+    return b == 0 ? a : gcd(b, a % b);
+}
 
 // Pre-Build Function
 inline void build()
 {
+    getPhi();
 }
 
 // Actual Solver
 inline void solve()
 {
+    int T;
+    cin >> T;
+    ll x, p;
+    while (T--)
+    {
+        ll ans = 0;
+        ll cnt = 0;
+        cin >> x >> p;
+        g = gcd(x, p);
+        ll Phi = phi[p];
+        for (ll i = 1; i * i <= x; i++)
+        {
+            if (x % i)
+                continue;
+            cnt++;
+            if (i * i == x)
+                ans = (ans + fp(x, Mod(i - 1, Phi), p)) % p;
+            else
+            {
+                cnt++;
+                ll k = x / i;
+                ans = (ans + fp(x, Mod(i - 1, Phi), p)) % p;
+                ans = (ans + fp(x, Mod(k - 1, Phi), p)) % p;
+            }
+        }
+        cout << (ans + x - cnt + p) % p << '\n';
+    }
 }
 
 int main()

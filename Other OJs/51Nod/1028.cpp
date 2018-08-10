@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.3.0"
+#define TemplateVersion "3.2.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -86,7 +86,6 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
-#define ALL(x) (x).begin(), (x).end()
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -132,6 +131,99 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+namespace NTT
+{
+typedef long long ll;
+typedef std::vector<ll> vll;
+
+/*
+ * P = Rx2^K+1, G is pr
+ * Three recommend choices:
+ * p = 2281701377, r = 17, g = 3, k = 27
+ * p = 1004535809, r = 479, g = 3, k = 21
+ * p = 998244353, r = 119, g = 3, k = 23
+ * For more, see NTT_table.md
+ */
+const int P = 998244353, R = 119, G = 3, K = 23;
+
+ll fp(ll base, ll expr, ll mod = P)
+{
+    ll ans = 1;
+    base %= mod;
+    while (expr)
+    {
+        if (expr & 1LL)
+            ans = (ans * base) % mod;
+        base = (base * base) % mod;
+        expr >>= 1LL;
+    }
+    return ans % mod;
+}
+
+ll add(ll n, ll m)
+{
+    n += m;
+    if (n >= P)
+        n -= P;
+    return n;
+}
+
+ll sub(ll n, ll m)
+{
+    n -= m;
+    if (n < 0)
+        n += P;
+    return n;
+}
+
+ll mul(ll n, ll m)
+{
+    n = (n * m) % P;
+    return n;
+}
+
+ll div(ll n, ll m)
+{
+    ll inv = fp(m, P - 2);
+    n = (n * inv) % P;
+    return n;
+}
+
+void transform(int n, vll &x, bool idft = false)
+{
+    for (int i = 0, j = 0; i != n; ++i)
+    {
+        if (i > j)
+            swap(x[i], x[j]);
+        for (int l = n >> 1; (j ^= l) < l; l >>= 1)
+            ;
+    }
+
+    for (int i = 2; i <= n; i <<= 1)
+    {
+        int m = i >> 1;
+        ll eps = fp(G, idft ? (P - 1) / i : P - 1 - (P - 1) / i, P);
+        for (int j = 0; j < n; j += i)
+        {
+            ll t = 1;
+            for (int k = 0; k != m; ++k)
+            {
+                ll z = (x[j + m + k] * t) % P;
+                x[j + m + k] = (x[j + k] - z + P) % P;
+                x[j + k] = (x[j + k] + z) % P;
+                t = (t * eps) % P;
+            }
+        }
+    }
+
+    if (idft)
+    {
+        ll inv = fp(n, P - 2, P);
+        for (int i = 0; i < n; i++)
+            x[i] = x[i] * inv % P;
+    }
+}
+} // namespace NTT
 
 // Pre-Build Function
 inline void build()
@@ -141,6 +233,49 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    string a, b;
+    cin >> a >> b;
+    int lenA = a.size(), lenB = b.size();
+    int p = 1;
+    while (p < lenA + lenB)
+        p <<= 1;
+
+    vll A(p), B(p);
+    FOR(i, 0, lenA)
+    A[lenA - i - 1] = a[i] - '0';
+    FOR(i, 0, lenB)
+    B[lenB - i - 1] = b[i] - '0';
+
+    NTT::transform(p, A);
+    NTT::transform(p, B);
+
+    for (int i = 0; i < p; i++)
+        A[i] = NTT::mul(A[i], B[i]);
+
+    NTT::transform(p, A, true);
+
+    stack<int> s;
+
+    int t = 0;
+    for (auto i : A)
+    {
+        int val = i + t;
+        t = 0;
+        s.push(val % 10);
+        t = val / 10;
+    }
+
+    bool flag = false;
+    while (s.size())
+    {
+        int a = s.top();
+        s.pop();
+        if (!flag && a)
+            flag = true;
+        if (flag)
+            cout << a;
+    }
+    cout << endl;
 }
 
 int main()
