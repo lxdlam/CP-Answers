@@ -60,9 +60,9 @@ typedef std::vector<ll> vll;
  * p = 998244353, r = 119, g = 3, k = 23
  * For more, see NTT_table.md
  */
-const int P = 998244353, R = 119, G = 3, K = 23;
+const int P = 998244353, R = 119, G = 3, K = 2;
 
-ll fp(ll base, ll expr, ll mod = P)
+inline ll fp(ll base, ll expr, ll mod = P)
 {
     ll ans = 1;
     base %= mod;
@@ -76,7 +76,7 @@ ll fp(ll base, ll expr, ll mod = P)
     return ans % mod;
 }
 
-ll add(ll n, ll m)
+inline ll add(ll n, ll m)
 {
     n += m;
     if (n >= P)
@@ -84,7 +84,7 @@ ll add(ll n, ll m)
     return n;
 }
 
-ll sub(ll n, ll m)
+inline ll sub(ll n, ll m)
 {
     n -= m;
     if (n < 0)
@@ -92,17 +92,15 @@ ll sub(ll n, ll m)
     return n;
 }
 
-ll mul(ll n, ll m)
+inline ll mul(ll n, ll m)
 {
-    n = (n * m) % P;
-    return n;
+    return (n % P) * (m % P) % P;
 }
 
-ll div(ll n, ll m)
+inline ll div(ll n, ll m)
 {
     ll inv = fp(m, P - 2);
-    n = (n * inv) % P;
-    return n;
+    return mul(n, inv);
 }
 
 void transform(int n, vll &x, bool idft = false)
@@ -124,10 +122,10 @@ void transform(int n, vll &x, bool idft = false)
             ll t = 1;
             for (int k = 0; k != m; ++k)
             {
-                ll z = (x[j + m + k] * t) % P;
-                x[j + m + k] = (x[j + k] - z + P) % P;
-                x[j + k] = (x[j + k] + z) % P;
-                t = (t * eps) % P;
+                ll z = mul(x[j + m + k], t);
+                x[j + m + k] = sub(x[j + k], z);
+                x[j + k] = add(x[j + k], z);
+                t = mul(t, eps);
             }
         }
     }
@@ -136,7 +134,7 @@ void transform(int n, vll &x, bool idft = false)
     {
         ll inv = fp(n, P - 2, P);
         for (int i = 0; i < n; i++)
-            x[i] = x[i] * inv % P;
+            x[i] = mul(x[i], inv);
     }
 }
 } // namespace NTT
