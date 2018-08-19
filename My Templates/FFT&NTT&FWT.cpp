@@ -47,6 +47,40 @@ void transform(int n, vc &x, const vc &w)
 }
 } // namespace FFT
 
+/* Accelarated FFT
+ * See http://blog.miskcoo.com/2018/01/real-dft for more details
+ * for (int i = 0; i <= n; ++i)
+ * {
+ *     double a;
+ *     std::scanf("%lf", &a);
+ *     A[i] = a;
+ * }
+
+ * for (int i = 0; i <= m; ++i)
+ * {
+ *     double a;
+ *     std::scanf("%lf", &a);
+ *     A[i] += std::complex<double>{0, a};
+ * }
+
+ * int p = 1;
+ * while (p < n + m + 1)
+ *     p <<= 1;
+ * transform(p, A, eps);
+ * for (int i = 1; i != p; ++i)
+ * {
+ *     double x1 = A[i].real(), y1 = A[i].imag();
+ *     double x2 = A[p - i].real(), y2 = A[p - i].imag();
+ *     std::complex<double> a = {(x1 + x2) * 0.5, (y1 - y2) * 0.5};
+ *     std::complex<double> b = {(y1 + y2) * 0.5, -(x1 - x2) * 0.5};
+ *     B[i] = a * b;
+ * }
+
+ * B[0] = A[0].imag() * A[0].real();
+
+ * transform(p, B, eps_inv);
+ */
+
 namespace NTT
 {
 typedef long long ll;
@@ -138,3 +172,54 @@ void transform(int n, vll &x, bool idft = false)
     }
 }
 } // namespace NTT
+
+namespace FWT
+{
+typedef long long ll;
+typedef std::vector<ll> vll;
+
+inline ll fp(ll base, ll expr, ll mod = 1e9 + 7)
+{
+    ll ans = 1;
+    base %= mod;
+    while (expr)
+    {
+        if (expr & 1LL)
+            ans = (ans * base) % mod;
+        base = (base * base) % mod;
+        expr >>= 1LL;
+    }
+    return ans % mod;
+}
+
+void fwt_or(int n, vll &x, bool fwt = true)
+{
+    for (int i = 2; i <= n; i <<= 1)
+        for (int p = i >> 1, j = 0; j < n; j += i)
+            for (int k = j; k < j + p; ++k)
+                x[k + p] += x[k] * (fwt ? 1 : -1);
+}
+
+void fwt_and(int n, vll &x, bool fwt = true)
+{
+    for (int i = 2; i <= n; i <<= 1)
+        for (int p = i >> 1, j = 0; j < n; j += i)
+            for (int k = j; k < j + p; ++k)
+                x[k] += x[k + p] * (fwt ? 1 : -1);
+}
+
+void fwt_xor(int n, vll &x, const ll MOD = 1e9 + 7, bool fwt = true)
+{
+    ll inv2 = fp(2, MOD - 2, MOD);
+    for (int i = 2; i <= n; i <<= 1)
+        for (int p = i >> 1, j = 0; j < n; j += i)
+            for (int k = j; k < j + p; ++k)
+            {
+                int a = x[k], b = x[k + p];
+                x[k] = (a + b) % MOD;
+                x[k + p] = (a - b + MOD) % MOD;
+                if (!fwt)
+                    x[k] = 1LL * x[k] * inv2 % MOD, x[k + p] = 1LL * x[k + p] * inv2 % MOD;
+            }
+}
+} // namespace FWT

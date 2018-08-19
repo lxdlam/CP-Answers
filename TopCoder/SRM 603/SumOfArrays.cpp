@@ -141,19 +141,27 @@ class SumOfArrays
             FOR(j, 0, Max + 1)
             {
                 x[j] += a[j] >= i;
-                y[j] += b[j] >= i;
+                x[j] += FFT::Complex{0, 1.0 * (b[j] >= i)};
             }
 
             FFT::transform(p, x, FFT::eps);
-            FFT::transform(p, y, FFT::eps);
 
-            FOR(j, 0, p)
-            x[j] *= y[j];
+            FOR(j, 1, p)
+            {
+                double x1 = x[j].real(), y1 = x[j].imag();
+                double x2 = x[p - j].real(), y2 = x[p - j].imag();
 
-            FFT::transform(p, x, FFT::inv_eps);
+                FFT::Complex ca = {(x1 + x2) * 0.5, (y1 - y2) * 0.5};
+                FFT::Complex cb = {(y1 + y2) * 0.5, -(x1 - x2) * 0.5};
+                y[j] = ca * cb;
+            }
+
+            y[0] = x[0].imag() * x[0].real();
+
+            FFT::transform(p, y, FFT::inv_eps);
 
             FOR(j, 0, Max + 1)
-            c[j] += (int)(x[j].real() / p + FFT::EPS);
+            c[j] += (int)(y[j].real() / p + FFT::EPS);
         }
 
         int X = -1, Y = 0;
