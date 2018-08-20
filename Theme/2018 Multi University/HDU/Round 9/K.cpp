@@ -136,6 +136,21 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const ll MOD = 998244353;
+
+ll fp(ll base, ll expr, ll mod = 1e9 + 7)
+{
+    ll ans = 1;
+    base %= mod;
+    while (expr)
+    {
+        if (expr & 1LL)
+            ans = (ans * base) % mod;
+        base = (base * base) % mod;
+        expr >>= 1LL;
+    }
+    return ans % mod;
+}
 
 // Pre-Build Function
 inline void build()
@@ -145,6 +160,15 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        int a, b, c, d;
+        readln(a, b, c, d);
+        ll ans = fp(2, a + c, MOD), k = ((b + 1) * fp(2, a, MOD)) % MOD;
+        ans = (ans * (1 + b + d)) % MOD;
+        ans = (ans + fp(2, a + b, MOD)) % MOD;
+        cout << (ans - k + MOD) % MOD << '\n';
+    }
 }
 
 int main()
