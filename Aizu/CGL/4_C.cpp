@@ -282,10 +282,7 @@ struct Line
         return ans;
     }
 
-    int relation(Point p)
-    {
-        return s.relation(e, p);
-    }
+    int relation(Point p) { return s.relation(e, p); }
 
     bool parallel(Line l) { return sgn((e - s) ^ (l.e - l.s)) == 0; }
 
@@ -524,6 +521,81 @@ struct Polygon
 
         if (top == 2 && (conv.ps[0] == conv.ps[1]))
             conv.ps.pop_back();
+    }
+
+    bool isConvex()
+    {
+        bitset<3> s;
+        int n = size();
+        for (int i = 0; i < n; i++)
+        {
+            int j = (i + 1) % n;
+            int k = (j + 1) % n;
+            s.set(sgn((ps[j] - ps[i]) ^ (ps[k] - ps[i])) + 1);
+            if (s[0] && s[2])
+                return false;
+        }
+        return true;
+    }
+
+    // 3 -> On Corner
+    // 2 -> On Edge
+    // 1 -> Inside
+    // 0 -> Outside
+    int relationP(Point q)
+    {
+        int n = size();
+        for (int i = 0; i < n; i++)
+            if (ps[i] == q)
+                return 3;
+        getLines();
+        for (int i = 0; i < n; i++)
+            if (ls[i].disPS(q))
+                return 2;
+        int cnt = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int j = (i + 1) % n;
+            int k = sgn((q - ps[j]) ^ (ps[i] - ps[j]));
+            int u = sgn(ps[i].y - q.y);
+            int v = sgn(ps[j].y - q.y);
+            if (k > 0 && u < 0 && v >= 0)
+                cnt++;
+            if (k < 0 && v < 0 && u >= 0)
+                cnt--;
+        }
+        return cnt != 0;
+    }
+
+    void convexCut(Line l, Polygon &po)
+    {
+        for (int i = 0; i < size(); i++)
+        {
+            int d1 = sgn((l.e - l.s) ^ (ps[i] - l.s));
+            int d2 = sgn((l.e - l.s) ^ (ps[(i + 1) % size()] - l.s));
+            if (d1 >= 0)
+                po.add(ps[i]);
+            if (d1 * d2 < 0)
+                po.add(l.intersec(Line(ps[i], ps[(i + 1) % size()])));
+        }
+    }
+
+    db cir()
+    {
+        int n = size();
+        db sum = 0;
+        for (int i = 0; i < n; i++)
+            sum += ps[i].dis(ps[(i + 1) % n]);
+        return sum;
+    }
+
+    db area()
+    {
+        int n = size();
+        db sum = 0;
+        for (int i = 0; i < n; i++)
+            sum += (ps[i] ^ ps[(i + 1) % n]);
+        return abs(sum) / 2;
     }
 
     void read(int s)
@@ -882,25 +954,20 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    Line l;
-    l.read();
+    cout << fixed << setprecision(10);
+    int n;
+    cin >> n;
+    Polygon g;
+    g.read(n);
     int q;
     cin >> q;
     while (q--)
     {
-        Point p;
-        p.read();
-        int re = l.relation(p);
-        if (re == 1)
-            cout << "COUNTER_CLOCKWISE\n";
-        else if (re == -1)
-            cout << "CLOCKWISE\n";
-        else if (re == -2)
-            cout << "ONLINE_BACK\n";
-        else if (re == 2)
-            cout << "ONLINE_FRONT\n";
-        else
-            cout << "ON_SEGMENT\n";
+        Line l;
+        Polygon p;
+        l.read();
+        g.convexCut(l, p);
+        cout << p.area() << '\n';
     }
 }
 

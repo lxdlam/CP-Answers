@@ -284,7 +284,7 @@ struct Line
 
     int relation(Point p)
     {
-        return s.relation(e, p);
+        return s.relation(p, e);
     }
 
     bool parallel(Line l) { return sgn((e - s) ^ (l.e - l.s)) == 0; }
@@ -882,26 +882,27 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    Line l;
-    l.read();
-    int q;
-    cin >> q;
-    while (q--)
+    cout << fixed << setprecision(0);
+    int n;
+    cin >> n;
+    Polygon p, convex;
+    p.read(n);
+    p.getConvexWithPointOnLine(convex);
+
+    int len = convex.size();
+
+    cout << len << '\n';
+    int pos = 0;
+    FOR(i, 0, len)
     {
-        Point p;
-        p.read();
-        int re = l.relation(p);
-        if (re == 1)
-            cout << "COUNTER_CLOCKWISE\n";
-        else if (re == -1)
-            cout << "CLOCKWISE\n";
-        else if (re == -2)
-            cout << "ONLINE_BACK\n";
-        else if (re == 2)
-            cout << "ONLINE_FRONT\n";
-        else
-            cout << "ON_SEGMENT\n";
+        if (convex.ps[pos].y > convex.ps[i].y)
+            pos = i;
+        if (convex.ps[pos].y == convex.ps[i].y && convex.ps[i].x < convex.ps[pos].x)
+            pos = i;
     }
+
+    FOR(i, 0, len)
+    convex.ps[(pos + i) % len].write('\n');
 }
 
 int main()

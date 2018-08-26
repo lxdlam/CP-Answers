@@ -151,7 +151,8 @@ int sgn(db x)
     return 1;
 }
 
-inline db sqr(db x) { return x * x; }
+inline db Min(db a, db b) { return sgn(a - b) > 0 ? b : a; }
+inline db Max(db a, db b) { return sgn(a - b) > 0 ? a : b; }
 
 // Point/Vector
 struct Point
@@ -233,6 +234,8 @@ struct Point
     void Debug() { cerr << "Point: (" << x << ", " << y << ")\n"; }
 };
 
+db cross(Point a, Point b, Point c) { return (b - a) ^ (c - a); }
+
 // Line
 struct Line
 {
@@ -282,10 +285,7 @@ struct Line
         return ans;
     }
 
-    int relation(Point p)
-    {
-        return s.relation(e, p);
-    }
+    int relation(Point p) { return s.relation(e, p); }
 
     bool parallel(Line l) { return sgn((e - s) ^ (l.e - l.s)) == 0; }
 
@@ -366,185 +366,6 @@ struct Line
     }
 
     void Debug() { cerr << "Line: Start: (" << s.x << ", " << s.y << ") End: (" << e.x << ", " << e.y << ")\n"; }
-};
-
-// Polygon
-struct Polygon
-{
-    // Functor for sorting by polar angle
-    struct cmp
-    {
-        Point p;
-        cmp(const Point &b) { p = b; }
-        bool operator()(const Point &a, const Point &b)
-        {
-            Point x = a, y = b;
-            int d = sgn((x - p) ^ (y - p));
-            if (!d)
-                return sgn(x.dis(p) - y.dis(p)) > 0;
-            return d > 0;
-        }
-    };
-
-    vector<Point> ps;
-    vector<Line> ls;
-
-    Polygon() {}
-
-    void add(Point p) { ps.push_back(p); }
-
-    int size() { return static_cast<int>(ps.size()); }
-
-    void getLines()
-    {
-        int s = size();
-        for (int i = 0; i < s; i++)
-            ls.push_back(Line(ps[i], ps[(i + 1) % s]));
-    }
-
-    void norm()
-    {
-        Point p = ps[0];
-        for (int i = 1; i < size(); i++)
-        {
-            if (p < ps[i])
-                continue;
-            p = ps[i];
-        }
-        sort(ps.begin(), ps.end(), cmp(p));
-    }
-
-    void getConvexJarvis(Polygon &conv)
-    {
-        sort(ps.begin(), ps.end());
-        conv.ps.resize(2 * size());
-
-        int n = size();
-        for (int i = 0; i < min(2, n); i++)
-            conv.ps[i] = ps[i];
-        if (conv.size() == 2 && (conv.ps[0] == conv.ps[1]))
-            conv.ps.resize(1);
-
-        if (n <= 2)
-            return;
-
-        int top = 1;
-
-        for (int i = 2; i < n; i++)
-        {
-            while (top && sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0)
-                top--;
-            conv.ps[++top] = ps[i];
-        }
-
-        int t = top;
-        conv.ps[++top] = ps[n - 2];
-
-        for (int i = n - 3; i >= 0; i--)
-        {
-            while (top != t && sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0)
-                top--;
-            conv.ps[++top] = ps[i];
-        }
-
-        while (conv.size() > top)
-            conv.ps.pop_back();
-
-        if (top == 2 && (conv.ps[0] == conv.ps[1]))
-            conv.ps.pop_back();
-
-        conv.norm(); // Counter Clock-wise
-    }
-
-    void getConvexWithPointOnLine(Polygon &conv)
-    {
-        int m, n = size();
-        if (n < 3)
-        {
-            for (auto i : ps)
-                conv.add(i);
-            return;
-        }
-
-        vector<Point> &g = conv.ps;
-
-        sort(ps.begin(), ps.end());
-        for (int i = 0; i < n; i++)
-        {
-            while ((m = g.size()) >= 2 && g[m - 2].relation(g[m - 1], ps[i]) <= 0)
-                g.pop_back();
-            g.push_back(ps[i]);
-        }
-
-        int t = g.size();
-
-        for (int i = n - 2; i >= 0; i--)
-        {
-            while ((m = g.size()) > t && g[m - 2].relation(g[m - 1], ps[i]) <= 0)
-                g.pop_back();
-            g.push_back(ps[i]);
-        }
-
-        g.pop_back();
-    }
-
-    // Cannot get the point on the edge
-    void getConvexGraham(Polygon &conv)
-    {
-        norm();
-        int top = 0, n = size();
-        if (n == 1)
-        {
-            conv.add(ps[0]);
-            return;
-        }
-
-        if (n == 2)
-        {
-            conv.add(ps[0]);
-            conv.add(ps[1]);
-            if (conv.ps[0] == conv.ps[1])
-                conv.ps.pop_back();
-            return;
-        }
-
-        conv.ps.resize(size());
-        conv.ps[0] = ps[0];
-        conv.ps[1] = ps[1];
-        top = 2;
-        for (int i = 2; i < n; i++)
-        {
-            while (top > 1 && sgn((conv.ps[top - 1] - conv.ps[top - 2]) ^ (ps[i] - conv.ps[top - 2])) <= 0)
-                top--;
-            conv.ps[top++] = ps[i];
-        }
-
-        while (conv.size() > top)
-            conv.ps.pop_back();
-
-        if (top == 2 && (conv.ps[0] == conv.ps[1]))
-            conv.ps.pop_back();
-    }
-
-    void read(int s)
-    {
-        for (int i = 0; i < s; i++)
-        {
-            Point p;
-            p.read();
-            ps.push_back(p);
-        }
-    }
-
-    void Debug()
-    {
-        cerr << "Polygon:\nPoints:\n";
-        for (auto i : ps)
-            i.Debug();
-        cerr << "Lines:\n";
-        for (auto i : ls)
-            i.Debug();
-    }
 };
 
 // Circle
@@ -874,6 +695,337 @@ struct Circle
     void Debug() { cerr << "Circle: Center: (" << p.x << ", " << p.y << ") Radius: " << r << '\n'; }
 };
 
+// Polygon
+struct Polygon
+{
+    // Functor for sorting by polar angle
+    struct cmp
+    {
+        Point p;
+        cmp(const Point &b) { p = b; }
+        bool operator()(const Point &a, const Point &b)
+        {
+            Point x = a, y = b;
+            int d = sgn((x - p) ^ (y - p));
+            if (!d)
+                return sgn(x.dis(p) - y.dis(p)) > 0;
+            return d > 0;
+        }
+    };
+
+    vector<Point> ps;
+    vector<Line> ls;
+
+    Polygon() {}
+
+    void add(Point p) { ps.push_back(p); }
+
+    int size() { return static_cast<int>(ps.size()); }
+
+    void getLines()
+    {
+        int s = size();
+        for (int i = 0; i < s; i++)
+            ls.push_back(Line(ps[i], ps[(i + 1) % s]));
+    }
+
+    void norm()
+    {
+        Point p = ps[0];
+        for (int i = 1; i < size(); i++)
+        {
+            if (p < ps[i])
+                continue;
+            p = ps[i];
+        }
+        sort(ps.begin(), ps.end(), cmp(p));
+    }
+
+    void getConvexJarvis(Polygon &conv)
+    {
+        sort(ps.begin(), ps.end());
+        conv.ps.resize(2 * size());
+
+        int n = size();
+        for (int i = 0; i < min(2, n); i++)
+            conv.ps[i] = ps[i];
+        if (conv.size() == 2 && (conv.ps[0] == conv.ps[1]))
+            conv.ps.resize(1);
+
+        if (n <= 2)
+            return;
+
+        int top = 1;
+
+        for (int i = 2; i < n; i++)
+        {
+            while (top && sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0)
+                top--;
+            conv.ps[++top] = ps[i];
+        }
+
+        int t = top;
+        conv.ps[++top] = ps[n - 2];
+
+        for (int i = n - 3; i >= 0; i--)
+        {
+            while (top != t && sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0)
+                top--;
+            conv.ps[++top] = ps[i];
+        }
+
+        while (conv.size() > top)
+            conv.ps.pop_back();
+
+        if (top == 2 && (conv.ps[0] == conv.ps[1]))
+            conv.ps.pop_back();
+
+        conv.norm(); // Counter Clock-wise
+    }
+
+    void getConvexWithPointOnLine(Polygon &conv)
+    {
+        int m, n = size();
+        if (n < 3)
+        {
+            for (auto i : ps)
+                conv.add(i);
+            return;
+        }
+
+        vector<Point> &g = conv.ps;
+
+        sort(ps.begin(), ps.end());
+        for (int i = 0; i < n; i++)
+        {
+            while ((m = g.size()) >= 2 && g[m - 2].relation(g[m - 1], ps[i]) <= 0)
+                g.pop_back();
+            g.push_back(ps[i]);
+        }
+
+        int t = g.size();
+
+        for (int i = n - 2; i >= 0; i--)
+        {
+            while ((m = g.size()) > t && g[m - 2].relation(g[m - 1], ps[i]) <= 0)
+                g.pop_back();
+            g.push_back(ps[i]);
+        }
+
+        g.pop_back();
+    }
+
+    // Cannot get the point on the edge
+    void getConvexGraham(Polygon &conv)
+    {
+        norm();
+        int top = 0, n = size();
+        if (n == 1)
+        {
+            conv.add(ps[0]);
+            return;
+        }
+
+        if (n == 2)
+        {
+            conv.add(ps[0]);
+            conv.add(ps[1]);
+            if (conv.ps[0] == conv.ps[1])
+                conv.ps.pop_back();
+            return;
+        }
+
+        conv.ps.resize(size());
+        conv.ps[0] = ps[0];
+        conv.ps[1] = ps[1];
+        top = 2;
+        for (int i = 2; i < n; i++)
+        {
+            while (top > 1 && sgn((conv.ps[top - 1] - conv.ps[top - 2]) ^ (ps[i] - conv.ps[top - 2])) <= 0)
+                top--;
+            conv.ps[top++] = ps[i];
+        }
+
+        while (conv.size() > top)
+            conv.ps.pop_back();
+
+        if (top == 2 && (conv.ps[0] == conv.ps[1]))
+            conv.ps.pop_back();
+    }
+
+    bool isConvex()
+    {
+        bitset<3> s;
+        int n = size();
+        for (int i = 0; i < n; i++)
+        {
+            int j = (i + 1) % n;
+            int k = (j + 1) % n;
+            s.set(sgn((ps[j] - ps[i]) ^ (ps[k] - ps[i])) + 1);
+            if (s[0] && s[2])
+                return false;
+        }
+        return true;
+    }
+
+    db diameter()
+    {
+        int q = 1, n = size();
+        db ans = 0;
+        ps.push_back(ps[0]);
+        for (int i = 0; i < n; i++)
+        {
+            while (sgn(cross(ps[i + 1], ps[q + 1], ps[i]) - cross(ps[i + 1], ps[q], ps[i])) > 0)
+                q = (q + 1) % n;
+            ans = Max(ans, Max(ps[i].dis(ps[q]), ps[i + 1].dis(ps[q + 1])));
+        }
+        ps.pop_back();
+        return ans;
+    }
+
+    // 3 -> On Corner
+    // 2 -> On Edge
+    // 1 -> Inside
+    // 0 -> Outside
+    int relationP(Point q)
+    {
+        int n = size();
+        for (int i = 0; i < n; i++)
+            if (ps[i] == q)
+                return 3;
+        getLines();
+        for (int i = 0; i < n; i++)
+            if (!ls[i].relation(q))
+                return 2;
+        int cnt = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int j = (i + 1) % n;
+            int k = sgn((q - ps[j]) ^ (ps[i] - ps[j]));
+            int u = sgn(ps[i].y - q.y);
+            int v = sgn(ps[j].y - q.y);
+            if (k > 0 && u < 0 && v >= 0)
+                cnt++;
+            if (k < 0 && v < 0 && u >= 0)
+                cnt--;
+        }
+        return cnt != 0;
+    }
+
+    void convexCut(Line l, Polygon &po)
+    {
+        for (int i = 0; i < size(); i++)
+        {
+            int d1 = sgn((l.e - l.s) ^ (ps[i] - l.s));
+            int d2 = sgn((l.e - l.s) ^ (ps[(i + 1) % size()] - l.s));
+            if (d1 >= 0)
+                po.add(ps[i]);
+            if (d1 * d2 < 0)
+                po.add(l.intersec(Line(ps[i], ps[(i + 1) % size()])));
+        }
+    }
+
+    db cir()
+    {
+        int n = size();
+        db sum = 0;
+        for (int i = 0; i < n; i++)
+            sum += ps[i].dis(ps[(i + 1) % n]);
+        return sum;
+    }
+
+    db area()
+    {
+        int n = size();
+        db sum = 0;
+        for (int i = 0; i < n; i++)
+            sum += (ps[i] ^ ps[(i + 1) % n]);
+        return abs(sum) / 2;
+    }
+
+    // 0 -> Clock-wise
+    // 1 -> Counter Clock-wise
+    bool dir()
+    {
+        int n = size();
+        db sum = 0;
+        for (int i = 0; i < n; i++)
+            sum += (ps[i] ^ ps[(i + 1) % n]);
+        return sgn(sum) > 0;
+    }
+
+    Point baryCenter()
+    {
+        Point ret;
+        db area = 0;
+        for (int i = 1; i < size() - 1; i++)
+        {
+            db tmp = (ps[i] - ps[0]) ^ (ps[i + 1] - ps[0]);
+            if (sgn(tmp) == 0)
+                continue;
+            area += tmp;
+            ret.x += (ps[0].x + ps[i].x + ps[i + 1].x) / 3 * tmp;
+            ret.y += (ps[0].y + ps[i].y + ps[i + 1].y) / 3 * tmp;
+        }
+        if (sgn(area))
+            ret = ret / area;
+        return ret;
+    }
+
+    db area(Circle c)
+    {
+        double ans = 0;
+        for (int i = 0; i < size(); i++)
+        {
+            int j = (i + 1) % size();
+            if (sgn((ps[j] - c.p) ^ (ps[i] - c.p)) >= 0)
+                ans += c.area(ps[i], ps[j]);
+            else
+                ans -= c.area(ps[i], ps[j]);
+        }
+        return abs(ans);
+    }
+
+    // 2 -> The circle is entirely in the polygon
+    // 1 -> The circle in in the circle and intersected with the boundary
+    // 0 -> Otherwise
+    int relationC(Circle c)
+    {
+        getLines();
+        int x = 2;
+        if (relationP(c.p) != 1)
+            return 0;
+        for (int i = 0; i < size(); i++)
+        {
+            if (c.relationS(ls[i]) == 2)
+                return 0;
+            if (c.relationS(ls[i]) == 1)
+                x = 1;
+        }
+        return x;
+    }
+
+    void read(int s)
+    {
+        for (int i = 0; i < s; i++)
+        {
+            Point p;
+            p.read();
+            ps.push_back(p);
+        }
+    }
+
+    void Debug()
+    {
+        cerr << "Polygon:\nPoints:\n";
+        for (auto i : ps)
+            i.Debug();
+        cerr << "Lines:\n";
+        for (auto i : ls)
+            i.Debug();
+    }
+};
+
 // Pre-Build Function
 inline void build()
 {
@@ -882,26 +1034,13 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    Line l;
-    l.read();
-    int q;
-    cin >> q;
-    while (q--)
-    {
-        Point p;
-        p.read();
-        int re = l.relation(p);
-        if (re == 1)
-            cout << "COUNTER_CLOCKWISE\n";
-        else if (re == -1)
-            cout << "CLOCKWISE\n";
-        else if (re == -2)
-            cout << "ONLINE_BACK\n";
-        else if (re == 2)
-            cout << "ONLINE_FRONT\n";
-        else
-            cout << "ON_SEGMENT\n";
-    }
+    cout << fixed << setprecision(10);
+    int n, r;
+    Polygon g;
+    Circle c;
+    cin >> n >> c.r;
+    g.read(n);
+    cout << g.area(c) << '\n';
 }
 
 int main()

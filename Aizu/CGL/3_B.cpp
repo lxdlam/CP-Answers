@@ -282,10 +282,7 @@ struct Line
         return ans;
     }
 
-    int relation(Point p)
-    {
-        return s.relation(e, p);
-    }
+    int relation(Point p) { return s.relation(e, p); }
 
     bool parallel(Line l) { return sgn((e - s) ^ (l.e - l.s)) == 0; }
 
@@ -524,6 +521,21 @@ struct Polygon
 
         if (top == 2 && (conv.ps[0] == conv.ps[1]))
             conv.ps.pop_back();
+    }
+
+    bool isConvex()
+    {
+        bitset<3> s;
+        int n = size();
+        for (int i = 0; i < n; i++)
+        {
+            int j = (i + 1) % n;
+            int k = (j + 1) % n;
+            s.set(sgn((ps[j] - ps[i]) ^ (ps[k] - ps[i])) + 1);
+            if (s[0] && s[2])
+                return false;
+        }
+        return true;
     }
 
     void read(int s)
@@ -882,26 +894,11 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    Line l;
-    l.read();
-    int q;
-    cin >> q;
-    while (q--)
-    {
-        Point p;
-        p.read();
-        int re = l.relation(p);
-        if (re == 1)
-            cout << "COUNTER_CLOCKWISE\n";
-        else if (re == -1)
-            cout << "CLOCKWISE\n";
-        else if (re == -2)
-            cout << "ONLINE_BACK\n";
-        else if (re == 2)
-            cout << "ONLINE_FRONT\n";
-        else
-            cout << "ON_SEGMENT\n";
-    }
+    int n;
+    cin >> n;
+    Polygon p;
+    p.read(n);
+    cout << p.isConvex() << '\n';
 }
 
 int main()
