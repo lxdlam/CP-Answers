@@ -137,6 +137,9 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 2e5 + 10;
+
+int num[SIZE][7];
 
 // Pre-Build Function
 inline void build()
@@ -146,6 +149,46 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        int n, m, k;
+        readln(n, m, k);
+        FOR(i, 0, n)
+        {
+            cin >> num[i][0];
+            num[i][1] = -INF;
+            FOR(j, 0, k)
+            cin >> num[i][j + 2];
+        }
+        FOR(i, n, n + m)
+        {
+            cin >> num[i][1];
+            num[i][0] = -INF;
+            FOR(j, 0, k)
+            cin >> num[i][j + 2];
+        }
+        k += 2;
+        ll ans = 0;
+        FOR(s, 0, (1 << k))
+        {
+            ll Min = INFLL, Max = -INFLL;
+            FOR(i, 0, n + m)
+            {
+                ll t = 0;
+                FOR(j, 0, k)
+                {
+                    if ((1 << j) & s)
+                        t += num[i][j];
+                    else
+                        t -= num[i][j];
+                }
+                smax(Max, t);
+                smin(Min, t);
+            }
+            smax(ans, Max - Min);
+        }
+        cout << ans - 2 * INF << '\n';
+    }
 }
 
 int main()

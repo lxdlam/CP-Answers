@@ -12,6 +12,11 @@ vc eps(MaxN), inv_eps(MaxN);
 
 void init_eps(int p)
 {
+    if (p > MaxN)
+    {
+        eps.resize(p);
+        inv_eps.resize(p);
+    }
     double pi = acos(-1);
     double angle = 2.0 * pi / p;
     for (int i = 0; i != p; i++)

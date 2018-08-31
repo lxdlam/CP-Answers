@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.4.1"
+#define TemplateVersion "3.4.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -125,7 +125,6 @@ bool se(T &a, T &b)
 }
 // A better MAX choice
 const int INF = 0x3f3f3f3f;
-const long long INFLL = 0x3f3f3f3f3f3f3f3fLL;
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -137,15 +136,60 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 1e6 + 10;
+int sqr[SIZE];
+
+void fp(ll &a, ll &b, ll B, ll expr, ll p)
+{
+    a %= p, b %= p;
+    ll c = a, d = b;
+    expr--;
+    while (expr)
+    {
+        if (expr & 1)
+        {
+            ll ta = (a * c % p + b * d % p * B) % p;
+            ll tb = (a * d % p + b * c % p) % p;
+            a = ta, b = tb;
+        }
+        ll tc = (c * c % p + d * d % p * B) % p;
+        ll td = (2LL * c * d) % p;
+        c = tc, d = td;
+        expr >>= 1LL;
+    }
+}
 
 // Pre-Build Function
 inline void build()
 {
+    FOR(i, 1, SIZE)
+    sqr[i] = 1LL * i * i;
 }
 
 // Actual Solver
 inline void solve()
 {
+    ll a, b, n, p;
+    tcase()
+    {
+        readln(a, b, n, p);
+        p *= 2;
+        int k = 1;
+        for (int i = 2; b != 1 && sqr[i] <= b; i++)
+        {
+            while (b % sqr[i] == 0)
+            {
+                b /= sqr[i];
+                k *= i;
+            }
+        }
+        ll x1 = a, y1 = k;
+        ll x2 = a, y2 = p - k;
+        fp(x1, y1, b, n, p);
+        fp(x2, y2, b, n, p);
+        ll y = (y1 - y2 + p) % p / 2;
+        cout << "1 " << y << ' ' << b << '\n';
+    }
 }
 
 int main()

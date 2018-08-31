@@ -137,6 +137,63 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+namespace FFT
+{
+typedef std::complex<double> Complex;
+typedef std::vector<Complex> vc;
+
+const double EPS = 0.5;
+
+const int MaxL = 18, MaxN = 1 << MaxL;
+vc eps(MaxN), inv_eps(MaxN);
+
+void init_eps(int p)
+{
+    if (p > MaxN)
+    {
+        eps.resize(p);
+        inv_eps.resize(p);
+    }
+    double pi = acos(-1);
+    double angle = 2.0 * pi / p;
+    for (int i = 0; i != p; i++)
+    {
+        eps[i] = Complex(cos(i * angle), sin(i * angle));
+        inv_eps[i] = conj(eps[i]);
+    }
+}
+
+void transform(int n, vc &x, const vc &w)
+{
+    for (int i = 0, j = 0; i != n; ++i)
+    {
+        if (i > j)
+            swap(x[i], x[j]);
+        for (int l = n >> 1; (j ^= l) < l; l >>= 1)
+            ;
+    }
+
+    for (int i = 2; i <= n; i <<= 1)
+    {
+        int m = i >> 1;
+        for (int j = 0; j < n; j += i)
+        {
+            for (int k = 0; k != m; ++k)
+            {
+                Complex z = x[j + m + k] * w[n / i * k];
+                x[j + m + k] = x[j + k] - z;
+                x[j + k] += z;
+            }
+        }
+    }
+}
+} // namespace FFT
+
+map<char, int> id{
+    {'A', 0},
+    {'G', 1},
+    {'C', 2},
+    {'T', 3}};
 
 // Pre-Build Function
 inline void build()
@@ -146,6 +203,72 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    int n, m, k;
+    readln(n, m, k);
+    string s, t;
+    cin >> s >> t;
+    vi flag(n), show(4);
+
+    int cur = 0;
+    FOR(i, 0, k)
+    show[id[s[i]]]++;
+
+    FOR(i, 0, n)
+    {
+        if (i >= k + 1)
+            show[id[s[i - k - 1]]]--;
+        if (i < n - k)
+            show[id[s[i + k]]]++;
+        FOR(p, 0, 4)
+        if (show[p])
+            flag[i] |= (1 << p);
+    }
+
+    int p = 1;
+    while (p < n + m + 1)
+        p <<= 1;
+
+    vi match(p);
+
+    FFT::init_eps(p);
+
+    for (const auto &[x, y] : id)
+    {
+        FFT::vc A(p), B(p);
+
+        FOR(i, 0, n)
+        if (flag[i] & (1 << y))
+            A[i] += 1.0;
+
+        FOR(i, 0, m)
+        if (t[i] == x)
+            A[m - i - 1] += FFT::Complex{0, 1.0};
+
+        FFT::transform(p, A, FFT::eps);
+
+        for (int i = 1; i != p; ++i)
+        {
+            double x1 = A[i].real(), y1 = A[i].imag();
+            double x2 = A[p - i].real(), y2 = A[p - i].imag();
+            std::complex<double> a = {(x1 + x2) * 0.5, (y1 - y2) * 0.5};
+            std::complex<double> b = {(y1 + y2) * 0.5, -(x1 - x2) * 0.5};
+            B[i] = a * b;
+        }
+        B[0] = A[0].imag() * A[0].real();
+
+        FFT::transform(p, B, FFT::inv_eps);
+
+        FOR(i, 0, p)
+        match[i] += (B[i].real() / p + FFT::EPS);
+    }
+
+    int ans = 0;
+
+    for (auto i : match)
+        if (i == m)
+            ans++;
+
+    cout << ans << '\n';
 }
 
 int main()

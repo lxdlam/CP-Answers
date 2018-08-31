@@ -137,6 +137,58 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+namespace FFT
+{
+typedef std::complex<double> Complex;
+typedef std::vector<Complex> vc;
+
+const double EPS = 0.5;
+
+const int MaxL = 18, MaxN = 1 << MaxL;
+vc eps(MaxN), inv_eps(MaxN);
+
+void init_eps(int p)
+{
+    double pi = acos(-1);
+    double angle = 2.0 * pi / p;
+    for (int i = 0; i != p; i++)
+    {
+        eps[i] = Complex(cos(i * angle), sin(i * angle));
+        inv_eps[i] = conj(eps[i]);
+    }
+}
+
+void transform(int n, vc &x, const vc &w)
+{
+    for (int i = 0, j = 0; i != n; ++i)
+    {
+        if (i > j)
+            swap(x[i], x[j]);
+        for (int l = n >> 1; (j ^= l) < l; l >>= 1)
+            ;
+    }
+
+    for (int i = 2; i <= n; i <<= 1)
+    {
+        int m = i >> 1;
+        for (int j = 0; j < n; j += i)
+        {
+            for (int k = 0; k != m; ++k)
+            {
+                Complex z = x[j + m + k] * w[n / i * k];
+                x[j + m + k] = x[j + k] - z;
+                x[j + k] += z;
+            }
+        }
+    }
+}
+} // namespace FFT
+map<char, pair<char, char>> re{
+    {'S', {'P', 'L'}},
+    {'P', {'R', 'K'}},
+    {'R', {'L', 'S'}},
+    {'L', {'K', 'P'}},
+    {'K', {'S', 'R'}}};
 
 // Pre-Build Function
 inline void build()
@@ -146,6 +198,47 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    string s, t;
+    cin >> s >> t;
+    int ls = s.size(), lt = t.size();
+
+    int p = 1;
+    while (p < ls + lt + 1)
+        p <<= 1;
+    FFT::init_eps(p);
+    vi sum(p);
+
+    for (auto rel : re)
+    {
+        FFT::vc x(p), y(p);
+        for (int i = 0; i < lt; i++)
+            if (t[i] == rel.first)
+                x[lt - i - 1] += 1.0; // This convolution is i+j with i, change it into n-i-1 with i
+        for (int i = 0; i < ls; i++)
+            if (s[i] == rel.second.first || s[i] == rel.second.second)
+                x[i] += FFT::Complex{0, 1.0};
+
+        FFT::transform(p, x, FFT::eps);
+
+        for (int i = 1; i != p; ++i)
+        {
+            double x1 = x[i].real(), y1 = x[i].imag();
+            double x2 = x[p - i].real(), y2 = x[p - i].imag();
+            std::complex<double> a = {(x1 + x2) * 0.5, (y1 - y2) * 0.5};
+            std::complex<double> b = {(y1 + y2) * 0.5, -(x1 - x2) * 0.5};
+            y[i] = a * b;
+        }
+        y[0] = x[0].imag() * x[0].real();
+
+        FFT::transform(p, y, FFT::inv_eps);
+
+        for (int i = 0; i < p; i++)
+            sum[i] += (int)(y[i].real() / p + FFT::EPS);
+    }
+    int ans = 0;
+    for (auto i : sum)
+        smax(ans, i);
+    cout << ans << '\n';
 }
 
 int main()
