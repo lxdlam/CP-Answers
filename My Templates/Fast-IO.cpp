@@ -25,6 +25,15 @@ inline void read(T &x)
     if (f)
         x = -x;
 }
+template <>
+inline void read(string &x)
+{
+    stringstream ss;
+    char c;
+    while ((c = gc()) && c != ' ' && c != '\n')
+        ss << c;
+    x = ss.str();
+}
 char Out[MAXSIZE], *cur = Out, *end = Out + MAXSIZE - 100;
 void flush()
 {
@@ -44,6 +53,15 @@ inline void write(T x, char c = '\n')
     } while (x);
     while (top != S)
         *cur++ = *top-- + '0';
+    *cur++ = c;
+    if (cur >= end)
+        flush();
+}
+template <>
+inline void write(string x, char c)
+{
+    for (auto i : x)
+        *cur++ = i;
     *cur++ = c;
     if (cur >= end)
         flush();
