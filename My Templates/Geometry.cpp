@@ -899,3 +899,31 @@ struct Polygon
 };
 
 // Other
+struct Simpson
+{
+    typedef double db;
+
+    // If supports C++11
+    function<db(db)> f = [](db x) -> db {
+        db t = sin(x);
+        return 1.0 / (sqrt(t * t + 3) - t);
+    };
+
+    // Otherwise
+    //db f(db x) { return x * x; }
+
+    db simpson(db L, db R)
+    {
+        db m = (L + R) / 2.0;
+        return (f(L) + 4.0 * f(m) + f(R)) * (R - L) / 6.0;
+    }
+
+    db go(db L, db R, db EPS)
+    {
+        db m = (L + R) / 2.0;
+        db sl = simpson(L, m), sr = simpson(m, R), st = simpson(L, R);
+        if (abs(sl + sr - st) <= 15.0 * EPS)
+            return sl + sr + (sl + sr - st) / 15.0;
+        return go(L, m, EPS / 2.0) + go(m, R, EPS / 2.0);
+    }
+} sim;
