@@ -73,3 +73,30 @@ void dijkstra(int n, int s)
         }
     }
 }
+
+// Link forward star
+void dijkstra(int n, int s)
+{
+    pqii pq;
+    memset(dis, 0x3f, sizeof(dis));
+
+    dis[s] = 0;
+    pq.push(make_pair(0, s));
+
+    while (pq.size())
+    {
+        auto p = pq.top();
+        pq.pop();
+        int x = p.second;
+        if (dis[x] < p.first)
+            continue;
+        for (int i = last[x]; i; i = E[i].next)
+        {
+            if (dis[E[i].to] > dis[x] + E[i].w)
+            {
+                dis[E[i].to] = dis[x] + E[i].w;
+                pq.push(mp(dis[E[i].to], E[i].to));
+            }
+        }
+    }
+}
