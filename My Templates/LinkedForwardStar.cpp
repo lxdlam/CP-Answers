@@ -22,3 +22,17 @@ void add_edge(int u, int v, int w = 1)
     E[cnt].w = w;
     last[u] = cnt;
 }
+
+struct Edge
+{
+    int to, w;
+
+    Edge() : to(0), w(0) {}
+};
+
+vector<Edge> E[SIZE];
+
+void add_edge(int u, int v, int w = 1)
+{
+    E[u].push_back({v, w});
+}
