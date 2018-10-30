@@ -127,7 +127,6 @@ struct Dinic
 struct Dinic
 {
     int s, t, n, m;
-    int cnt;
 
     struct Edge
     {
@@ -141,7 +140,6 @@ struct Dinic
 
     Dinic()
     {
-        cnt = 0;
         memset(dep, 0, sizeof dep);
     }
 
@@ -324,7 +322,6 @@ struct ISAP
 struct ISAP
 {
     int s, t, n, m;
-    int cnt;
 
     struct Edge
     {
@@ -339,7 +336,6 @@ struct ISAP
 
     ISAP()
     {
-        cnt = 0;
         memset(dep, 0, sizeof dep);
         memset(gap, 0, sizeof gap);
     }
@@ -420,7 +416,6 @@ struct ISAP
 struct HLPP
 {
     int s, t, n, m;
-    int cnt;
 
     struct Edge
     {
@@ -448,7 +443,6 @@ struct HLPP
 
     HLPP()
     {
-        cnt = 0;
         memset(h, 0x3f, sizeof h);
         memset(gap, 0, sizeof gap);
         memset(inq, 0, sizeof inq);
@@ -577,7 +571,6 @@ struct HLPP
 struct XHLPP
 {
     int n, m, s, t;
-    int cnt;
     int highest, highestActive;
 
     struct Edge
@@ -594,7 +587,7 @@ struct XHLPP
     list<int> li[MAXN];
     list<int>::iterator iters[MAXN];
 
-    XHLPP() : cnt(0), highest(0), highestActive(0)
+    XHLPP() : highest(0), highestActive(0)
     {
         memset(count, 0, sizeof count);
         memset(ex, 0, sizeof ex);

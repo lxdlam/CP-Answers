@@ -5,13 +5,13 @@ import java.math.BigInteger;
 import java.util.StringTokenizer;
 import java.io.IOException;
 
-public class Main{
+public class Main {
     public static void main(String[] args){
         new Solver().solve(new Reader(System.in));
     }
 }
 
-class Solver{
+class Solver {
     public void solve(Reader in) {
         // codes
     }
