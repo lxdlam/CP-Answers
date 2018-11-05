@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.2.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -86,6 +86,11 @@ void writeln(T a, Args... args)
 #define mp make_pair
 #define pb push_back
 #define eb emplace_back
+#define all(x) (x).begin(), (x).end()
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -120,6 +125,7 @@ bool se(T &a, T &b)
 }
 // A better MAX choice
 const int INF = 0x3f3f3f3f;
+const long long INFLL = 0x3f3f3f3f3f3f3f3fLL;
 
 typedef long long ll;
 typedef unsigned long long ull;
@@ -131,61 +137,16 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
-const int SIZE = 1e5 + 10;
-map<ll, ll> t;
-
-ll num[SIZE];
-
-ll Mod(ll n, ll m)
+struct Node
 {
-    return n < m ? n : (n % m + m);
-}
+    int val;
+    bool A;
 
-ll Phi(ll n)
-{
-    ll k = n;
-    if (!t[n])
+    bool operator<(const Node &n) const
     {
-        ll phi = n;
-        for (ll i = 2; i * i <= n; i++)
-        {
-            if (n % i == 0)
-            {
-                phi /= i;
-                phi *= i - 1;
-                while (n % i == 0)
-                    n /= i;
-            }
-        }
-        if (n != 1)
-        {
-            phi /= n;
-            phi *= n - 1;
-        }
-        t[k] = phi;
+        return val < n.val;
     }
-    return t[k];
-}
-
-ll fp(ll base, ll expr, ll mod = 1e9 + 7)
-{
-    ll ans = 1;
-    while (expr)
-    {
-        if (expr & 1LL)
-            ans = Mod(ans * base, mod);
-        base = Mod(base * base, mod);
-        expr >>= 1LL;
-    }
-    return Mod(ans, mod);
-}
-
-ll work(int l, int r, ll m)
-{
-    if (l == r || m == 1)
-        return Mod(num[l], m);
-    return fp(num[l], work(l + 1, r, Phi(m)), m);
-}
+};
 
 // Pre-Build Function
 inline void build()
@@ -195,18 +156,64 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
-    int n;
-    ll m;
-    readln(n, m);
-    FOR(i, 1, n + 1)
-    cin >> num[i];
-    int q;
-    int l, r;
-    cin >> q;
-    while (q--)
+    tcase()
     {
-        readln(l, r);
-        cout << work(l, r, m) % m << '\n';
+        int n, m, v;
+        cin >> n >> m;
+        vector<Node> num;
+        priority_queue<ll, deque<ll>, greater<ll>> a, b, c;
+        ll ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+            cin >> v;
+            num.pb({v, true});
+        }
+        for (int i = 0; i < m; i++)
+        {
+            cin >> v;
+            num.pb({v, false});
+        }
+        sort(all(num));
+        for (auto it : num)
+        {
+            if (it.A)
+            {
+                if (c.size())
+                {
+                    ll t = c.top();
+                    c.pop();
+                    ans += it.val + t;
+                }
+                else if (b.size())
+                {
+                    ll t = b.top();
+                    if (t + it.val < 0)
+                    {
+                        b.pop();
+                        ans += t + it.val;
+                        a.push(-t - it.val - it.val);
+                    }
+                    else
+                        a.push(-it.val);
+                }
+                else
+                    a.push(-it.val);
+            }
+            else
+            {
+                if (a.size())
+                {
+                    ll t = a.top();
+                    a.pop();
+                    ans += it.val + t;
+                    b.push(-t - it.val - it.val);
+                }
+                else
+                    c.push(-it.val);
+            }
+            debug(ans);
+        }
+        cout << ans << '\n';
     }
 }
 
