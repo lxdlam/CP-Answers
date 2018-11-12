@@ -6,8 +6,8 @@ Most of the codes here are AC codes, but many of them can be greatly optimized. 
 
 Many of them are written under the C++14 standard. I compile them using:
 
-- Clang 6.0.0 (usually I use this one)
-- GCC 8.1.1
+- Clang 7.0.0 (usually I use this one)
+- GCC 8.2.1
 
 It should work using any compilers which support C++17 well like MSVC++, and all of its features are support C++14 standard. I don't check if all the codes can run perfectly under C++11 or C++03 standard. Make your own change.
 
@@ -19,8 +19,8 @@ You can find my standard answer template under the *My Templates* folder, there 
 
 Also, I begin using Python to solve problems. The Python interpreter I'm currently using is:
 
-- CPython 3.6.6 (Python 3.6.6)
-- PyPy3 6.0.1 (Python 3.5.3)
+- CPython 3.7.1 (Python 3.7.1)
+- PyPy3 6.0.0 (Python 3.5.3)
 
 Haskell sources files are just remained, no more new Haskell solutions.
 
