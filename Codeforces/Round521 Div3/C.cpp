@@ -163,13 +163,10 @@ inline void solve()
     }
 
     set<int> ans;
-    set<ll> vis;
 
     for (int i = 0; i < n; i++)
     {
         ll cur = s - 2 * v[i];
-        if (vis.count(cur))
-            continue;
         if (0 <= cur && cur < SIZE && m[cur].size())
             for (auto it : m[cur])
                 if (it != i)

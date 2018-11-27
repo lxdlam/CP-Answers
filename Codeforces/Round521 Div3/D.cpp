@@ -161,8 +161,6 @@ inline void solve()
         cc[i]++;
     }
 
-    int sz = cc.size();
-
     for (auto [x, y] : cc)
     {
         for (int i = 1; i <= y; i++)
