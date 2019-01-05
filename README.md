@@ -4,6 +4,8 @@ There are Ramen's competitive programming answers.
 
 Most of the codes here are AC codes, but many of them can be greatly optimized. Some of them are just partial solutions. ~~Some of them just stay here. (I will check them later.)~~ All of them should be removed or became AC code, if you still find any, just open a issue to let me know.
 
+You can find all my template under `My Templates` folder.
+
 Many of them are written under the C++14 standard. I compile them using:
 
 - Clang 7.0.0 (usually I use this one)
