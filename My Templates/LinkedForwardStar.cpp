@@ -28,6 +28,8 @@ struct Edge
     int to, w;
 
     Edge() : to(0), w(0) {}
+
+    Edge(int _to, int _w) : to(_to), w(_w) {}
 };
 
 vector<Edge> E[SIZE];
