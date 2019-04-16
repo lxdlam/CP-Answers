@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -141,6 +137,19 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 1e6 + 10;
+const int MOD = 1e9 + 7;
+const int INV2 = 5e8 + 4;
+
+inline ll mul(ll a, ll b)
+{
+    return ((a % MOD) * (b % MOD)) % MOD;
+}
+
+inline ll add(ll a, ll b)
+{
+    return ((a % MOD) + (b % MOD)) % MOD;
+}
 
 // Pre-Build Function
 inline void build()
@@ -150,6 +159,23 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    int n;
+    while (cin >> n)
+    {
+        ll ans = 0;
+        ll t;
+
+        for (int i = 1; i <= n; i++)
+        {
+            cin >> t;
+            t = mul(t, i);
+            int k = n - i + 1;
+            t = mul(mul(mul(k, k + 1), INV2), t);
+            ans = add(ans, t);
+        }
+
+        cout << ans << '\n';
+    }
 }
 
 int main()

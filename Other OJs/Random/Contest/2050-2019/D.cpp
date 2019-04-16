@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -141,6 +137,9 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 1e4 + 10;
+
+int rk[SIZE], school[SIZE];
 
 // Pre-Build Function
 inline void build()
@@ -150,6 +149,34 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        memset(rk, 0, sizeof rk);
+        memset(school, 0, sizeof school);
+
+        int n, m, k;
+        cin >> n >> m >> k;
+
+        for (int i = 1; i <= n; i++)
+        {
+            cin >> rk[i];
+            school[rk[i]]++;
+        }
+
+        int ans = 0;
+
+        for (int i = 1; i <= m; i++)
+            school[i] /= k;
+
+        for (int i = 1; i <= n / 2; i++)
+        {
+            if (school[rk[i]] > 0)
+                ans++;
+            school[rk[i]]--;
+        }
+
+        cout << ans << '\n';
+    }
 }
 
 int main()

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -141,6 +137,11 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 3010;
+
+// dp[i][j] -> i coins is head up while j coins is tail up
+double dp[SIZE][SIZE];
+double prob[SIZE];
 
 // Pre-Build Function
 inline void build()
@@ -150,6 +151,33 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    cout << fixed << setprecision(20);
+    int n;
+    cin >> n;
+
+    for (int i = 1; i <= n; i++)
+        cin >> prob[i];
+
+    dp[1][0] = prob[1];
+    dp[0][1] = 1 - prob[1];
+
+    for (int i = 2; i <= n; i++)
+    {
+        for (int up = 0; up <= i; up++)
+        {
+            dp[up][i - up] = 0;
+            if (up >= 1)
+                dp[up][i - up] += dp[up - 1][i - up] * prob[i];
+            if (i - up >= 1)
+                dp[up][i - up] += dp[up][i - up - 1] * (1 - prob[i]);
+        }
+    }
+
+    double ans = 0;
+    for (int i = n; i * 2 > n; i--)
+        ans += dp[i][n - i];
+
+    cout << ans << '\n';
 }
 
 int main()

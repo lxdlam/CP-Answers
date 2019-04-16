@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -141,6 +137,9 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 1e5 + 10;
+
+int pso[SIZE], pst[SIZE], num[SIZE];
 
 // Pre-Build Function
 inline void build()
@@ -150,6 +149,29 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    int n;
+    cin >> n;
+    vector<int> v;
+    pso[0] = pst[0] = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        int t;
+        pso[i] = pso[i - 1];
+        pst[i] = pst[i - 1];
+        cin >> t;
+        if (t == 1)
+            pso[i]++;
+        else if (t == 3)
+            pst[i]++;
+        else
+            v.pb(i);
+    }
+    ull ans = 0;
+
+    for (auto i : v)
+        ans += pso[i] * (pst[n] - pst[i]);
+
+    cout << ans << '\n';
 }
 
 int main()

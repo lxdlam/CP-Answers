@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -141,6 +137,13 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 260;
+
+int board[SIZE >> 2][SIZE >> 2];
+
+bool check(int dis)
+{
+}
 
 // Pre-Build Function
 inline void build()
@@ -150,6 +153,36 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        cout << "Case #" << kase << ": ";
+        int R, C;
+        readln(R, C);
+        for (int i = 1; i <= R; i++)
+        {
+            string s;
+            cin >> s;
+            for (int j = 1; j <= C; j++)
+            {
+                int x = i + j + SIZE;
+                int y = i - j + SIZE;
+                board[i][j] == s[j - 1] == '1';
+            }
+        }
+
+        int l = 0, r = 2 * (R + C);
+
+        while (l < r - 1)
+        {
+            int mid = r - l >> 1;
+            if (check(mid))
+                r = mid;
+            else
+                l = mid + 1;
+        }
+
+        cout << r << '\n';
+    }
 }
 
 int main()

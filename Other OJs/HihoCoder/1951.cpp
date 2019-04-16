@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -141,6 +137,47 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 1e5 + 10;
+const ll MOD = 998244353;
+
+int lch[SIZE], rch[SIZE];
+int prp = 1, pop = 1;
+int pro[SIZE], poo[SIZE];
+
+ll fp(ll base, ll expr)
+{
+    ll ret = 1;
+    base %= MOD;
+    while (expr)
+    {
+        if (expr & 1LL)
+            ret = (ret * base) % MOD;
+        base = (base * base) % MOD;
+        expr >>= 1LL;
+    }
+
+    return ret % MOD;
+}
+
+void pre(int cur)
+{
+    if (cur)
+    {
+        pro[cur] = prp++;
+        pre(lch[cur]);
+        pre(rch[cur]);
+    }
+}
+
+void post(int cur)
+{
+    if (cur)
+    {
+        post(lch[cur]);
+        post(rch[cur]);
+        poo[cur] = pop++;
+    }
+}
 
 // Pre-Build Function
 inline void build()
@@ -150,6 +187,22 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    int n;
+    cin >> n;
+    ll ans = 0;
+    for (int i = 1; i <= n; i++)
+        cin >> lch[i] >> rch[i];
+
+    pre(1);
+    post(1);
+
+    // assert(prp == pop && prp == n);
+
+    for (int i = 1; i <= n; i++)
+        if (pro[i] < poo[i])
+            ans = (ans + fp(2LL, n - pro[i]) - fp(2LL, n - poo[i]) + MOD) % MOD;
+
+    cout << ans << '\n';
 }
 
 int main()

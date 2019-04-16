@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -122,7 +118,7 @@ T cd(T a, T b)
 template <typename T>
 bool se(T &a, T &b)
 {
-    if (a < b)
+    if (a <= b)
         return false;
     swap(a, b);
     return true;
@@ -141,6 +137,9 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 30;
+
+bool vis[SIZE][SIZE];
 
 // Pre-Build Function
 inline void build()
@@ -150,6 +149,81 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        cout << "Case #" << kase << ": ";
+
+        int R, C;
+        cin >> R >> C;
+        bool rev = se(R, C);
+        vector<pii> ans;
+
+        if (R == 2)
+        {
+            if (C <= 4)
+            {
+                cout << "IMPOSSIBLE\n";
+                continue;
+            }
+            else
+            {
+                for (int i = 1; i <= C; i++)
+                {
+                    ans.pb({1, i});
+                    ans.pb({2, (i + 2) % C + 1});
+                }
+            }
+        }
+        else
+        {
+            if (R == 3 && C == 3)
+            {
+                cout << "IMPOSSIBLE\n";
+                continue;
+            }
+            else if ((R == C && R & 1) || R != C)
+            {
+                for (int i = 1; i <= C; i++)
+                {
+                    bool flag = true;
+                    for (int j = 1; j <= R; j++)
+                    {
+                        if (flag)
+                            ans.pb({j, i});
+                        else
+                            ans.pb({j, (i + 1) % C + 1});
+                        flag = !flag;
+                    }
+                }
+            }
+            else
+            {
+                mt19937 rng(chrono::system_clock::now().time_since_epoch().count());
+                memset(vis, false, sizeof vis);
+                int x = -INF, y = INF, p, q;
+                for (int i = 0; i < R * C; i++)
+                {
+                    do
+                    {
+                        p = rng() % R + 1;
+                        q = rng() % C + 1;
+                    } while (vis[p][q] || x == p || y == q || x - y == p - q || x + y == p + q);
+                    ans.pb({p, q});
+                    vis[p][q] = true;
+                    x = p, y = q;
+                }
+            }
+        }
+
+        cout << "POSSIBLE\n";
+        for (auto it : ans)
+        {
+            if (rev)
+                cout << it.second << ' ' << it.first << '\n';
+            else
+                cout << it.first << ' ' << it.second << '\n';
+        }
+    }
 }
 
 int main()

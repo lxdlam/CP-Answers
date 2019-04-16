@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -150,6 +146,28 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    int n;
+    cin >> n;
+    while (n--)
+    {
+        string s;
+        cin >> s;
+        int len = s.size();
+        bool flag = true;
+        for (int i = 0; i < len; i += 4)
+        {
+            if (s.substr(i, 4) != "2050")
+            {
+                flag = false;
+                break;
+            }
+        }
+
+        if (flag)
+            cout << "Yes\n";
+        else
+            cout << "No\n";
+    }
 }
 
 int main()

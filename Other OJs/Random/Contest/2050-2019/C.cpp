@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.5.0"
+#define TemplateVersion "3.4.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,14 +87,10 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define tcase_op(num, ha) \
-    int T;                \
-    cin >> T;             \
-    FOR(kase, 1, T + 1)   \
-    if ((num))            \
-        cout << "Case " << ((ha) ? "#" : "") << kase << ": ";
-#define tcase() tcase_op(false, false)
-#define tcaseN() tcase_op(true, true)
+#define tcase() \
+    int T;      \
+    cin >> T;   \
+    FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b)
@@ -150,6 +146,34 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        ll ans = INFLL;
+        ll n, m, k, a, b, c;
+        cin >> n >> m >> k >> a >> b >> c;
+
+        for (ll p = 0; p <= k; p++)
+        {
+            ll atmp = INFLL, btmp = INFLL;
+            for (ll a2 = 0; a2 <= n + k - p; a2++)
+            {
+                ll a1 = n + k - a2 - p;
+                ll q = (a1 + 1) / 2 * a + (a2 + 2) / 3 * b;
+                smin(atmp, q);
+            }
+
+            for (ll b2 = 0; b2 <= m + k - p; b2++)
+            {
+                ll b1 = m + k - b2 - p;
+                ll q = (b1 + 1) / 2 * a + (b2 + 2) / 3 * b;
+                smin(btmp, q);
+            }
+
+            smin(ans, atmp + btmp + c * p);
+        }
+
+        cout << ans << '\n';
+    }
 }
 
 int main()
