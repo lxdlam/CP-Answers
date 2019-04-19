@@ -137,6 +137,28 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 310;
+int cnt[4], n;
+double dp[SIZE][SIZE][SIZE];
+
+double dfs(int a, int b, int c)
+{
+    if (a == 0 && b == 0 && c == 0)
+        return 0;
+    else if (dp[a][b][c] < 0)
+    {
+        int d = a + b + c;
+        dp[a][b][c] = 1.0 * n / d;
+        if (a)
+            dp[a][b][c] += dfs(a - 1, b, c) * 1.0 * a / d;
+        if (b)
+            dp[a][b][c] += dfs(a + 1, b - 1, c) * 1.0 * b / d;
+        if (c)
+            dp[a][b][c] += dfs(a, b + 1, c - 1) * 1.0 * c / d;
+    }
+
+    return dp[a][b][c];
+}
 
 // Pre-Build Function
 inline void build()
@@ -146,6 +168,16 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    memset(dp, -0x3f, sizeof dp);
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        int t;
+        cin >> t;
+        cnt[t]++;
+    }
+
+    cout << fixed << setprecision(20) << dfs(cnt[1], cnt[2], cnt[3]) << '\n';
 }
 
 int main()

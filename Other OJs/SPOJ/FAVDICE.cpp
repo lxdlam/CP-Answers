@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.6.0"
+#define TemplateVersion "3.5.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -137,6 +137,19 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 1010;
+
+double dp[SIZE];
+
+double cal(int n)
+{
+    dp[n] = 0.0;
+
+    for (int i = n - 1; i >= 0; i--)
+        dp[i] = dp[i + 1] + 1.0 * n / (n - i);
+
+    return dp[0];
+}
 
 // Pre-Build Function
 inline void build()
@@ -146,6 +159,13 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        int n;
+        scanf("%d", &n);
+        memset(dp, 0, sizeof dp);
+        printf("%0.2f\n", cal(n));
+    }
 }
 
 int main()
