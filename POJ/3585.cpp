@@ -1,8 +1,19 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <algorithm>
+#include <queue>
+#include <ctime>
+#include <iterator>
+#include <cassert>
+#include <sstream>
 
 using namespace std;
 
-#define TemplateVersion "3.7.0"
+#define TemplateVersion "3.6.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,8 +98,6 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define clr(x) memset((x), 0, sizeof(x))
-#define infty(x) memset((x), 0x3f, sizeof(x))
 #define tcase()         \
     int T;              \
     cin >> T;           \
@@ -139,6 +148,76 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 4e5 + 10; // Number of edges
+
+struct Edge
+{
+    int next, to, w;
+
+    Edge() : next(0), to(0), w(0) {}
+};
+
+Edge E[SIZE];
+int last[SIZE];
+int cnt = 0;
+int ans[SIZE];
+int dp[SIZE];
+int deg[SIZE];
+
+void add_edge(int u, int v, int w = 1)
+{
+    E[++cnt].next = last[u];
+    E[cnt].to = v;
+    E[cnt].w = w;
+    last[u] = cnt;
+    deg[u]++;
+}
+
+void clear()
+{
+    cnt = 0;
+    memset(E, 0, sizeof E);
+    memset(last, 0, sizeof last);
+    memset(deg, 0, sizeof deg);
+    memset(dp, 0, sizeof dp);
+    memset(ans, 0, sizeof ans);
+}
+
+void dfs(int cur, int fa)
+{
+    for (int i = last[cur]; i; i = E[i].next)
+    {
+        int v = E[i].to;
+        int w = E[i].w;
+        if (v == fa)
+            continue;
+        dfs(v, cur);
+        if (deg[v] == 1)
+            dp[cur] += w;
+        else
+            dp[cur] += min(dp[v], w);
+    }
+}
+
+void update(int cur, int fa)
+{
+    for (int i = last[cur]; i; i = E[i].next)
+    {
+        int v = E[i].to;
+        int w = E[i].w;
+        if (v == fa)
+            continue;
+
+        // assume the current flow is 1 -> 2
+        // now we choose 2 to send flow to 1
+        // then first, cancel the flow from 1: cancel = ans[1] - min(dp[2], w)
+        // in other words, the reverse process from dfs
+        // then we select the possible flow: ans[2] = min(cancel, w)
+        ans[v] = dp[v] + min(ans[cur] - min(dp[v], w), w);
+
+        update(v, cur);
+    }
+}
 
 // Pre-Build Function
 inline void build()
@@ -148,6 +227,42 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    tcase()
+    {
+        int n;
+        cin >> n;
+        int ret = 0;
+
+        clear();
+
+        for (int i = 1; i < n; i++)
+        {
+            int x, y, w;
+            cin >> x >> y >> w;
+            add_edge(x, y, w);
+            add_edge(y, x, w);
+        }
+
+        int root = 1;
+
+        for (int i = 1; i <= n; i++)
+        {
+            if (deg[i] != 1)
+            {
+                root = i;
+                break;
+            }
+        }
+
+        dfs(root, -1);
+        ans[root] = dp[root];
+        update(root, -1);
+
+        for (int i = 1; i <= n; i++)
+            smax(ret, ans[i]);
+
+        cout << ret << '\n';
+    }
 }
 
 int main()

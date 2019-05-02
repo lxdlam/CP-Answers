@@ -139,15 +139,97 @@ typedef vector<string> cb;
 //====================END=====================
 
 // Constants here
+const int SIZE = 1e5 + 10;
+
+int dp[SIZE];
+int ans[SIZE];
+int upd[SIZE];
+vector<int> G[SIZE], pref[SIZE], suf[SIZE];
+
+function<int(int, int)> Mul;
+
+void dfs(int cur, int fa)
+{
+    dp[cur] = 1;
+    int len = G[cur].size();
+    vector<int> fac;
+
+    for (int i = 0; i < len; i++)
+    {
+        int v = G[cur][i];
+        if (v == fa)
+        {
+            fac.pb(1);
+            continue;
+        }
+
+        dfs(v, cur);
+        fac.pb(dp[v] + 1);
+        dp[cur] = Mul(dp[cur], dp[v] + 1);
+    }
+
+    int p = 1, q = 1;
+    pref[cur].pb(1);
+    suf[cur].pb(1);
+    for (int i = 0; i < len; i++)
+    {
+        p = Mul(fac[i], p);
+        q = Mul(fac[len - i - 1], q);
+        pref[cur].pb(p);
+        suf[cur].pb(q);
+    }
+}
+
+void update(int cur, int fa)
+{
+    int len = G[cur].size();
+
+    for (int i = 0; i < len; i++)
+    {
+        int v = G[cur][i];
+        if (v == fa)
+            continue;
+
+        upd[v] = Mul(Mul(pref[cur][i], suf[cur][len - i - 1]), upd[cur]) + 1;
+        ans[v] = Mul(dp[v], upd[v]);
+        update(v, cur);
+    }
+}
 
 // Pre-Build Function
 inline void build()
 {
+    clr(dp);
+    clr(ans);
 }
 
 // Actual Solver
 inline void solve()
 {
+    int N, M;
+    cin >> N >> M;
+
+    Mul = [&M](int a, int b) {
+        ll ans = 1LL * a % M;
+        ans = (ans * b % M) % M;
+        return static_cast<int>(ans % M);
+    };
+
+    for (int i = 1; i < N; i++)
+    {
+        int x, y;
+        readln(x, y);
+        G[x].pb(y);
+        G[y].pb(x);
+    }
+
+    dfs(1, -1);
+    ans[1] = dp[1];
+    upd[1] = 1;
+    update(1, -1);
+
+    for (int i = 1; i <= N; i++)
+        cout << ans[i] << '\n';
 }
 
 int main()

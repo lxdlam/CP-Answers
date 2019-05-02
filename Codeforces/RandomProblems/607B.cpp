@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define TemplateVersion "3.7.0"
+#define TemplateVersion "3.6.0"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
@@ -87,8 +87,6 @@ void writeln(T a, Args... args)
 #define pb push_back
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
-#define clr(x) memset((x), 0, sizeof(x))
-#define infty(x) memset((x), 0x3f, sizeof(x))
 #define tcase()         \
     int T;              \
     cin >> T;           \
@@ -140,6 +138,13 @@ typedef vector<string> cb;
 
 // Constants here
 
+// Microsoft 2019 China summer internship
+// Problem B
+const int SIZE = 510;
+
+int dp[SIZE][SIZE];
+int color[SIZE];
+
 // Pre-Build Function
 inline void build()
 {
@@ -148,6 +153,36 @@ inline void build()
 // Actual Solver
 inline void solve()
 {
+    int n;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+        cin >> color[i];
+
+    for (int i = 1; i <= n; i++)
+        dp[i][i] = 1;
+
+    for (int i = 1; i <= n - 1; i++)
+    {
+        if (color[i] == color[i + 1])
+            dp[i][i + 1] = 1;
+        else
+            dp[i][i + 1] = 2;
+    }
+
+    for (int i = 2; i <= n; i++)
+    {
+        for (int l = 1; l + i <= n; l++)
+        {
+            int r = l + i;
+            dp[l][r] = INF;
+            if (color[l] == color[r])
+                smin(dp[l][r], dp[l + 1][r - 1]);
+            for (int p = l; p < r; p++)
+                smin(dp[l][r], dp[l][p] + dp[p + 1][r]);
+        }
+    }
+
+    cout << dp[1][n] << '\n';
 }
 
 int main()
