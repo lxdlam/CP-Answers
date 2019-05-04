@@ -6,36 +6,29 @@ using namespace std;
 #define FORR(_i, _begin, _end) for (auto _i = _begin; _i > _end; _i--)
 
 template <typename T>
-bool smax(T &a, const T &b)
-{
-    if (a > b)
-        return false;
-    a = b;
-    return true;
+bool smax(T &a, const T &b) {
+  if (a > b) return false;
+  a = b;
+  return true;
 }
 
 template <typename T>
-bool smin(T &a, const T &b)
-{
-    if (a < b)
-        return false;
-    a = b;
-    return true;
+bool smin(T &a, const T &b) {
+  if (a < b) return false;
+  a = b;
+  return true;
 }
 
 template <typename T>
-T cd(T a, T b)
-{
-    return (a + b - 1) / b;
+T cd(T a, T b) {
+  return (a + b - 1) / b;
 }
 
 template <typename T>
-bool se(T &a, T &b)
-{
-    if (a < b)
-        return false;
-    swap(a, b);
-    return true;
+bool se(T &a, T &b) {
+  if (a < b) return false;
+  swap(a, b);
+  return true;
 }
 
 const int INF = 0x3f3f3f3f;
@@ -53,22 +46,18 @@ typedef vector<ll> vll;
 typedef set<int> si;
 typedef vector<string> cb;
 
-class Chains1
-{
-  private:
-    // Constants
+class Chains1 {
+ private:
+  // Constants
 
-    // Useful Inner Method
+  // Useful Inner Method
 
-  public:
-    Chains1()
-    {
-    }
+ public:
+  Chains1() {}
 
-    long long countMaximalChains(int n)
-    {
-        // Solution here
+  long long countMaximalChains(int n) {
+    // Solution here
 
-        return static_cast<long long>(pow(2, n - 1));
-    }
+    return static_cast<long long>(pow(2, n - 1));
+  }
 };

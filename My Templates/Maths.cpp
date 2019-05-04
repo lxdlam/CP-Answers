@@ -8,247 +8,190 @@ typedef long long ll;
 // Factorials
 ll n[SIZE] = {1};
 
-void getFac()
-{
-    for (int i = 1; i < SIZE; i++)
-        n[i] = n[i - 1] * i;
+void getFac() {
+  for (int i = 1; i < SIZE; i++) n[i] = n[i - 1] * i;
 }
 
 // Combinations
 ll c[SIZE][SIZE] = {0};
 
-void getCom()
-{
-    c[0][0] = 1;
-    for (int i = 1; i < SIZE; i++)
-    {
-        c[i][0] = 1;
-        for (int j = 1; j <= i; j++)
-            c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
-    }
+void getCom() {
+  c[0][0] = 1;
+  for (int i = 1; i < SIZE; i++) {
+    c[i][0] = 1;
+    for (int j = 1; j <= i; j++) c[i][j] = c[i - 1][j] + c[i - 1][j - 1];
+  }
 }
 
 // Derangement Problem
 ll d[SIZE];
 
-void getD()
-{
-    ll res;
-    d[1] = 0, d[2] = 1;
-    for (int i = 3; i < SIZE; i++)
-        d[i] = (i - 1) * (d[i - 1] + d[i - 2]);
+void getD() {
+  ll res;
+  d[1] = 0, d[2] = 1;
+  for (int i = 3; i < SIZE; i++) d[i] = (i - 1) * (d[i - 1] + d[i - 2]);
 }
 
 // Euler GCD
-ll gcd(ll a, ll b)
-{
-    return b == 0 ? a : gcd(b, a % b);
-}
+ll gcd(ll a, ll b) { return b == 0 ? a : gcd(b, a % b); }
 
 // Stein GCD
-ll sgcd(ll a, ll b)
-{
-    if (a == 0)
-        return b;
-    if (b == 0)
-        return a;
-    if (a % 2 == 0 && b % 2 == 0)
-        return 2 * sgcd(a >> 1, b >> 1);
-    else if (a % 2 == 0)
-        return sgcd(a >> 1, b);
-    else if (b % 2 == 0)
-        return sgcd(a, b >> 1);
-    else
-        return sgcd(abs(a - b), min(a, b));
+ll sgcd(ll a, ll b) {
+  if (a == 0) return b;
+  if (b == 0) return a;
+  if (a % 2 == 0 && b % 2 == 0)
+    return 2 * sgcd(a >> 1, b >> 1);
+  else if (a % 2 == 0)
+    return sgcd(a >> 1, b);
+  else if (b % 2 == 0)
+    return sgcd(a, b >> 1);
+  else
+    return sgcd(abs(a - b), min(a, b));
 }
 
 // LCM
-ll lcm(ll a, ll b)
-{
-    return a / sgcd(a, b) * b;
-}
+ll lcm(ll a, ll b) { return a / sgcd(a, b) * b; }
 
 // Prime check
 bool notprime[SIZE] = {false};
 
-void init()
-{
-    notprime[0] = notprime[1] = true;
-    for (int i = 2; i < SIZE; i++)
-        if (!notprime[i])
-        {
-            if (i > SIZE / i)
-                continue;
-            for (int j = i * i; j < SIZE; j += i)
-                notprime[j] = true;
-        }
+void init() {
+  notprime[0] = notprime[1] = true;
+  for (int i = 2; i < SIZE; i++)
+    if (!notprime[i]) {
+      if (i > SIZE / i) continue;
+      for (int j = i * i; j < SIZE; j += i) notprime[j] = true;
+    }
 }
 
 // Primes Table
 int prime[SIZE + 1] = {0};
-void getPrime()
-{
-    for (int i = 2; i <= SIZE; i++)
-    {
-        if (!prime[i])
-            prime[++prime[0]] = i;
-        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
-        {
-            prime[prime[j] * i] = 1;
-            if (i % prime[j] == 0)
-                break;
-        }
+void getPrime() {
+  for (int i = 2; i <= SIZE; i++) {
+    if (!prime[i]) prime[++prime[0]] = i;
+    for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++) {
+      prime[prime[j] * i] = 1;
+      if (i % prime[j] == 0) break;
     }
+  }
 }
 
 // Euler Phi Function
 // Also calculates the prime table
 ll phi[SIZE + 1];
 
-void getPhi()
-{
-    phi[1] = 1;
-    for (int i = 2; i <= SIZE; i++)
-    {
-        if (!phi[i])
-            phi[prime[++prime[0]] = i] = i - 1;
-        for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++)
-        {
-            if (i % prime[j] == 0)
-            {
-                phi[i * prime[j]] = phi[i] * prime[j];
-                break;
-            }
-            else
-                phi[i * prime[j]] = phi[i] * (prime[j] - 1);
-        }
+void getPhi() {
+  phi[1] = 1;
+  for (int i = 2; i <= SIZE; i++) {
+    if (!phi[i]) phi[prime[++prime[0]] = i] = i - 1;
+    for (int j = 1; j <= prime[0] && prime[j] <= SIZE / i; j++) {
+      if (i % prime[j] == 0) {
+        phi[i * prime[j]] = phi[i] * prime[j];
+        break;
+      } else
+        phi[i * prime[j]] = phi[i] * (prime[j] - 1);
     }
+  }
 }
 
 // O(sqrt(n)) get phi(n)
-ll Phi(ll n)
-{
-    ll phi = n;
-    for (ll i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            phi /= i;
-            phi *= i - 1;
-            while (n % i == 0)
-                n /= i;
-        }
+ll Phi(ll n) {
+  ll phi = n;
+  for (ll i = 2; i * i <= n; i++) {
+    if (n % i == 0) {
+      phi /= i;
+      phi *= i - 1;
+      while (n % i == 0) n /= i;
     }
-    if (n != 1)
-    {
-        phi /= n;
-        phi *= n - 1;
-    }
-    return phi;
+  }
+  if (n != 1) {
+    phi /= n;
+    phi *= n - 1;
+  }
+  return phi;
 }
 
 // Factors
 ll factor[100][2];
 int fatCnt;
-int getFactors(ll x)
-{
-    fatCnt = 0;
-    ll tmp = x;
-    for (int i = 1; prime[i] <= tmp / prime[i]; i++)
-    {
-        factor[fatCnt][1] = 0;
-        if (tmp % prime[i] == 0)
-        {
-            factor[fatCnt][0] = prime[i];
-            while (tmp % prime[i] == 0)
-            {
-                factor[fatCnt][1]++;
-                tmp /= prime[i];
-            }
-            fatCnt++;
-        }
+int getFactors(ll x) {
+  fatCnt = 0;
+  ll tmp = x;
+  for (int i = 1; prime[i] <= tmp / prime[i]; i++) {
+    factor[fatCnt][1] = 0;
+    if (tmp % prime[i] == 0) {
+      factor[fatCnt][0] = prime[i];
+      while (tmp % prime[i] == 0) {
+        factor[fatCnt][1]++;
+        tmp /= prime[i];
+      }
+      fatCnt++;
     }
-    if (tmp != 1)
-    {
-        factor[fatCnt][0] = tmp;
-        factor[fatCnt++][1] = 1;
-    }
-    return fatCnt;
+  }
+  if (tmp != 1) {
+    factor[fatCnt][0] = tmp;
+    factor[fatCnt++][1] = 1;
+  }
+  return fatCnt;
 }
 
 // Extend GCD
-ll extend_gcd(ll a, ll b, ll &x, ll &y)
-{
-    if (a == 0 && b == 0)
-        return -1;
-    if (b == 0)
-    {
-        x = 1;
-        y = 0;
-        return a;
-    }
-    ll d = extend_gcd(b, a % b, y, x);
-    y -= a / b * x;
-    return d;
+ll extend_gcd(ll a, ll b, ll &x, ll &y) {
+  if (a == 0 && b == 0) return -1;
+  if (b == 0) {
+    x = 1;
+    y = 0;
+    return a;
+  }
+  ll d = extend_gcd(b, a % b, y, x);
+  y -= a / b * x;
+  return d;
 }
 
 // Inverse element
-ll mod_reverse(ll a, ll n)
-{
-    ll x, y;
-    ll d = extend_gcd(a, n, x, y);
-    if (d == 1)
-        return (x % n + n) % n;
-    else
-        return -1;
+ll mod_reverse(ll a, ll n) {
+  ll x, y;
+  ll d = extend_gcd(a, n, x, y);
+  if (d == 1)
+    return (x % n + n) % n;
+  else
+    return -1;
 }
 
 // Solve a*x + b*y = n
-ll cal(ll a, ll b, ll n)
-{
-    ll x, y;
-    ll gcd = extend_gcd(a, b, x, y);
-    if (n % gcd != 0)
-        return -1;
-    x *= n / gcd;
-    b /= gcd;
-    if (b < 0)
-        b = -b;
-    ll ans = x % b;
-    if (ans <= 0)
-        ans += b;
-    return ans;
-    // answer:
-    // x = ans, y = (n - ans * a) / b
+ll cal(ll a, ll b, ll n) {
+  ll x, y;
+  ll gcd = extend_gcd(a, b, x, y);
+  if (n % gcd != 0) return -1;
+  x *= n / gcd;
+  b /= gcd;
+  if (b < 0) b = -b;
+  ll ans = x % b;
+  if (ans <= 0) ans += b;
+  return ans;
+  // answer:
+  // x = ans, y = (n - ans * a) / b
 }
 
 // Fast pow
-ll fp(ll base, ll expr, ll mod = 1e9 + 7)
-{
-    ll ans = 1;
-    base %= mod;
-    while (expr)
-    {
-        if (expr & 1LL)
-            ans = (ans * base) % mod;
-        base = (base * base) % mod;
-        expr >>= 1LL;
-    }
-    return ans % mod;
+ll fp(ll base, ll expr, ll mod = 1e9 + 7) {
+  ll ans = 1;
+  base %= mod;
+  while (expr) {
+    if (expr & 1LL) ans = (ans * base) % mod;
+    base = (base * base) % mod;
+    expr >>= 1LL;
+  }
+  return ans % mod;
 }
 
-ll inverse(ll a, ll mod = 1e9 + 7)
-{
-    return fp(a, mod - 2);
-}
+ll inverse(ll a, ll mod = 1e9 + 7) { return fp(a, mod - 2); }
 
 // O(n) inverse
 ll inv[SIZE];
 const ll MOD = 1e9 + 7;
 
-void getInv()
-{
-    inv[1] = 1;
-    for (int i = 2; i <= SIZE; i++)
-        inv[i] = MOD - (MOD / i * inv[MOD % i]) % MOD;
+void getInv() {
+  inv[1] = 1;
+  for (int i = 2; i <= SIZE; i++) inv[i] = MOD - (MOD / i * inv[MOD % i]) % MOD;
 }

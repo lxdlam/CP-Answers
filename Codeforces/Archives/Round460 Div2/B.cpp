@@ -5,9 +5,14 @@
 #define FOR(_i, _s, _e) for (int _i = _s; _i < _e; _i++)
 #ifdef LOCAL
 #define debug1(_a) cout << #_a << ": " << _a << endl
-#define debug2(_a, _b) cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << endl
-#define debug3(_a, _b, _c) cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " << _c << " " << endl
-#define debug4(_a, _b, _c, _d) cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " << _c << " " << #_d << ": " << _d << " " << endl
+#define debug2(_a, _b) \
+  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << endl
+#define debug3(_a, _b, _c)                                                    \
+  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " \
+       << _c << " " << endl
+#define debug4(_a, _b, _c, _d)                                                \
+  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " \
+       << _c << " " << #_d << ": " << _d << " " << endl
 #else
 #define debug1(_a)
 #define debug2(_a, _b)
@@ -24,21 +29,18 @@
 #endif
 #if __cplusplus > 201402L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : v)            \
-        cin >> i;
+  vector<_kind> _name(_size);    \
+  for (auto &i : v) cin >> i;
 #elif __cpluscplus > 201103L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name;         \
-    _name.resize(_size);         \
-    for (auto &i : v)            \
-        cin >> i;
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (auto &i : v) cin >> i;
 #else
-#define VIS(_kind, _name, _size)    \
-    vector<_kind> _name;            \
-    _name.resize(_size);            \
-    for (int i = 0; i < _size; i++) \
-        cin >> v[i];
+#define VIS(_kind, _name, _size) \
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (int i = 0; i < _size; i++) cin >> v[i];
 #endif
 //====================END=====================
 
@@ -56,51 +58,45 @@ const int SIZE = 2e7 + 10;
 
 vi vis;
 
-bool check(int num)
-{
-    int res = 0;
-    while (num)
-    {
-        res += num % 10;
-        num /= 10;
-    }
-    if (res == 10)
-        return true;
-    return false;
+bool check(int num) {
+  int res = 0;
+  while (num) {
+    res += num % 10;
+    num /= 10;
+  }
+  if (res == 10) return true;
+  return false;
 }
 
 // Pre-Build Function
-void build()
-{
-    for (int i = 0; i < SIZE; i++)
-        if (check(i))
-            vis.emplace_back(i);
+void build() {
+  for (int i = 0; i < SIZE; i++)
+    if (check(i)) vis.emplace_back(i);
 }
 
 // Actual Solver
-void solve()
-{
-    int n;
-    cin >> n;
-    cout << vis[n - 1] << endl;
+void solve() {
+  int n;
+  cin >> n;
+  cout << vis[n - 1] << endl;
 }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cout.tie(nullptr);
 
 #ifdef LOCAL
-    clock_t begin = clock();
+  clock_t begin = clock();
 #endif
 
-    build();
-    solve();
+  build();
+  solve();
 
 #ifdef LOCAL
-    cout << "Runtime: " << (double)(clock() - begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+  cout << "Runtime: " << (double)(clock() - begin) * 1000 / CLOCKS_PER_SEC
+       << "ms." << endl;
 #endif
 
-    return 0;
+  return 0;
 }

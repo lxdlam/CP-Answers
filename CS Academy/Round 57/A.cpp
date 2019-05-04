@@ -9,23 +9,20 @@ const int SIZE = 26 + 10;
 
 int ti[SIZE] = {0};
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cout.tie(0);
 
-    string t;
-    cin >> t;
-    for (int i = 0; i < 26; i++)
-        cin >> ti[i];
+  string t;
+  cin >> t;
+  for (int i = 0; i < 26; i++) cin >> ti[i];
 
-    int res = 0;
+  int res = 0;
 
-    for (auto i : t)
-        res += ti[i - 'a'];
+  for (auto i : t) res += ti[i - 'a'];
 
-    cout << res << endl;
+  cout << res << endl;
 
-    return 0;
+  return 0;
 }

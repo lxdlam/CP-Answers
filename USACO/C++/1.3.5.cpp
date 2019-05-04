@@ -7,14 +7,11 @@ LANG: C++11
 
 using namespace std;
 
-int main()
-{
-    ifstream fin("wormhole.in");
-    ofstream fout("wormhole.out");
+int main() {
+  ifstream fin("wormhole.in");
+  ofstream fout("wormhole.out");
 
-    
-
-    fin.close();
-    fout.close();
-    return 0;
+  fin.close();
+  fout.close();
+  return 0;
 }

@@ -3,10 +3,9 @@
 
 using namespace std;
 
-int main()
-{
-    int a;
-    cin >> a;
-    cout << a * (a + 2) << endl;
-    return 0;
+int main() {
+  int a;
+  cin >> a;
+  cout << a * (a + 2) << endl;
+  return 0;
 }

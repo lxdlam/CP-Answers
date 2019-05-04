@@ -7,22 +7,19 @@ using namespace std;
 //====================START=====================
 // Compile use C++11 and above
 #ifdef LOCAL
-#define debug(args...)                           \
-    {                                            \
-        string _s = #args;                       \
-        replace(_s.begin(), _s.end(), ',', ' '); \
-        stringstream _ss(_s);                    \
-        istream_iterator<string> _it(_ss);       \
-        err(_it, args);                          \
-    }
-void err(istream_iterator<string> it)
-{
-}
+#define debug(args...)                       \
+  {                                          \
+    string _s = #args;                       \
+    replace(_s.begin(), _s.end(), ',', ' '); \
+    stringstream _ss(_s);                    \
+    istream_iterator<string> _it(_ss);       \
+    err(_it, args);                          \
+  }
+void err(istream_iterator<string> it) {}
 template <typename T, typename... Args>
-void err(istream_iterator<string> it, T a, Args... args)
-{
-    cerr << *it << " = " << a << endl;
-    err(++it, args...);
+void err(istream_iterator<string> it, T a, Args... args) {
+  cerr << *it << " = " << a << endl;
+  err(++it, args...);
 }
 #define MSG cout << "Finished" << endl
 #else
@@ -31,35 +28,26 @@ void err(istream_iterator<string> it, T a, Args... args)
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args)
-{
-    ((cin >> args), ...);
+void readln(Args &... args) {
+  ((cin >> args), ...);
 }
 template <typename... Args>
-void writeln(Args... args)
-{
-    ((cout << args << " "), ...);
-    cout << endl;
+void writeln(Args... args) {
+  ((cout << args << " "), ...);
+  cout << endl;
 }
 #elif __cplusplus >= 201103L
-void readln()
-{
-}
+void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args)
-{
-    cin >> a;
-    readln(args...);
+void readln(T &a, Args &... args) {
+  cin >> a;
+  readln(args...);
 }
-void writeln()
-{
-    cout << endl;
-}
+void writeln() { cout << endl; }
 template <typename T, typename... Args>
-void writeln(T a, Args... args)
-{
-    cout << a << " ";
-    writeln(args...);
+void writeln(T a, Args... args) {
+  cout << a << " ";
+  writeln(args...);
 }
 #endif
 #if __cplusplus >= 201103L
@@ -72,15 +60,13 @@ void writeln(T a, Args... args)
 #endif
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : _name)        \
-        cin >> i;
+  vector<_kind> _name(_size);    \
+  for (auto &i : _name) cin >> i;
 #else
-#define VIS(_kind, _name, _size)    \
-    vector<_kind> _name;            \
-    _name.resize(_size);            \
-    for (int i = 0; i < _size; i++) \
-        cin >> _name[i];
+#define VIS(_kind, _name, _size) \
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (int i = 0; i < _size; i++) cin >> _name[i];
 #endif
 // alias
 #define mp make_pair
@@ -88,35 +74,28 @@ void writeln(T a, Args... args)
 #define eb emplace_back
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b)
-{
-    if (a > b)
-        return false;
-    a = b;
-    return true;
+bool smax(T &a, const T &b) {
+  if (a > b) return false;
+  a = b;
+  return true;
 }
 template <typename T>
-bool smin(T &a, const T &b)
-{
-    if (a < b)
-        return false;
-    a = b;
-    return true;
+bool smin(T &a, const T &b) {
+  if (a < b) return false;
+  a = b;
+  return true;
 }
 // ceil divide
 template <typename T>
-T cd(T a, T b)
-{
-    return (a + b - 1) / b;
+T cd(T a, T b) {
+  return (a + b - 1) / b;
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b)
-{
-    if (a < b)
-        return false;
-    swap(a, b);
-    return true;
+bool se(T &a, T &b) {
+  if (a < b) return false;
+  swap(a, b);
+  return true;
 }
 // A better MAX choice
 const int INF = 0x3f3f3f3f;
@@ -132,174 +111,135 @@ typedef vector<string> cb;
 
 // Constants here
 template <class T = int>
-struct Matrix
-{
-    int row;
-    int col;
-    vector<vector<T>> data;
+struct Matrix {
+  int row;
+  int col;
+  vector<vector<T>> data;
 
-    Matrix(int _row = 0, int _col = 0)
-    {
-        resize(_row, _col);
-    }
+  Matrix(int _row = 0, int _col = 0) { resize(_row, _col); }
 
-    Matrix(vector<vector<T>> d)
-    {
-        row = d.size();
-        col = d[0].size();
-        data.resize(row);
-        for (int i = 0; i < row; i++)
-            for (int j = 0; j < col; j++)
-                data[i].push_back(d[i][j]);
-    }
+  Matrix(vector<vector<T>> d) {
+    row = d.size();
+    col = d[0].size();
+    data.resize(row);
+    for (int i = 0; i < row; i++)
+      for (int j = 0; j < col; j++) data[i].push_back(d[i][j]);
+  }
 
-    void resize(int _row, int _col)
-    {
-        row = _row;
-        col = _col;
-        data.resize(row);
-        for (auto &i : data)
-            i.resize(col);
-    }
+  void resize(int _row, int _col) {
+    row = _row;
+    col = _col;
+    data.resize(row);
+    for (auto &i : data) i.resize(col);
+  }
 
-    T trace()
-    {
-        if (col != row)
-            return -1;
-        T ans = 0;
-        for (int i = 0; i < row; i++)
-            ans += data[i][i];
-        return ans;
-    }
+  T trace() {
+    if (col != row) return -1;
+    T ans = 0;
+    for (int i = 0; i < row; i++) ans += data[i][i];
+    return ans;
+  }
 
-    vector<T> &operator[](int pos)
-    {
-        return ref(data[pos]);
-    }
+  vector<T> &operator[](int pos) { return ref(data[pos]); }
 
-    Matrix<T> operator-()
-    {
-        Matrix t(this->data);
-        for (auto &i : t.data)
-        {
-            for (auto &j : i)
-            {
-                j = -j;
-            }
-        }
-        return t;
+  Matrix<T> operator-() {
+    Matrix t(this->data);
+    for (auto &i : t.data) {
+      for (auto &j : i) {
+        j = -j;
+      }
     }
+    return t;
+  }
 
-    bool empty()
-    {
-        return row == 0 || col == 0;
-    }
+  bool empty() { return row == 0 || col == 0; }
 };
 
 template <class T>
-Matrix<T> add(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7)
-{
-    Matrix<T> temp;
+Matrix<T> add(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7) {
+  Matrix<T> temp;
 
-    if (a.row != b.row || a.col != b.col)
-        return temp;
+  if (a.row != b.row || a.col != b.col) return temp;
 
-    temp.resize(a.row, a.col);
+  temp.resize(a.row, a.col);
 
-    for (int i = 0; i < temp.row; i++)
-    {
-        for (int j = 0; j < temp.col; j++)
-            temp[i][j] = (a[i][j] + b[i][j]) % mod;
-    }
+  for (int i = 0; i < temp.row; i++) {
+    for (int j = 0; j < temp.col; j++) temp[i][j] = (a[i][j] + b[i][j]) % mod;
+  }
 }
 
 template <class T>
-Matrix<T> minus(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7)
-{
-    return add(a, -b);
+Matrix<T> minus(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7) {
+  return add(a, -b);
 }
 
 template <class T>
-Matrix<T> mul(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7)
-{
-    Matrix<T> temp;
+Matrix<T> mul(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7) {
+  Matrix<T> temp;
 
-    if (a.col != b.row)
-        return temp;
+  if (a.col != b.row) return temp;
 
-    temp.resize(a.row, b.col);
+  temp.resize(a.row, b.col);
 
-    for (int i = 0; i < temp.row; i++)
-    {
-        for (int k = 0; k < temp.col; k++)
-        {
-            auto t = a[i][k] % mod;
-            for (int j = 0; j < temp.col; j++)
-                temp[i][j] = (temp[i][j] + t * b[k][j] % mod) % mod;
-        }
+  for (int i = 0; i < temp.row; i++) {
+    for (int k = 0; k < temp.col; k++) {
+      auto t = a[i][k] % mod;
+      for (int j = 0; j < temp.col; j++)
+        temp[i][j] = (temp[i][j] + t * b[k][j] % mod) % mod;
     }
+  }
 
-    return temp;
+  return temp;
 }
 
 template <class T>
-Matrix<T> fp(Matrix<T> base, T expr, T mod = 1e9 + 7)
-{
-    
-    Matrix<T> ans(base.data), t(base.data);
-    expr--;
-    while (expr)
-    {
-        if (expr & 1LL)
-            ans = mul(ans, t, mod);
-        t = mul(t, t, mod);
-        expr >>= 1LL;
-    }
-    return ans;
+Matrix<T> fp(Matrix<T> base, T expr, T mod = 1e9 + 7) {
+  Matrix<T> ans(base.data), t(base.data);
+  expr--;
+  while (expr) {
+    if (expr & 1LL) ans = mul(ans, t, mod);
+    t = mul(t, t, mod);
+    expr >>= 1LL;
+  }
+  return ans;
 }
 
 // Pre-Build Function
-inline void build()
-{
-}
+inline void build() {}
 
 // Actual Solver
-inline void solve()
-{
-    int T;
-    cin >> T;
-    while (T--)
-    {
-        int n, k;
-        cin >> n >> k;
-        Matrix<int> mat(n, n), ans;
-        for (auto &i : mat.data)
-            for (auto &j : i)
-                cin >> j;
-        ans = fp(mat, k, 9973);
-        int t = 0;
-        for (int i = 0; i < ans.row; i++)
-            t = (t + ans.data[i][i]) % 9973;
-        cout << t << '\n';
-    }
+inline void solve() {
+  int T;
+  cin >> T;
+  while (T--) {
+    int n, k;
+    cin >> n >> k;
+    Matrix<int> mat(n, n), ans;
+    for (auto &i : mat.data)
+      for (auto &j : i) cin >> j;
+    ans = fp(mat, k, 9973);
+    int t = 0;
+    for (int i = 0; i < ans.row; i++) t = (t + ans.data[i][i]) % 9973;
+    cout << t << '\n';
+  }
 }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cout.tie(nullptr);
 
 #ifdef LOCAL
-    clock_t _begin = clock();
+  clock_t _begin = clock();
 #endif
 
-    build();
-    solve();
+  build();
+  solve();
 
 #ifdef LOCAL
-    cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
+       << "ms." << endl;
 #endif
 
-    return 0;
+  return 0;
 }

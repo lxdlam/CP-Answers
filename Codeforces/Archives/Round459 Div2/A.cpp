@@ -11,21 +11,18 @@
 #endif
 #if __cplusplus > 201402L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : v)            \
-        cin >> i;
+  vector<_kind> _name(_size);    \
+  for (auto &i : v) cin >> i;
 #elif __cpluscplus > 201103L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name;         \
-    _name.resize(_size);         \
-    for (auto &i : v)            \
-        cin >> i;
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (auto &i : v) cin >> i;
 #else
-#define VIS(_kind, _name, _size)    \
-    vector<_kind> _name;            \
-    _name.resize(_size);            \
-    for (int i = 0; i < _size; i++) \
-        cin >> v[i];
+#define VIS(_kind, _name, _size) \
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (int i = 0; i < _size; i++) cin >> v[i];
 #endif
 
 using namespace std;
@@ -43,34 +40,30 @@ int fib[SIZE] = {0, 1, 1};
 
 set<int> s;
 
-void init()
-{
-    s.insert(1);
-    for (int i = 3; i < SIZE; i++)
-    {
-        fib[i] = fib[i - 1] + fib[i - 2];
-        s.insert(fib[i]);
-    }
+void init() {
+  s.insert(1);
+  for (int i = 3; i < SIZE; i++) {
+    fib[i] = fib[i - 1] + fib[i - 2];
+    s.insert(fib[i]);
+  }
 }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cout.tie(nullptr);
 
-    init();
+  init();
 
-    int n;
-    cin >> n;
-    for (int i = 1; i <= n; i++)
-    {
-        if (s.count(i))
-            cout << 'O';
-        else
-            cout << 'o';
-    }
-    cout << endl;
+  int n;
+  cin >> n;
+  for (int i = 1; i <= n; i++) {
+    if (s.count(i))
+      cout << 'O';
+    else
+      cout << 'o';
+  }
+  cout << endl;
 
-    return 0;
+  return 0;
 }

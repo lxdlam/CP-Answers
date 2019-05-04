@@ -96,3 +96,5 @@ School/*
 DOCs/*
 # Team Summary
 Summary.md
+# ccls related
+.ccls-cache

@@ -11,21 +11,18 @@
 #endif
 #if __cplusplus > 201402L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : v)            \
-        cin >> i;
+  vector<_kind> _name(_size);    \
+  for (auto &i : v) cin >> i;
 #elif __cpluscplus > 201103L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name;         \
-    _name.resize(_size);         \
-    for (auto &i : v)            \
-        cin >> i;
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (auto &i : v) cin >> i;
 #else
-#define VIS(_kind, _name, _size)    \
-    vector<_kind> _name;            \
-    _name.resize(_size);            \
-    for (int i = 0; i < _size; i++) \
-        cin >> v[i];
+#define VIS(_kind, _name, _size) \
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (int i = 0; i < _size; i++) cin >> v[i];
 #endif
 
 using namespace std;
@@ -38,27 +35,24 @@ typedef vector<ll> vll;
 typedef set<int> si;
 typedef pair<string, string> pss;
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cout.tie(nullptr);
 
-    int n, m;
-    string name, ip;
-    cin >> n >> m;
-    map<string, string> domain;
-    vector<pss> rule(m);
-    FOR(i, 0, n)
-    {
-        cin >> name >> ip;
-        domain[ip + ";"] = name;
-    }
-    FOR(i, 0, m)
-    {
-        cin >> name >> ip;
-        cout << name << " " << ip << " #" << domain[ip] << endl;
-    }
+  int n, m;
+  string name, ip;
+  cin >> n >> m;
+  map<string, string> domain;
+  vector<pss> rule(m);
+  FOR(i, 0, n) {
+    cin >> name >> ip;
+    domain[ip + ";"] = name;
+  }
+  FOR(i, 0, m) {
+    cin >> name >> ip;
+    cout << name << " " << ip << " #" << domain[ip] << endl;
+  }
 
-    return 0;
+  return 0;
 }

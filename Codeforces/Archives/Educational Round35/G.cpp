@@ -4,9 +4,8 @@
 #define FORE(_c) for (auto i : _c)
 #define FORER(_c) for (auto &i : _c)
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : v)            \
-        cin >> i;
+  vector<_kind> _name(_size);    \
+  for (auto &i : v) cin >> i;
 
 using namespace std;
 
@@ -17,29 +16,25 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cout.tie(0);
 
-    int n;
-    cin >> n;
-    VIS(unsigned char, v, n);
-    int q, l, r;
-    unsigned char x, y;
-    cin >> q;
-    while (q--)
-    {
-        cin >> l >> r >> x >> y;
-        for (l--; l < r; l++)
-            v[l] = v[l] == x ? y : v[l];
-    }
+  int n;
+  cin >> n;
+  VIS(unsigned char, v, n);
+  int q, l, r;
+  unsigned char x, y;
+  cin >> q;
+  while (q--) {
+    cin >> l >> r >> x >> y;
+    for (l--; l < r; l++) v[l] = v[l] == x ? y : v[l];
+  }
 
-    for (auto i : v)
-        cout << i << " ";
+  for (auto i : v) cout << i << " ";
 
-    cout << endl;
+  cout << endl;
 
-    return 0;
+  return 0;
 }

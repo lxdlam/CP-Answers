@@ -6,80 +6,70 @@ using namespace std;
 //====================START=====================
 // Compile use C++11 and above
 #ifdef LOCAL
-#define debug(args...)                           \
-    {                                            \
-        string _s = #args;                       \
-        replace(_s.begin(), _s.end(), ',', ' '); \
-        stringstream _ss(_s);                    \
-        istream_iterator<string> _it(_ss);       \
-        err(_it, args);                          \
-    }
-void err(istream_iterator<string> it)
-{
-}
+#define debug(args...)                       \
+  {                                          \
+    string _s = #args;                       \
+    replace(_s.begin(), _s.end(), ',', ' '); \
+    stringstream _ss(_s);                    \
+    istream_iterator<string> _it(_ss);       \
+    err(_it, args);                          \
+  }
+void err(istream_iterator<string> it) {}
 template <typename T, typename... Args>
-void err(istream_iterator<string> it, T a, Args... args)
-{
-    cerr << *it << " = " << a << endl;
-    err(++it, args...);
+void err(istream_iterator<string> it, T a, Args... args) {
+  cerr << *it << " = " << a << endl;
+  err(++it, args...);
 }
 #else
 #define debug(args...)
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args)
-{
-    ((cin >> args), ...);
+void readln(Args &... args) {
+  ((cin >> args), ...);
 }
 template <typename... Args>
-void writeln(Args... args)
-{
-    ((cout << args << " "), ...);
-    cout << endl;
+void writeln(Args... args) {
+  ((cout << args << " "), ...);
+  cout << endl;
 }
 #elif __cplusplus >= 201103L
-void readln()
-{
-}
+void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args)
-{
-    cin >> a;
-    readln(args...);
+void readln(T &a, Args &... args) {
+  cin >> a;
+  readln(args...);
 }
-void writeln()
-{
-    cout << endl;
-}
+void writeln() { cout << endl; }
 template <typename T, typename... Args>
-void writeln(T a, Args... args)
-{
-    cout << a << " ";
-    writeln(args...);
+void writeln(T a, Args... args) {
+  cout << a << " ";
+  writeln(args...);
 }
 #endif
 #if __cplusplus >= 201103L
-#define FOR(_i, _begin, _end) for (auto _i = _begin - (_begin > _end); _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
+#define FOR(_i, _begin, _end)                                            \
+  for (auto _i = _begin - (_begin > _end); _i != _end - (_begin > _end); \
+       _i += 1 - 2 * (_begin > _end))
 #define FORE(_i, _c) for (auto _i : _c)
 #define FORER(_i, _c) for (auto &_i : _c)
 #else
-#define FOR(_i, _begin, _end) for (__typeof(_end) _i = _begin - (_begin > _end); _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
+#define FOR(_i, _begin, _end)                        \
+  for (__typeof(_end) _i = _begin - (_begin > _end); \
+       _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
 #define FORE(_i, _c)
 #define FORER(_i, _c)
 #define nullptr NULL
 #endif
 #if __cplusplus >= 201402L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : _name)        \
-        cin >> i;
+  vector<_kind> _name(_size);    \
+  for (auto &i : _name) cin >> i;
 #else
-#define VIS(_kind, _name, _size)    \
-    vector<_kind> _name;            \
-    _name.resize(_size);            \
-    for (int i = 0; i < _size; i++) \
-        cin >> _name[i];
+#define VIS(_kind, _name, _size) \
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (int i = 0; i < _size; i++) cin >> _name[i];
 #endif
 // alias
 #define mp make_pair
@@ -98,52 +88,44 @@ typedef set<int> si;
 set<char> s = {'a', 'e', 'i', 'o', 'u', 'y'};
 
 // Pre-Build Function
-void build()
-{
-}
+void build() {}
 
 // Actual Solver
-void solve()
-{
-    int t;
-    cin >> t;
-    string ss;
-    cin >> ss;
-    stringstream ans;
-    int i = 0;
-    while (i < t)
-    {
-        if (s.count(ss[i]))
-        {
-            ans << ss[i];
-            while (s.count(ss[i]))
-                i++;
-        }
-        else
-        {
-            ans << ss[i];
-            i++;
-        }
+void solve() {
+  int t;
+  cin >> t;
+  string ss;
+  cin >> ss;
+  stringstream ans;
+  int i = 0;
+  while (i < t) {
+    if (s.count(ss[i])) {
+      ans << ss[i];
+      while (s.count(ss[i])) i++;
+    } else {
+      ans << ss[i];
+      i++;
     }
-    cout << ans.str() << endl;
+  }
+  cout << ans.str() << endl;
 }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cout.tie(nullptr);
 
 #ifdef LOCAL
-    clock_t _begin = clock();
+  clock_t _begin = clock();
 #endif
 
-    build();
-    solve();
+  build();
+  solve();
 
 #ifdef LOCAL
-    cerr << "Elapsed Time: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+  cerr << "Elapsed Time: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
+       << "ms." << endl;
 #endif
 
-    return 0;
+  return 0;
 }

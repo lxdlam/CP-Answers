@@ -9,30 +9,28 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cout.tie(0);
 
-    string t;
-    set<char> s;
-    s.insert('a');
-    s.insert('e');
-    s.insert('i');
-    s.insert('o');
-    s.insert('u');
-    cin >> t;
-    int cnt = 0;
-    for (auto i : t)
-    {
-        if (s.count(i))
-            cnt++;
-        else if (isdigit(i) && ((i - '0') & 1))
-            cnt++;
-    }
+  string t;
+  set<char> s;
+  s.insert('a');
+  s.insert('e');
+  s.insert('i');
+  s.insert('o');
+  s.insert('u');
+  cin >> t;
+  int cnt = 0;
+  for (auto i : t) {
+    if (s.count(i))
+      cnt++;
+    else if (isdigit(i) && ((i - '0') & 1))
+      cnt++;
+  }
 
-    cout << cnt << endl;
+  cout << cnt << endl;
 
-    return 0;
+  return 0;
 }

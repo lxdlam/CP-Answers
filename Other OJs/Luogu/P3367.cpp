@@ -9,27 +9,21 @@
 
 using namespace std;
 
-int main()
-{
-    int n, m;
-    cin >> n >> m;
-    int z, p, q;
-    UFO ufo(n);
-    while (m--)
-    {
-        cin >> z >> p >> q;
-        if (z == 1)
-        {
-            if (!ufo.connected(p - 1, q - 1))
-                ufo.Union(p - 1, q - 1);
-        }
-        else if (z == 2)
-        {
-            if (ufo.connected(p - 1, q - 1))
-                cout << "Y" << endl;
-            else
-                cout << "N" << endl;
-        }
+int main() {
+  int n, m;
+  cin >> n >> m;
+  int z, p, q;
+  UFO ufo(n);
+  while (m--) {
+    cin >> z >> p >> q;
+    if (z == 1) {
+      if (!ufo.connected(p - 1, q - 1)) ufo.Union(p - 1, q - 1);
+    } else if (z == 2) {
+      if (ufo.connected(p - 1, q - 1))
+        cout << "Y" << endl;
+      else
+        cout << "N" << endl;
     }
-    return 0;
+  }
+  return 0;
 }

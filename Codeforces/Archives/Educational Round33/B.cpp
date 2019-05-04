@@ -14,32 +14,27 @@ ll t[SIZE] = {1};
 
 ll b[SIZE] = {0};
 
-void init()
-{
-    for (int i = 1; i < SIZE; i++)
-        t[i] = t[i - 1] * 2;
-    for (int i = 1; i < SIZE; i++)
-        b[i] = (t[i] - 1) * t[i - 1];
+void init() {
+  for (int i = 1; i < SIZE; i++) t[i] = t[i - 1] * 2;
+  for (int i = 1; i < SIZE; i++) b[i] = (t[i] - 1) * t[i - 1];
 }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(0);
+  cout.tie(0);
 
-    init();
+  init();
 
-    ll n;
-    ll res = 1;
+  ll n;
+  ll res = 1;
 
-    cin >> n;
+  cin >> n;
 
-    for (int i = 1; n >= b[i]; i++)
-        if (n % b[i] == 0)
-            res = b[i];
+  for (int i = 1; n >= b[i]; i++)
+    if (n % b[i] == 0) res = b[i];
 
-    cout << res << endl;
+  cout << res << endl;
 
-    return 0;
+  return 0;
 }

@@ -6,34 +6,29 @@ using namespace std;
 
 // ======== Dijkstra ========
 // ==== Common ====
-const int SIZE = 1e5 + 10;  // Points
-int dis[SIZE];              // Storage the shortest path length
-const int INF = 0x3f3f3f3f; // Infinite
+const int SIZE = 1e5 + 10;   // Points
+int dis[SIZE];               // Storage the shortest path length
+const int INF = 0x3f3f3f3f;  // Infinite
 // Naive version
 // Use adjust matrix
 // O(n^2)
 int vis[SIZE];
 int board[SIZE][SIZE];
 
-void dijkstra(int n, int s)
-{
-    memset(dis, 0x3f, sizeof(dis));
-    dis[s] = 0;
-    for (int i = 1; i <= n; i++)
-    {
-        int x, m = INF;
-        for (int y = 1; y <= n; y++)
-        {
-            if (!vis[y] && dis[y] <= m)
-            {
-                m = dis[y];
-                x = y;
-            }
-        }
-        vis[x] = true;
-        for (int y = 1; y <= n; y++)
-            dis[y] = min(dis[y], dis[x] + board[x][y]);
+void dijkstra(int n, int s) {
+  memset(dis, 0x3f, sizeof(dis));
+  dis[s] = 0;
+  for (int i = 1; i <= n; i++) {
+    int x, m = INF;
+    for (int y = 1; y <= n; y++) {
+      if (!vis[y] && dis[y] <= m) {
+        m = dis[y];
+        x = y;
+      }
     }
+    vis[x] = true;
+    for (int y = 1; y <= n; y++) dis[y] = min(dis[y], dis[x] + board[x][y]);
+  }
 }
 
 // Heap version
@@ -46,57 +41,48 @@ vector<pii> G[SIZE];
 // For the choice of heap:
 // Pairing heap > STL heap (Binary heap) > thin heap (Fibonacci heap)
 // Use pairing heap as default
-using pqii = __gnu_pbds::priority_queue<pii, greater<pii>, __gnu_pbds::pairing_heap_tag>;
+using pqii =
+    __gnu_pbds::priority_queue<pii, greater<pii>, __gnu_pbds::pairing_heap_tag>;
 
-void dijkstra(int n, int s)
-{
-    pqii pq;
-    memset(dis, 0x3f, sizeof(dis));
+void dijkstra(int n, int s) {
+  pqii pq;
+  memset(dis, 0x3f, sizeof(dis));
 
-    dis[s] = 0;
-    pq.push(make_pair(0, s));
+  dis[s] = 0;
+  pq.push(make_pair(0, s));
 
-    while (pq.size())
-    {
-        auto p = pq.top();
-        pq.pop();
-        int x = p.second;
-        if (dis[x] < p.first)
-            continue;
-        for (auto i : G[x])
-        {
-            if (dis[i.first] > dis[x] + i.second)
-            {
-                dis[i.first] = dis[x] + i.second;
-                pq.push(make_pair(dis[i.first], i.first));
-            }
-        }
+  while (pq.size()) {
+    auto p = pq.top();
+    pq.pop();
+    int x = p.second;
+    if (dis[x] < p.first) continue;
+    for (auto i : G[x]) {
+      if (dis[i.first] > dis[x] + i.second) {
+        dis[i.first] = dis[x] + i.second;
+        pq.push(make_pair(dis[i.first], i.first));
+      }
     }
+  }
 }
 
 // Link forward star
-void dijkstra(int n, int s)
-{
-    pqii pq;
-    memset(dis, 0x3f, sizeof(dis));
+void dijkstra(int n, int s) {
+  pqii pq;
+  memset(dis, 0x3f, sizeof(dis));
 
-    dis[s] = 0;
-    pq.push(make_pair(0, s));
+  dis[s] = 0;
+  pq.push(make_pair(0, s));
 
-    while (pq.size())
-    {
-        auto p = pq.top();
-        pq.pop();
-        int x = p.second;
-        if (dis[x] < p.first)
-            continue;
-        for (int i = last[x]; i; i = E[i].next)
-        {
-            if (dis[E[i].to] > dis[x] + E[i].w)
-            {
-                dis[E[i].to] = dis[x] + E[i].w;
-                pq.push(mp(dis[E[i].to], E[i].to));
-            }
-        }
+  while (pq.size()) {
+    auto p = pq.top();
+    pq.pop();
+    int x = p.second;
+    if (dis[x] < p.first) continue;
+    for (int i = last[x]; i; i = E[i].next) {
+      if (dis[E[i].to] > dis[x] + E[i].w) {
+        dis[E[i].to] = dis[x] + E[i].w;
+        pq.push(mp(dis[E[i].to], E[i].to));
+      }
     }
+  }
 }

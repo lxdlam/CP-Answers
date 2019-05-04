@@ -8,22 +8,19 @@ using namespace std;
 //====================START=====================
 // Compile use C++11 and above
 #ifdef LOCAL
-#define debug(args...)                           \
-    {                                            \
-        string _s = #args;                       \
-        replace(_s.begin(), _s.end(), ',', ' '); \
-        stringstream _ss(_s);                    \
-        istream_iterator<string> _it(_ss);       \
-        err(_it, args);                          \
-    }
-void err(istream_iterator<string> it)
-{
-}
+#define debug(args...)                       \
+  {                                          \
+    string _s = #args;                       \
+    replace(_s.begin(), _s.end(), ',', ' '); \
+    stringstream _ss(_s);                    \
+    istream_iterator<string> _it(_ss);       \
+    err(_it, args);                          \
+  }
+void err(istream_iterator<string> it) {}
 template <typename T, typename... Args>
-void err(istream_iterator<string> it, T a, Args... args)
-{
-    cerr << *it << " = " << a << endl;
-    err(++it, args...);
+void err(istream_iterator<string> it, T a, Args... args) {
+  cerr << *it << " = " << a << endl;
+  err(++it, args...);
 }
 #define MSG cout << "Finished" << endl
 #else
@@ -32,35 +29,26 @@ void err(istream_iterator<string> it, T a, Args... args)
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args)
-{
-    ((cin >> args), ...);
+void readln(Args &... args) {
+  ((cin >> args), ...);
 }
 template <typename... Args>
-void writeln(Args... args)
-{
-    ((cout << args << " "), ...);
-    cout << endl;
+void writeln(Args... args) {
+  ((cout << args << " "), ...);
+  cout << endl;
 }
 #elif __cplusplus >= 201103L
-void readln()
-{
-}
+void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args)
-{
-    cin >> a;
-    readln(args...);
+void readln(T &a, Args &... args) {
+  cin >> a;
+  readln(args...);
 }
-void writeln()
-{
-    cout << endl;
-}
+void writeln() { cout << endl; }
 template <typename T, typename... Args>
-void writeln(T a, Args... args)
-{
-    cout << a << " ";
-    writeln(args...);
+void writeln(T a, Args... args) {
+  cout << a << " ";
+  writeln(args...);
 }
 #endif
 #if __cplusplus >= 201103L
@@ -73,15 +61,13 @@ void writeln(T a, Args... args)
 #endif
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
-    vector<_kind> _name(_size);  \
-    for (auto &i : _name)        \
-        cin >> i;
+  vector<_kind> _name(_size);    \
+  for (auto &i : _name) cin >> i;
 #else
-#define VIS(_kind, _name, _size)    \
-    vector<_kind> _name;            \
-    _name.resize(_size);            \
-    for (int i = 0; i < _size; i++) \
-        cin >> _name[i];
+#define VIS(_kind, _name, _size) \
+  vector<_kind> _name;           \
+  _name.resize(_size);           \
+  for (int i = 0; i < _size; i++) cin >> _name[i];
 #endif
 // alias
 #define mp make_pair
@@ -89,40 +75,33 @@ void writeln(T a, Args... args)
 #define eb emplace_back
 #define all(x) (x).begin(), (x).end()
 #define tcase() \
-    int T;      \
-    cin >> T;   \
-    FOR(kase, 1, T + 1)
+  int T;        \
+  cin >> T;     \
+  FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b)
-{
-    if (a > b)
-        return false;
-    a = b;
-    return true;
+bool smax(T &a, const T &b) {
+  if (a > b) return false;
+  a = b;
+  return true;
 }
 template <typename T>
-bool smin(T &a, const T &b)
-{
-    if (a < b)
-        return false;
-    a = b;
-    return true;
+bool smin(T &a, const T &b) {
+  if (a < b) return false;
+  a = b;
+  return true;
 }
 // ceil divide
 template <typename T>
-T cd(T a, T b)
-{
-    return (a + b - 1) / b;
+T cd(T a, T b) {
+  return (a + b - 1) / b;
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b)
-{
-    if (a < b)
-        return false;
-    swap(a, b);
-    return true;
+bool se(T &a, T &b) {
+  if (a < b) return false;
+  swap(a, b);
+  return true;
 }
 // A better MAX choice
 const int INF = 0x3f3f3f3f;
@@ -142,180 +121,149 @@ const int MAXN = 1e4 + 10;
 const int MAXM = 4e4 + 10;
 const int BOUND = 5000;
 
-struct Dinic
-{
-    int s, t, n, m;
-    int cnt;
+struct Dinic {
+  int s, t, n, m;
+  int cnt;
 
-    struct Edge
-    {
-        int to, next, rev;
-        ll cap;
-    } E[MAXM << 1];
+  struct Edge {
+    int to, next, rev;
+    ll cap;
+  } E[MAXM << 1];
 
-    int last[MAXN];
-    int dep[MAXN];
-    int arc[MAXN];
-    si vis;
+  int last[MAXN];
+  int dep[MAXN];
+  int arc[MAXN];
+  si vis;
 
-    Dinic()
-    {
-        cnt = 0;
-        memset(E, 0, sizeof E);
-        memset(last, 0, sizeof last);
-        memset(dep, 0, sizeof dep);
-    }
+  Dinic() {
+    cnt = 0;
+    memset(E, 0, sizeof E);
+    memset(last, 0, sizeof last);
+    memset(dep, 0, sizeof dep);
+  }
 
-    void add_edge(int u, int v, ll cap, ll rcap = 0)
-    {
-        if (u < BOUND)
-            vis.insert(u);
-        if (v < BOUND)
-            vis.insert(v);
-        E[++cnt].next = last[u];
-        E[cnt].to = v;
-        E[cnt].cap = cap;
-        E[cnt].rev = cnt + 1;
-        last[u] = cnt;
+  void add_edge(int u, int v, ll cap, ll rcap = 0) {
+    if (u < BOUND) vis.insert(u);
+    if (v < BOUND) vis.insert(v);
+    E[++cnt].next = last[u];
+    E[cnt].to = v;
+    E[cnt].cap = cap;
+    E[cnt].rev = cnt + 1;
+    last[u] = cnt;
 
-        // reverse edge
-        E[++cnt].next = last[v];
-        E[cnt].to = u;
-        E[cnt].cap = rcap;
-        E[cnt].rev = cnt - 1;
-        last[v] = cnt;
-    }
+    // reverse edge
+    E[++cnt].next = last[v];
+    E[cnt].to = u;
+    E[cnt].cap = rcap;
+    E[cnt].rev = cnt - 1;
+    last[v] = cnt;
+  }
 
-    bool bfs()
-    {
-        queue<int> q;
+  bool bfs() {
+    queue<int> q;
 
-        memset(dep, 0, sizeof dep);
-        dep[s] = 1;
-        q.push(s);
+    memset(dep, 0, sizeof dep);
+    dep[s] = 1;
+    q.push(s);
 
-        while (q.size())
-        {
-            int x = q.front();
-            q.pop();
-            for (int i = last[x]; i; i = E[i].next)
-            {
-                if (E[i].cap && !dep[E[i].to])
-                {
-                    dep[E[i].to] = dep[x] + 1;
-                    q.push(E[i].to);
-                }
-            }
+    while (q.size()) {
+      int x = q.front();
+      q.pop();
+      for (int i = last[x]; i; i = E[i].next) {
+        if (E[i].cap && !dep[E[i].to]) {
+          dep[E[i].to] = dep[x] + 1;
+          q.push(E[i].to);
         }
-        if (!dep[t])
-            return false;
-        return true;
+      }
     }
+    if (!dep[t]) return false;
+    return true;
+  }
 
-    ll dfs(int cur, ll flow)
-    {
-        if (cur == t)
-            return flow;
-        for (int &i = arc[cur]; i; i = E[i].next)
-        {
-            if (dep[E[i].to] == dep[cur] + 1 && E[i].cap)
-            {
-                ll ret = dfs(E[i].to, min(flow, E[i].cap));
-                if (ret)
-                {
-                    E[i].cap -= ret;
-                    E[E[i].rev].cap += ret;
-                    return ret;
-                }
-            }
+  ll dfs(int cur, ll flow) {
+    if (cur == t) return flow;
+    for (int &i = arc[cur]; i; i = E[i].next) {
+      if (dep[E[i].to] == dep[cur] + 1 && E[i].cap) {
+        ll ret = dfs(E[i].to, min(flow, E[i].cap));
+        if (ret) {
+          E[i].cap -= ret;
+          E[E[i].rev].cap += ret;
+          return ret;
         }
-        return 0;
+      }
     }
+    return 0;
+  }
 
-    void dfs(int u)
-    {
-        cout << u << ' ';
-        vis.erase(u);
-        for (int i = last[u]; i; i = E[i].next)
-        {
-            int x = E[i].to - BOUND;
-            if (vis.count(x) && !E[i].cap)
-            {
-                dfs(x);
-                return;
-            }
-        }
-        cout << '\n';
+  void dfs(int u) {
+    cout << u << ' ';
+    vis.erase(u);
+    for (int i = last[u]; i; i = E[i].next) {
+      int x = E[i].to - BOUND;
+      if (vis.count(x) && !E[i].cap) {
+        dfs(x);
+        return;
+      }
     }
+    cout << '\n';
+  }
 
-    ll operator()()
-    {
-        static ll ans = 0;
-        while (bfs())
-        {
-            for (int i = 1; i <= n; i++)
-                arc[i] = last[i];
-            while (ll ret = dfs(s, INFLL))
-                ans += ret;
-        }
-        return ans;
+  ll operator()() {
+    static ll ans = 0;
+    while (bfs()) {
+      for (int i = 1; i <= n; i++) arc[i] = last[i];
+      while (ll ret = dfs(s, INFLL)) ans += ret;
     }
+    return ans;
+  }
 
-    void findAnswer(int k)
-    {
-        vis.erase(k);
-        while (vis.size())
-            dfs(*vis.begin());
-    }
+  void findAnswer(int k) {
+    vis.erase(k);
+    while (vis.size()) dfs(*vis.begin());
+  }
 
 } dinic;
 
 // Pre-Build Function
-inline void build()
-{
-}
+inline void build() {}
 
 // Actual Solver
-inline void solve()
-{
-    int n;
-    cin >> n;
-    dinic.n = 1e4 + 4;
-    dinic.s = 1e4 + 2, dinic.t = 1e4 + 4;
-    for (int i = 1; i <= BOUND; i++)
-    {
-        dinic.add_edge(dinic.s, i, 1LL);
-        dinic.add_edge(i + BOUND, dinic.t, 1LL);
-        for (int j = 2; j * j < 2 * i; j++)
-            if (j * j - i > 0)
-                dinic.add_edge(j * j - i, i + BOUND, 1LL);
+inline void solve() {
+  int n;
+  cin >> n;
+  dinic.n = 1e4 + 4;
+  dinic.s = 1e4 + 2, dinic.t = 1e4 + 4;
+  for (int i = 1; i <= BOUND; i++) {
+    dinic.add_edge(dinic.s, i, 1LL);
+    dinic.add_edge(i + BOUND, dinic.t, 1LL);
+    for (int j = 2; j * j < 2 * i; j++)
+      if (j * j - i > 0) dinic.add_edge(j * j - i, i + BOUND, 1LL);
 
-        int ans = i - dinic();
-        if (ans == n + 1)
-        {
-            cout << i - 1 << '\n';
-            dinic.findAnswer(i);
-            break;
-        }
+    int ans = i - dinic();
+    if (ans == n + 1) {
+      cout << i - 1 << '\n';
+      dinic.findAnswer(i);
+      break;
     }
+  }
 }
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  cout.tie(nullptr);
 
 #ifdef LOCAL
-    clock_t _begin = clock();
+  clock_t _begin = clock();
 #endif
 
-    build();
-    solve();
+  build();
+  solve();
 
 #ifdef LOCAL
-    cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
+       << "ms." << endl;
 #endif
 
-    return 0;
+  return 0;
 }
