@@ -2,19 +2,19 @@
 
 using namespace std;
 
-#define TemplateVersion "3.7.0"
+#define TemplateVersion "3.7.1"
 // Useful Marcos
 //====================START=====================
 // Compile use C++11 and above
 #ifdef LOCAL
 #define debug(args...)                       \
-  {                                          \
+  do {                                       \
     string _s = #args;                       \
     replace(_s.begin(), _s.end(), ',', ' '); \
     stringstream _ss(_s);                    \
     istream_iterator<string> _it(_ss);       \
     err(_it, args);                          \
-  }
+  } while (0)
 void err(istream_iterator<string> it) {}
 template <typename T, typename... Args>
 void err(istream_iterator<string> it, T a, Args... args) {
@@ -75,10 +75,11 @@ void writeln(T a, Args... args) {
 #define all(x) (x).begin(), (x).end()
 #define clr(x) memset((x), 0, sizeof(x))
 #define infty(x) memset((x), 0x3f, sizeof(x))
-#define tcase()       \
-  int T;              \
-  cin >> T;           \
-  FOR(kase, 1, T + 1) \
+#define tcase() \
+  int T;        \
+  cin >> T;     \
+  FOR(kase, 1, T + 1)
+
 // Swap max/min
 template <typename T>
 bool smax(T &a, const T &b) {
