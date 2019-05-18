@@ -2,7 +2,7 @@
 
 using namespace std;
 
-class UF {
+class DSU {
  public:
   void init(int n) {
     id.clear();
