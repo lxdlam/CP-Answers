@@ -122,7 +122,7 @@ inline ll div(ll n, ll m) {
 
 void transform(int n, vll &x, bool idft = false) {
   for (int i = 0, j = 0; i != n; ++i) {
-    if (i > j) swap(x[i], x[j]);
+    if (i > j) std::swap(x[i], x[j]);
     for (int l = n >> 1; (j ^= l) < l; l >>= 1)
       ;
   }
