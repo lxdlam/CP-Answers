@@ -288,8 +288,6 @@ inline void solve() {
       rets[i].print(++rk);
     cout << '\n';
   }
-
-  cout << '\n';
 }
 
 int main() {
