@@ -126,15 +126,11 @@ int num[SIZE];
 int pref[SIZE];
 
 int dfs(int l, int r) {
-  // debug(l, r);
-  if (l == r) return 0;
+  if (l >= r) return 0;
   if (dp[l][r] == INF) {
-    for (int i = l + 1; i <= r - 1; i++) {
+    for (int i = l; i <= r; i++) {
       smin(dp[l][r], dfs(l, i - 1) + dfs(i + 1, r) + num[i] * (r - l));
     }
-
-    smin(dp[l][r], dfs(l + 1, r) + num[l] * (r - l));
-    smin(dp[l][r], dfs(l, r - 1) + num[r] * (r - l));
   }
 
   return dp[l][r];
