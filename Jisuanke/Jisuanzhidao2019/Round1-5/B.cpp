@@ -131,8 +131,6 @@ ll f(int l, int r) {
     smax(ans, cur * (r - i + 1));
   }
 
-  debug(l,r,ans%MOD);
-
   return ans % MOD;
 }
 
@@ -143,12 +141,17 @@ inline void build() {}
 inline void solve() {
   int n;
   cin >> n;
-  for (int i = 1; i <= n; i++) cin >> num[i];
 
+  for (int i = 1; i <= n; i++) {
+    cin >> num[i];
+  }
   ll ans = 0;
 
-  for (int i = 1; i <= n; i++)
-    for (int j = i; j <= n; j++) ans = (ans + f(i, j)) % MOD;
+  for (int i = 1; i <= n; i++) {
+    for (int j = i; j <= n; j++) {
+      ans = (ans + f(i, j)) % MOD;
+    }
+  }
 
   cout << ans << '\n';
 }
