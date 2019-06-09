@@ -122,6 +122,8 @@ typedef vector<string> cb;
 const int BASE = 1e6;
 const int SIZE = 2e6 + 10;
 
+int num[SIZE];
+
 struct Line {
   ll a, b;
 
@@ -179,28 +181,27 @@ inline void build() {}
 // Actual Solver
 inline void solve() {
   int n;
-  cin >> n;
+  scanf("%d", &n);
 
-  VIS(int, v, n);
+  for (int i = 0; i < n; i++) scanf("%d", &num[i]);
+
   ll t;
-  cin >> t;
+  scanf("%lld", &t);
 
-  LCT.init({v[0], t});
+  LCT.init({num[0], t});
 
   for (int i = 1; i < n; i++) {
-    cin >> t;
-    LCT.add({v[i], t}, 1, SIZE, 1);
+    scanf("%lld", &t);
+    LCT.add({num[i], t}, 1, SIZE, 1);
   }
 
   int q;
-  cin >> q;
+  scanf("%d", &q);
 
   while (q--) {
-    cin >> t;
-    cout << t * t + LCT.query(t + BASE, 1, SIZE, 1) << ' ';
+    scanf("%lld", &t);
+    printf("%lld ", t * t + LCT.query(t + BASE, 1, SIZE, 1));
   }
-
-  cout << '\n';
 }
 
 int main() {
