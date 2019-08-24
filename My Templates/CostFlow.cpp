@@ -89,7 +89,7 @@ struct ZKW {
   }
 } zkw;
 
-struct Primal_Dual {
+struct PrimalDual {
   int n, m, s, t;
   ll MaxFlow, MinCost, delta;
   struct Edge {
