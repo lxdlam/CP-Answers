@@ -2,10 +2,10 @@
 
 #define FOR(_i, _s, _e) for (int _i = _s; _i < _e; _i++)
 #define FORE(_c) for (auto i : _c)
-#define FORER(_c) for (auto &i : _c)
+#define FORER(_c) for (auto& i : _c)
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 
 using namespace std;
 

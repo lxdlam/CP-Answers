@@ -28,8 +28,7 @@ int main() {
     k.insert(t);
   }
 
-  set_intersection(d.begin(), d.end(), k.begin(), k.end(),
-                   inserter(r, r.begin()));
+  set_intersection(d.begin(), d.end(), k.begin(), k.end(), inserter(r, r.begin()));
 
   cout << r.size() << endl;
 

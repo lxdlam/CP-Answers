@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -79,13 +79,13 @@ void writeln(T a, Args... args) {
   FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -97,7 +97,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -136,8 +136,7 @@ bool check(string s) {
   for (int i = 1; i < n && ret; i++) {
     bool sub = false;
     int lent = v[i].size() / 2;
-    for (int c = 0; c < lent && !sub; c++)
-      sub = sub || dfs(0, 0, s, v[i].substr(c, lent));
+    for (int c = 0; c < lent && !sub; c++) sub = sub || dfs(0, 0, s, v[i].substr(c, lent));
     ret = ret && sub;
   }
 
@@ -152,15 +151,14 @@ inline void solve() {
   stringstream ss;
   while (cin >> n) {
     v.resize(n);
-    for (auto &i : v) {
+    for (auto& i : v) {
       cin >> i;
       i += i;
     }
 
     string ans = "";
 
-    sort(all(v),
-         [](const string &a, const string &b) { return a.size() < b.size(); });
+    sort(all(v), [](const string& a, const string& b) { return a.size() < b.size(); });
 
     int MAXN = v[0].size() / 2;
 
@@ -196,8 +194,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

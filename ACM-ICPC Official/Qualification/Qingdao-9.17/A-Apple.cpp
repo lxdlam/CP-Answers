@@ -23,8 +23,8 @@ struct Point {
     x = _x;
     y = _y;
   }
-  Point operator-(const Point &b) const { return Point(x - b.x, y - b.y); }
-  double operator*(const Point &b) const { return x * b.x + y * b.y; }
+  Point operator-(const Point& b) const { return Point(x - b.x, y - b.y); }
+  double operator*(const Point& b) const { return x * b.x + y * b.y; }
 };
 
 Point center(Point a, Point b, Point c) {

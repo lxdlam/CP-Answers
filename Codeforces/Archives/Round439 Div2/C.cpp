@@ -14,8 +14,7 @@ void init() {
   c[0][0] = 1;
   for (int i = 1; i < SIZE; i++) {
     c[i][0] = 1;
-    for (int j = 1; j <= i; j++)
-      c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
+    for (int j = 1; j <= i; j++) c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
   }
   for (int i = 1; i < SIZE; i++) n[i] = (n[i - 1] * i) % MOD;
 }

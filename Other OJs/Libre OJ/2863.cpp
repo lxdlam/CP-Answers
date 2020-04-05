@@ -1,5 +1,6 @@
-#include "combo.h"
 #include <bits/stdc++.h>
+
+#include "combo.h"
 
 using namespace std;
 

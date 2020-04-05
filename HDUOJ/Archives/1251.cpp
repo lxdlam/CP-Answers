@@ -5,7 +5,7 @@
 using namespace std;
 
 struct Node {
-  Node *next[26];
+  Node* next[26];
   int num;
 
   Node() : num(0) {
@@ -16,7 +16,7 @@ struct Node {
 };
 
 struct Trie {
-  Node *root;
+  Node* root;
 
   ~Trie() {
     makeEmpty(root);
@@ -25,8 +25,8 @@ struct Trie {
 
   Trie() { root = new Node; }
 
-  void insert(const string &s) {
-    Node *node = root;
+  void insert(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - 'a'] == NULL) node->next[s[i] - 'a'] = new Node;
       node = node->next[s[i] - 'a'];
@@ -34,8 +34,8 @@ struct Trie {
     }
   }
 
-  int query(const string &s) {
-    Node *node = root;
+  int query(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - 'a'] == NULL) return 0;
       node = node->next[s[i] - 'a'];
@@ -43,8 +43,8 @@ struct Trie {
     return node->num;
   }
 
- private:
-  void makeEmpty(Node *s) {
+private:
+  void makeEmpty(Node* s) {
     if (s == NULL) return;
     for (int i = 0; i < 26; i++) {
       if (s->next[i] != NULL) {

@@ -44,8 +44,7 @@ int main() {
     }
     printf("%d\n", count);
     if (count != 0)
-      for (set<int>::iterator it = s.begin(); it != s.end(); it++)
-        printf("%d ", arr[*it]);
+      for (set<int>::iterator it = s.begin(); it != s.end(); it++) printf("%d ", arr[*it]);
     else
       printf("\n");
   }

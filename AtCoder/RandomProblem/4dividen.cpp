@@ -20,8 +20,7 @@ int main() {
       for (ll j = 1; j <= 3500; j++) {
         ll a = (n * i * j);
         ll b = (5 * i * j - n * j - n * i);
-        if (b > 0 && a % b == 0)
-          return cout << i << " " << j << " " << a / b << endl, 0;
+        if (b > 0 && a % b == 0) return cout << i << " " << j << " " << a / b << endl, 0;
       }
   } else
     cout << n << " " << n << " " << n / 2 << endl;

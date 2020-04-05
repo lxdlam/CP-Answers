@@ -22,7 +22,7 @@ struct Matrix {
     row = _row;
     col = _col;
     data.resize(row);
-    for (auto &i : data) i.resize(col);
+    for (auto& i : data) i.resize(col);
   }
 
   T trace() {
@@ -32,12 +32,12 @@ struct Matrix {
     return ans;
   }
 
-  vector<T> &operator[](int pos) { return ref(data[pos]); }
+  vector<T>& operator[](int pos) { return ref(data[pos]); }
 
   Matrix<T> operator-() {
     Matrix t(this->data);
-    for (auto &i : t.data) {
-      for (auto &j : i) {
+    for (auto& i : t.data) {
+      for (auto& j : i) {
         j = -j;
       }
     }
@@ -76,8 +76,7 @@ Matrix<T> mul(Matrix<T> a, Matrix<T> b, T mod = 1e9 + 7) {
   for (int i = 0; i < a.row; i++) {
     for (int k = 0; k < a.col; k++) {
       auto t = a[i][k] % mod;
-      for (int j = 0; j < b.col; j++)
-        temp[i][j] = (temp[i][j] + t * b[k][j] % mod) % mod;
+      for (int j = 0; j < b.col; j++) temp[i][j] = (temp[i][j] + t * b[k][j] % mod) % mod;
     }
   }
 

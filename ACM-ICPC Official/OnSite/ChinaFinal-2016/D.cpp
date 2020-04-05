@@ -45,7 +45,7 @@ int main() {
     t.clear();
     cin >> n >> m;
     v.resize(n);
-    for (auto &i : v) cin >> i;
+    for (auto& i : v) cin >> i;
     sort(v.begin(), v.end());
     cout << bs(0, n / m) << endl;
   }

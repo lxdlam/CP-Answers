@@ -81,7 +81,7 @@ struct Dinic {
 
   ll dfs(int cur, ll flow) {
     if (cur == t) return flow;
-    for (int &i = arc[cur]; i; i = E[i].next) {
+    for (int& i = arc[cur]; i; i = E[i].next) {
       if (dep[E[i].to] == dep[cur] + 1 && E[i].cap) {
         ll ret = dfs(E[i].to, min(flow, E[i].cap));
         if (ret) {
@@ -148,8 +148,8 @@ struct Dinic {
 
   ll dfs(int cur, ll flow) {
     if (cur == t) return flow;
-    auto &c = E[cur];
-    for (int &i = arc[cur]; i < c.size(); i++) {
+    auto& c = E[cur];
+    for (int& i = arc[cur]; i < c.size(); i++) {
       if (dep[c[i].to] == dep[cur] + 1 && c[i].cap) {
         ll ret = dfs(c[i].to, min(flow, c[i].cap));
         if (ret) {
@@ -236,7 +236,7 @@ struct ISAP {
   ll dfs(int cur, ll flow) {
     if (cur == t) return flow;
     ll cf = 0;
-    for (int &i = arc[cur]; i; i = E[i].next) {
+    for (int& i = arc[cur]; i; i = E[i].next) {
       if (E[i].cap && dep[cur] == dep[E[i].to] + 1) {
         ll ret = dfs(E[i].to, min(flow - cf, E[i].cap));
         E[i].cap -= ret;
@@ -310,8 +310,8 @@ struct ISAP {
   ll dfs(int cur, ll flow) {
     if (cur == t) return flow;
     ll cf = 0;
-    auto &c = E[cur];
-    for (int &i = arc[cur]; i < c.size(); i++) {
+    auto& c = E[cur];
+    for (int& i = arc[cur]; i < c.size(); i++) {
       if (dep[c[i].to] + 1 == dep[cur] && c[i].cap) {
         ll ret = dfs(c[i].to, min(flow - cf, c[i].cap));
         c[i].cap -= ret;
@@ -358,7 +358,7 @@ struct HLPP {
 
   struct Atom {
     int x, h;
-    bool operator<(const Atom &a) const { return h < a.h; }
+    bool operator<(const Atom& a) const { return h < a.h; }
   };
 
   priority_queue<Atom> pq;
@@ -397,7 +397,7 @@ struct HLPP {
 
   void push(int x) {
     ll d;
-    for (auto &it : E[x]) {
+    for (auto& it : E[x]) {
       int u = it.to;
       if (it.cap && h[u] + 1 == h[x]) {
         d = min(flow[x], it.cap);
@@ -532,7 +532,7 @@ struct XHLPP {
     highest = highestActive = h[x];
   }
 
-  void push(int u, Edge &e) {
+  void push(int u, Edge& e) {
     int x = e.to;
     ll df = min(ex[u], e.cap);
     e.cap -= df;
@@ -544,7 +544,7 @@ struct XHLPP {
 
   void discharge(int u) {
     int nh = n;
-    for (auto &it : E[u]) {
+    for (auto& it : E[u]) {
       if (it.cap > 0) {
         if (h[u] == h[it.to] + 1) {
           push(u, it);
@@ -588,7 +588,7 @@ struct XHLPP {
     ex[s] = INFLL;
     ex[t] = -INFLL;
 
-    for (auto &it : E[s]) push(s, it);
+    for (auto& it : E[s]) push(s, it);
 
     globalRelabel();
 

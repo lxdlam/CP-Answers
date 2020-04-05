@@ -5,9 +5,7 @@
 using namespace std;
 
 struct cmp {
-  bool operator()(const string &a, const string &b) {
-    return a.length() >= b.length();
-  }
+  bool operator()(const string& a, const string& b) { return a.length() >= b.length(); }
 };
 
 int main() {

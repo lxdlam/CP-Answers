@@ -6,14 +6,14 @@ using namespace std;
 #define FORR(_i, _begin, _end) for (auto _i = _begin; _i > _end; _i--)
 
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -25,7 +25,7 @@ T cd(T a, T b) {
 }
 
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -47,7 +47,7 @@ typedef set<int> si;
 typedef vector<string> cb;
 
 class LongPalindromes {
- private:
+private:
   // Constants
   const ll MOD = 1e9 + 7;
 
@@ -75,12 +75,12 @@ class LongPalindromes {
       row = _row;
       col = _col;
       data.resize(row);
-      for (auto &i : data) i.resize(col);
+      for (auto& i : data) i.resize(col);
     }
 
     void clear() {
-      for (auto &i : data)
-        for (auto &j : i) j = 0;
+      for (auto& i : data)
+        for (auto& j : i) j = 0;
     }
 
     T trace() {
@@ -90,12 +90,12 @@ class LongPalindromes {
       return ans;
     }
 
-    vector<T> &operator[](int pos) { return ref(data[pos]); }
+    vector<T>& operator[](int pos) { return ref(data[pos]); }
 
     Matrix<T> operator-() {
       Matrix t(this->data);
-      for (auto &i : t.data) {
-        for (auto &j : i) {
+      for (auto& i : t.data) {
+        for (auto& j : i) {
           j = -j;
         }
       }
@@ -134,8 +134,7 @@ class LongPalindromes {
     for (int i = 0; i < a.row; i++) {
       for (int k = 0; k < a.col; k++) {
         auto t = a[i][k] % mod;
-        for (int j = 0; j < b.col; j++)
-          temp[i][j] = (temp[i][j] + t * b[k][j] % mod) % mod;
+        for (int j = 0; j < b.col; j++) temp[i][j] = (temp[i][j] + t * b[k][j] % mod) % mod;
       }
     }
 
@@ -155,7 +154,7 @@ class LongPalindromes {
   }
 
   template <class T>
-  vector<T> mulVector(Matrix<T> mat, const vector<T> &vec, T mod = 1e9 + 7) {
+  vector<T> mulVector(Matrix<T> mat, const vector<T>& vec, T mod = 1e9 + 7) {
     vector<T> ret;
 
     int n = mat.row, m = mat.col;
@@ -165,8 +164,7 @@ class LongPalindromes {
     ret.resize(n);
 
     for (int i = 0; i < n; i++)
-      for (int j = 0; j < m; j++)
-        ret[i] = (ret[i] + vec[j] * mat[i][j] % mod) % mod;
+      for (int j = 0; j < m; j++) ret[i] = (ret[i] + vec[j] * mat[i][j] % mod) % mod;
 
     return ret;
   }
@@ -183,18 +181,18 @@ class LongPalindromes {
   }
 
   template <class T>
-  void add(T &lhs, T rhs, T mod = 1e9 + 7) {
+  void add(T& lhs, T rhs, T mod = 1e9 + 7) {
     lhs = (lhs + rhs) % mod;
   }
 
   template <class T>
-  void sub(T &lhs, T rhs, T mod = 1e9 + 7) {
+  void sub(T& lhs, T rhs, T mod = 1e9 + 7) {
     lhs = (lhs - rhs + mod) % mod;
   }
 
   // Solver
 
- public:
+public:
   int count(int repeats, string pattern) {
     int len = pattern.size();
     if (len == 1) return static_cast<int>(fp(2, repeats));
@@ -206,10 +204,9 @@ class LongPalindromes {
       m.clear();
       for (int i = 0; i < len; i++) {
         m[i][i] = 1;
-        m[len + i][i] = 1;              // dp^(len-1)[i]
-        add(m[i][(i + 1) % len], 1LL);  // dp^(len-1)[i+1]
-        if (pattern[i] != pattern[(i + k) % len])
-          sub(m[i][(i + 1) % len + len], 1LL);  // dp^(len-2)[i+1]
+        m[len + i][i] = 1;                                                              // dp^(len-1)[i]
+        add(m[i][(i + 1) % len], 1LL);                                                  // dp^(len-1)[i+1]
+        if (pattern[i] != pattern[(i + k) % len]) sub(m[i][(i + 1) % len + len], 1LL);  // dp^(len-2)[i+1]
       }
 
       t = mul(m, t);

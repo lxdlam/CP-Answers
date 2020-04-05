@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -79,13 +79,13 @@ void writeln(T a, Args... args) {
   FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -97,7 +97,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -161,8 +161,8 @@ struct Dinic {
 
   ll dfs(int cur, ll flow) {
     if (cur == t) return flow;
-    auto &c = E[cur];
-    for (int &i = arc[cur]; i < c.size(); i++) {
+    auto& c = E[cur];
+    for (int& i = arc[cur]; i < c.size(); i++) {
       if (dep[c[i].to] == dep[cur] + 1 && c[i].cap) {
         ll ret = dfs(c[i].to, min(flow, c[i].cap));
         if (ret) {
@@ -219,7 +219,7 @@ inline void solve() {
   else {
     cout << "YES\n";
     for (int i = 1; i <= n; i++)
-      for (const auto &e : dinic.E[i])
+      for (const auto& e : dinic.E[i])
         if (e.id != -1) in[e.id] += e.cap;
     FOR(i, 0, m)
     cout << in[i] << '\n';
@@ -239,8 +239,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -74,13 +74,13 @@ void writeln(T a, Args... args) {
 #define eb emplace_back
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -92,7 +92,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -114,7 +114,7 @@ const int CHARSIZE = 26;
 const char START = 'a';
 
 struct Node {
-  Node *next[CHARSIZE];
+  Node* next[CHARSIZE];
   int num;
 
   Node() : num(0) {
@@ -125,7 +125,7 @@ struct Node {
 };
 
 struct Trie {
-  Node *root;
+  Node* root;
 
   ~Trie() {
     makeEmpty(root);
@@ -134,8 +134,8 @@ struct Trie {
 
   Trie() { root = new Node; }
 
-  void insert(const string &s, const int &val) {
-    Node *node = root;
+  void insert(const string& s, const int& val) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - START] == NULL) node->next[s[i] - START] = new Node;
       node = node->next[s[i] - START];
@@ -143,8 +143,8 @@ struct Trie {
     }
   }
 
-  int query(const string &s) {
-    Node *node = root;
+  int query(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - START] == NULL) return 0;
       node = node->next[s[i] - START];
@@ -157,8 +157,8 @@ struct Trie {
     root = new Node;
   }
 
- private:
-  void makeEmpty(Node *s) {
+private:
+  void makeEmpty(Node* s) {
     if (s == NULL) return;
     for (int i = 0; i < CHARSIZE; i++) {
       if (s->next[i] != NULL) {
@@ -222,8 +222,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

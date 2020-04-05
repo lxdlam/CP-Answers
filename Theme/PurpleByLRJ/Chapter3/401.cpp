@@ -4,11 +4,10 @@
 using namespace std;
 
 const string mirror_table = "A   3  HIL JM O   2TUVWXY51SE Z  8 ";
-const string res[] = {
-    " -- is not a palindrome.\n\n", " -- is a regular palindrome.\n\n",
-    " -- is a mirrored string.\n\n", " -- is a mirrored palindrome.\n\n"};
+const string res[] = {" -- is not a palindrome.\n\n", " -- is a regular palindrome.\n\n",
+                      " -- is a mirrored string.\n\n", " -- is a mirrored palindrome.\n\n"};
 
-char toM(const char &ch) {
+char toM(const char& ch) {
   if ('A' <= ch && ch <= 'Z')
     return mirror_table[ch - 'A'];
   else

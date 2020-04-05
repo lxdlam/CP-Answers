@@ -20,7 +20,7 @@ int main() {
   int cnt = 0;
   int minn = 1e9 + 10;
   int d = n + 1;
-  for (auto &i : v) {
+  for (auto& i : v) {
     cin >> i;
     minn = min(i, minn);
   }

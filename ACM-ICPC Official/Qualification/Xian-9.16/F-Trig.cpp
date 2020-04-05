@@ -21,11 +21,9 @@ int main() {
   while (scanf("%d%d", &n, &m) == 2) {
     k = (n - m) / 2;
     if (k <= 0)
-      res = ((0 + nCr(n - 1 - k, k - 1)) * pow(2, n - 1 - 2 * k) *
-             (k % 2 == 0 ? 1 : -1));
+      res = ((0 + nCr(n - 1 - k, k - 1)) * pow(2, n - 1 - 2 * k) * (k % 2 == 0 ? 1 : -1));
     else
-      res = ((nCr(n - k, k) + nCr(n - 1 - k, k - 1)) * pow(2, n - 1 - 2 * k) *
-             (k % 2 == 0 ? 1 : -1));
+      res = ((nCr(n - k, k) + nCr(n - 1 - k, k - 1)) * pow(2, n - 1 - 2 * k) * (k % 2 == 0 ? 1 : -1));
     // cout << "nCr(n - k, k): " << nCr(n - k, k) << endl;
     // cout << "nCr(n - 1 - k, k - 1): " << nCr(n - 1 - k, k - 1) << endl;
     // cout << "pow(2, (double)(n - 1 - 2 * k): " << pow(2, (double)(n - 1 - 2 *

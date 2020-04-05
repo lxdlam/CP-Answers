@@ -15,7 +15,7 @@ int main() {
   int res = 0;
   vector<int> p(n);
 
-  for (auto &i : p) cin >> i;  // means that the i people before him will die
+  for (auto& i : p) cin >> i;  // means that the i people before him will die
 
   pos = n;
   for (int i = n - 1; i >= 0; i--) {

@@ -22,7 +22,7 @@ void init_eps(int p) {
   }
 }
 
-void transform(int n, vc &x, const vc &w) {
+void transform(int n, vc& x, const vc& w) {
   for (int i = 0, j = 0; i != n; ++i) {
     if (i > j) swap(x[i], x[j]);
     for (int l = n >> 1; (j ^= l) < l; l >>= 1)
@@ -120,7 +120,7 @@ inline ll div(ll n, ll m) {
   return mul(n, inv);
 }
 
-void transform(int n, vll &x, bool idft = false) {
+void transform(int n, vll& x, bool idft = false) {
   for (int i = 0, j = 0; i != n; ++i) {
     if (i > j) std::swap(x[i], x[j]);
     for (int l = n >> 1; (j ^= l) < l; l >>= 1)
@@ -163,19 +163,19 @@ inline ll fp(ll base, ll expr, ll mod = 1e9 + 7) {
   return ans % mod;
 }
 
-void fwt_or(int n, vll &x, bool fwt = true) {
+void fwt_or(int n, vll& x, bool fwt = true) {
   for (int i = 2; i <= n; i <<= 1)
     for (int p = i >> 1, j = 0; j < n; j += i)
       for (int k = j; k < j + p; ++k) x[k + p] += x[k] * (fwt ? 1 : -1);
 }
 
-void fwt_and(int n, vll &x, bool fwt = true) {
+void fwt_and(int n, vll& x, bool fwt = true) {
   for (int i = 2; i <= n; i <<= 1)
     for (int p = i >> 1, j = 0; j < n; j += i)
       for (int k = j; k < j + p; ++k) x[k] += x[k + p] * (fwt ? 1 : -1);
 }
 
-void fwt_xor(int n, vll &x, const ll MOD = 1e9 + 7, bool fwt = true) {
+void fwt_xor(int n, vll& x, const ll MOD = 1e9 + 7, bool fwt = true) {
   ll inv2 = fp(2, MOD - 2, MOD);
   for (int i = 2; i <= n; i <<= 1)
     for (int p = i >> 1, j = 0; j < n; j += i)
@@ -183,9 +183,7 @@ void fwt_xor(int n, vll &x, const ll MOD = 1e9 + 7, bool fwt = true) {
         int a = x[k], b = x[k + p];
         x[k] = (a + b) % MOD;
         x[k + p] = (a - b + MOD) % MOD;
-        if (!fwt)
-          x[k] = 1LL * x[k] * inv2 % MOD,
-          x[k + p] = 1LL * x[k + p] * inv2 % MOD;
+        if (!fwt) x[k] = 1LL * x[k] * inv2 % MOD, x[k + p] = 1LL * x[k + p] * inv2 % MOD;
       }
 }
 }  // namespace FWT

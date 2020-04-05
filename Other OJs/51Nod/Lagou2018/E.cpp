@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -74,13 +74,13 @@ void writeln(T a, Args... args) {
 #define eb emplace_back
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -92,7 +92,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -114,9 +114,7 @@ typedef vector<string> cb;
 using node = pair<pll, int>;
 
 struct cmp {
-  bool operator()(const node &a, const node &b) {
-    return a.first.first > b.first.first;
-  }
+  bool operator()(const node& a, const node& b) { return a.first.first > b.first.first; }
 };
 
 // Pre-Build Function
@@ -141,8 +139,7 @@ inline void solve() {
   while (st.size()) {
     tt = st.top();
     st.pop();
-    smax(tmp, (t.first.second - tt.first.second) * 1.0 /
-                  (t.first.first - tt.first.first));
+    smax(tmp, (t.first.second - tt.first.second) * 1.0 / (t.first.first - tt.first.first));
     t = tt;
   }
   t = ans.top();
@@ -150,9 +147,7 @@ inline void solve() {
   while (ans.size()) {
     tt = ans.top();
     ans.pop();
-    if ((t.first.second - tt.first.second) * 1.0 /
-            (t.first.first - tt.first.first) ==
-        tmp)
+    if ((t.first.second - tt.first.second) * 1.0 / (t.first.first - tt.first.first) == tmp)
       cout << t.second << " " << tt.second << endl;
     t = tt;
   }
@@ -171,8 +166,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

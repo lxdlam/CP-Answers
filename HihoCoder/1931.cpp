@@ -12,7 +12,7 @@ int main() {
 
   vector<int> v(n);
 
-  for (auto &i : v) {
+  for (auto& i : v) {
     int x;
     cin >> x >> i;
   }

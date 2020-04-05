@@ -6,14 +6,14 @@ using namespace std;
 #define FORR(_i, _begin, _end) for (auto _i = _begin; _i > _end; _i--)
 
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -25,7 +25,7 @@ T cd(T a, T b) {
 }
 
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -47,7 +47,7 @@ typedef set<int> si;
 typedef vector<string> cb;
 
 class NewBanknote {
- private:
+private:
   // Constants
   vector<int> cost{0, 1, 1, 2, 2, 1, 2, 2, 3, 3};
   map<int, int> memorize;
@@ -66,7 +66,7 @@ class NewBanknote {
     return memorize[val];
   }
 
- public:
+public:
   NewBanknote() {}
 
   vector<int> fewestPieces(int newBanknote, vector<int> amountsToPay) {
@@ -75,8 +75,7 @@ class NewBanknote {
     vector<int> ans(n, INT_MAX);
 
     for (int i = 0; i < n; i++)
-      for (int p = 0, cur = amountsToPay[i]; cur >= 0 && p < 40000;
-           cur -= newBanknote, p++)
+      for (int p = 0, cur = amountsToPay[i]; cur >= 0 && p < 40000; cur -= newBanknote, p++)
         smin(ans[i], p + remain(cur));
 
     return ans;

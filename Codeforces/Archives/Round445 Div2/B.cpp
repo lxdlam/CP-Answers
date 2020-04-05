@@ -17,7 +17,7 @@ int main() {
   cin >> n;
   vector<int> v(n);
   set<int> s;
-  for (auto &i : v) {
+  for (auto& i : v) {
     cin >> i;
     s.insert(i);
   }

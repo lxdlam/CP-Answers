@@ -36,8 +36,7 @@ int main() {
     v.push_back(temp);
   }
 
-  for (vector<Person>::iterator it = v.begin(); it != v.end(); it++)
-    fout << it->name << " " << it->money << endl;
+  for (vector<Person>::iterator it = v.begin(); it != v.end(); it++) fout << it->name << " " << it->money << endl;
 
   v.clear();
   fin.close();
@@ -45,7 +44,7 @@ int main() {
   return 0;
 }
 
-int findPerson(const vector<Person> &v, Person p) {
+int findPerson(const vector<Person>& v, Person p) {
   for (int i = 0; i < v.size(); i++)
     if (v[i].name == p.name) return i;
   return -1;

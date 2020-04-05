@@ -9,9 +9,7 @@ LANG: C++11
 
 using namespace std;
 
-auto isLeap = [](int x) -> bool {
-  return x % 400 == 0 || (x % 4 == 0 && x % 100 != 0);
-};
+auto isLeap = [](int x) -> bool { return x % 400 == 0 || (x % 4 == 0 && x % 100 != 0); };
 
 int main() {
   ifstream fin("friday.in");

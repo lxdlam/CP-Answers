@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -79,13 +79,13 @@ void writeln(T a, Args... args) {
   FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -97,7 +97,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -134,7 +134,7 @@ void init_eps(int p) {
   }
 }
 
-void transform(int n, vc &x, const vc &w) {
+void transform(int n, vc& x, const vc& w) {
   for (int i = 0, j = 0; i != n; ++i) {
     if (i > j) swap(x[i], x[j]);
     for (int l = n >> 1; (j ^= l) < l; l >>= 1)
@@ -153,11 +153,8 @@ void transform(int n, vc &x, const vc &w) {
   }
 }
 }  // namespace FFT
-map<char, pair<char, char>> re{{'S', {'P', 'L'}},
-                               {'P', {'R', 'K'}},
-                               {'R', {'L', 'S'}},
-                               {'L', {'K', 'P'}},
-                               {'K', {'S', 'R'}}};
+map<char, pair<char, char>> re{
+    {'S', {'P', 'L'}}, {'P', {'R', 'K'}}, {'R', {'L', 'S'}}, {'L', {'K', 'P'}}, {'K', {'S', 'R'}}};
 
 // Pre-Build Function
 inline void build() {}
@@ -176,12 +173,9 @@ inline void solve() {
   for (auto rel : re) {
     FFT::vc x(p), y(p);
     for (int i = 0; i < lt; i++)
-      if (t[i] == rel.first)
-        x[lt - i - 1] +=
-            1.0;  // This convolution is i+j with i, change it into n-i-1 with i
+      if (t[i] == rel.first) x[lt - i - 1] += 1.0;  // This convolution is i+j with i, change it into n-i-1 with i
     for (int i = 0; i < ls; i++)
-      if (s[i] == rel.second.first || s[i] == rel.second.second)
-        x[i] += FFT::Complex{0, 1.0};
+      if (s[i] == rel.second.first || s[i] == rel.second.second) x[i] += FFT::Complex{0, 1.0};
 
     FFT::transform(p, x, FFT::eps);
 
@@ -216,8 +210,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

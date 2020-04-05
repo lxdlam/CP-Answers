@@ -6,14 +6,14 @@ using namespace std;
 #define FORR(_i, _begin, _end) for (auto _i = _begin; _i > _end; _i--)
 
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -25,7 +25,7 @@ T cd(T a, T b) {
 }
 
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -47,7 +47,7 @@ typedef set<int> si;
 typedef vector<string> cb;
 
 class DigitStringDiv1 {
- private:
+private:
   // Constants
   static const int SIZE = 60;
   ll c[SIZE][SIZE];
@@ -65,7 +65,7 @@ class DigitStringDiv1 {
 
   // Solver
 
- public:
+public:
   long long count(string S, int X) {
     // Build
     stringstream ss;

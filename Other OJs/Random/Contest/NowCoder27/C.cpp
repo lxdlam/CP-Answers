@@ -22,8 +22,7 @@ void init() {
   for (n = 1; n <= 9; n++)
     for (m = 0; m <= 9; m++)
       for (k = 0; k <= 9; k++)
-        for (p = 0; p <= 9; p++)
-          Palind[pnum++] = 10000001 * n + 1000010 * m + 100100 * k + 11000 * p;
+        for (p = 0; p <= 9; p++) Palind[pnum++] = 10000001 * n + 1000010 * m + 100100 * k + 11000 * p;
   // Palind[pnum++] = 100000000001ll;
 }
 

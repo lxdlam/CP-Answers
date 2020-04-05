@@ -5,7 +5,7 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-vector<string> split(const string &s) {
+vector<string> split(const string& s) {
   vector<string> res;
   int i = 0;
   for (int pos = 0; pos < s.size(); pos++) {

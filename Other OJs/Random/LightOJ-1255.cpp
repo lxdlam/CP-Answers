@@ -5,7 +5,7 @@ using namespace std;
 
 typedef vector<int> vi;
 
-void getNext(const string &s, vi &next) {
+void getNext(const string& s, vi& next) {
   int j = -1;
   next.push_back(-1);
   for (int i = 0; i < s.size(); i++) {
@@ -14,7 +14,7 @@ void getNext(const string &s, vi &next) {
   }
 }
 
-int match(const string &t, const string &p) {
+int match(const string& t, const string& p) {
   int count = 0;
   int j = 0;
   vector<int> next;

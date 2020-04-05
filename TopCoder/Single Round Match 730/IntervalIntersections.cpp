@@ -3,7 +3,7 @@
 using namespace std;
 
 class IntervalIntersections {
- private:
+private:
   // Constants
 
   // Useful Inner Method
@@ -12,7 +12,7 @@ class IntervalIntersections {
   void build() {}
 
   // Solver
- public:
+public:
   int minLength(int x1, int y1, int x2, int y2) {
     build();
 

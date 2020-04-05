@@ -5,14 +5,12 @@
 #define FOR(_i, _s, _e) for (int _i = _s; _i < _e; _i++)
 #ifdef LOCAL
 #define debug1(_a) cout << #_a << ": " << _a << endl
-#define debug2(_a, _b) \
-  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << endl
-#define debug3(_a, _b, _c)                                                    \
-  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " \
-       << _c << " " << endl
-#define debug4(_a, _b, _c, _d)                                                \
-  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " \
-       << _c << " " << #_d << ": " << _d << " " << endl
+#define debug2(_a, _b) cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << endl
+#define debug3(_a, _b, _c) \
+  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " << _c << " " << endl
+#define debug4(_a, _b, _c, _d)                                                                                         \
+  cout << #_a << ": " << _a << " " << #_b << ": " << _b << " " << #_c << ": " << _c << " " << #_d << ": " << _d << " " \
+       << endl
 #else
 #define debug1(_a)
 #define debug2(_a, _b)
@@ -21,7 +19,7 @@
 #endif
 #if __cpluscplus > 201103L
 #define FORE(_c) for (auto i : _c)
-#define FORER(_c) for (auto &i : _c)
+#define FORER(_c) for (auto& i : _c)
 #else
 #define FORE(_c)
 #define FORER(_c)
@@ -30,12 +28,12 @@
 #if __cplusplus > 201402L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 #elif __cpluscplus > 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
   _name.resize(_size);           \
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -86,8 +84,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cout << "Runtime: " << (double)(clock() - begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cout << "Runtime: " << (double)(clock() - begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

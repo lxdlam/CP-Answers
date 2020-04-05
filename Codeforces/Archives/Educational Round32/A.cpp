@@ -12,7 +12,7 @@ int main() {
   int res = 0;
   cin >> n;
   vector<int> v(n);
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 
   for (int i = 1; i < v.size() - 1; i++) {
     if (v[i - 1] > v[i] && v[i + 1] > v[i]) res++;

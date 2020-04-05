@@ -37,7 +37,7 @@ int main() {
   double a;
   int b;
   while (cin >> num && num != "0e0") {
-    for (auto &i : num)
+    for (auto& i : num)
       if (i == 'e') i = ' ';
     stringstream ss(num);
     ss >> a >> b;

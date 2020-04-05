@@ -33,7 +33,7 @@ struct LB {
     }
   }
 
-  void merge(const LB &l) {
+  void merge(const LB& l) {
     for (int i = 0; i <= MaxL; i++) insert(l.data[i]);
   }
 

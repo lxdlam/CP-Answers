@@ -2,7 +2,7 @@
 
 using namespace std;
 
-vector<int> match(const string &t, const string &p) {
+vector<int> match(const string& t, const string& p) {
   vector<int> res;
   bool find;
   for (int i = 0; i < t.size(); i++) {
@@ -32,7 +32,7 @@ int main() {
     for (auto pos : poss) {
       temp = t;
       for (int i = 0; i < p.size(); i++) temp[pos + i] = p[i];
-      for (auto &i : temp)
+      for (auto& i : temp)
         if (i == '?') i = 'a';
       res = min(res, temp);
     }

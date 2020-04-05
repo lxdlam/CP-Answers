@@ -8,7 +8,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
 
-bool comp(const pii &a, const pii &b) { return a.first < b.first; }
+bool comp(const pii& a, const pii& b) { return a.first < b.first; }
 
 int main() {
   ios::sync_with_stdio(false);
@@ -19,7 +19,7 @@ int main() {
   cin >> n;
   vector<pii> v(n);
   ll res = 0;
-  for (auto &i : v) cin >> i.first >> i.second;
+  for (auto& i : v) cin >> i.first >> i.second;
 
   sort(v.begin(), v.end(), comp);
 

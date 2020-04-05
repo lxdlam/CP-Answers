@@ -5,12 +5,12 @@ using namespace std;
 // Recursive version
 template <typename T>
 class SegTree {
- private:
+private:
   size_t size;
   vector<T> data;
   vector<T> flag;   // lazy flag, the current node has been updated but its
                     // children haven't
-  vector<T> *base;  // Avoid copy
+  vector<T>* base;  // Avoid copy
 
   void pushup(int pos) { data[pos] = data[pos << 1] + data[pos << 1 | 1]; }
 
@@ -87,7 +87,7 @@ class SegTree {
     return ans;
   }
 
- public:
+public:
   void build(vector<T> v) {
     size = v.size();
     data.clear();

@@ -16,8 +16,7 @@ const int SIZE = 100 + 10;
 
 bool vis[SIZE][SIZE] = {false};
 
-string output[] = {"FILL(1)", "FILL(2)",   "DROP(1)",
-                   "DROP(2)", "POUR(1,2)", "POUR(2,1)"};
+string output[] = {"FILL(1)", "FILL(2)", "DROP(1)", "DROP(2)", "POUR(1,2)", "POUR(2,1)"};
 
 struct Node {
   int left;

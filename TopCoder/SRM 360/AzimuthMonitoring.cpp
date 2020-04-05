@@ -5,7 +5,7 @@
 using namespace std;
 
 class AzimuthMonitoring {
- public:
+public:
   int getAzimuth(vector<string> instructions) {
     int res = 0;
     string a;

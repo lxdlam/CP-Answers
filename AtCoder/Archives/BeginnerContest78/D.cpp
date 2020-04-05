@@ -17,7 +17,7 @@ int main() {
   cin >> n >> z >> w;
   vi v(n);
 
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 
   if (n == 1)
     cout << abs(w - v[0]) << endl;

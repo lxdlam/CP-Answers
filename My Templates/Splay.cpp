@@ -16,9 +16,7 @@ struct Splay {
 
   bool get(int x) { return x == ch[fa[x]][1]; }
 
-  void reset(int x) {
-    ch[x][0] = ch[x][1] = fa[x] = val[x] = sz[x] = cnt[x] = 0;
-  }
+  void reset(int x) { ch[x][0] = ch[x][1] = fa[x] = val[x] = sz[x] = cnt[x] = 0; }
 
   void rotate(int x) {
     int y = fa[x], z = fa[y], chk = get(x);

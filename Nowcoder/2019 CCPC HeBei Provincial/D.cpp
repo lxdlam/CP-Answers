@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -82,13 +82,13 @@ void writeln(T a, Args... args) {
 
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -100,7 +100,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -135,7 +135,7 @@ int cnt = 0;
 int maxLen = 0;
 int probs;
 
-int addTeam(const string &name) {
+int addTeam(const string& name) {
   if (!memo.count(name)) {
     maxLen = max((int)name.size(), maxLen);
     memo[name] = cnt;
@@ -147,7 +147,7 @@ int addTeam(const string &name) {
 
 inline int num(char ch) { return ch - '0'; }
 
-void parse_submission(const string &s) {
+void parse_submission(const string& s) {
   stringstream ss(s);
   char trans[50];
 
@@ -203,7 +203,7 @@ struct Result {
     }
   }
 
-  bool operator<(const Result &r) const {
+  bool operator<(const Result& r) const {
     if (problems == r.problems && pena == r.pena)
       return lexicographical_compare(all(rev[team]), all(rev[r.team]));
     else if (problems == r.problems)
@@ -211,9 +211,7 @@ struct Result {
     return problems > r.problems;
   }
 
-  bool operator==(const Result &r) const {
-    return problems == r.problems && pena == r.pena;
-  }
+  bool operator==(const Result& r) const { return problems == r.problems && pena == r.pena; }
 
   void print(int rk) const {
     cout << setw(4) << rk << "  ";
@@ -303,8 +301,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

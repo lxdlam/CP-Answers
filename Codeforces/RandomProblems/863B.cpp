@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int diff(vector<int> &v) {
+int diff(vector<int>& v) {
   int res = 0;
   for (int i = 0; i < v.size(); i += 2) res += v[i + 1] - v[i];
   return res;

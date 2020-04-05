@@ -5,11 +5,11 @@ using namespace std;
 // Recursive version
 template <typename T>
 class SegTree {
- private:
+private:
   size_t size;
   vector<T> data;
   vector<T> flag;
-  vector<T> *base;  // Avoid copy
+  vector<T>* base;  // Avoid copy
 
   void pushup(int pos) { data[pos] = data[pos << 1] + data[pos << 1 | 1]; }
 
@@ -57,7 +57,7 @@ class SegTree {
     return ans;
   }
 
- public:
+public:
   void init(vector<T> v) {
     size = v.size();
     int realsize = calSize(size);
@@ -87,7 +87,7 @@ int main() {
     cout << "Case " << i << ":\n";
     cin >> n;
     vector<long long> v(n);
-    for (auto &i : v) cin >> i;
+    for (auto& i : v) cin >> i;
     st.init(v);
 
     while (cin >> op && op != "End") {

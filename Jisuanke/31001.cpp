@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+
 #include <ext/pb_ds/priority_queue.hpp>
 
 using namespace std;
@@ -29,7 +30,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -40,7 +41,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -62,7 +63,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -80,13 +81,13 @@ void writeln(T a, Args... args) {
   FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -98,7 +99,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -125,7 +126,7 @@ inline char gc() {
   return at == en ? EOF : *at++;
 }
 template <class T>
-inline void read(T &x) {
+inline void read(T& x) {
   char c;
   while (c = gc(), !isdigit(c) && c != '-')
     ;
@@ -179,13 +180,10 @@ struct atom {
 };
 
 struct cmp {
-  bool operator()(const atom &a, const atom &b) {
-    return a.x == b.x ? (a.y > b.y) : (a.x > b.x);
-  }
+  bool operator()(const atom& a, const atom& b) { return a.x == b.x ? (a.y > b.y) : (a.x > b.x); }
 };
 
-using pqat =
-    __gnu_pbds::priority_queue<atom, cmp, __gnu_pbds::pairing_heap_tag>;
+using pqat = __gnu_pbds::priority_queue<atom, cmp, __gnu_pbds::pairing_heap_tag>;
 
 void init() {
   memset(E, 0, sizeof E);
@@ -264,8 +262,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

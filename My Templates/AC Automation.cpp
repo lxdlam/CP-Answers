@@ -6,8 +6,8 @@ const int CHARSIZE = 26;
 const char START = 'a';
 
 struct Node {
-  Node *next[CHARSIZE];
-  Node *fail;
+  Node* next[CHARSIZE];
+  Node* fail;
   int num;
 
   Node() : num(0), fail(NULL) {
@@ -18,12 +18,12 @@ struct Node {
 };
 
 struct ACAuto {
-  Node *root;
+  Node* root;
 
   ACAuto() { root = new Node; }
 
-  void insert(const string &s) {
-    Node *node = root;
+  void insert(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - START] == NULL) node->next[s[i] - START] = new Node;
       node = node->next[s[i] - START];
@@ -31,9 +31,9 @@ struct ACAuto {
     node->num++;
   }
 
-  int query(const string &s) {
-    Node *cur = root;
-    Node *temp;
+  int query(const string& s) {
+    Node* cur = root;
+    Node* temp;
     int res = 0;
     for (int i = 0; i < s.size(); i++) {
       cur = cur->next[s[i] - START];
@@ -48,8 +48,8 @@ struct ACAuto {
   }
 
   void build() {
-    queue<Node *> q;
-    Node *cur;
+    queue<Node*> q;
+    Node* cur;
     root->fail = root;
     for (int i = 0; i < CHARSIZE; i++) {
       if (root->next[i] == NULL)
@@ -102,7 +102,7 @@ struct ACAuto {
     return size - 1;
   }
 
-  void insert(const string &s) {
+  void insert(const string& s) {
     int cur = root;
     for (int i = 0; i < s.size(); i++) {
       if (next[cur][s[i] - START] == -1) next[cur][s[i] - START] = newnode();
@@ -137,7 +137,7 @@ struct ACAuto {
     }
   }
 
-  int query(const string &s) {
+  int query(const string& s) {
     int cur = root, res = 0, temp;
     for (int i = 0; i < s.size(); i++) {
       cur = next[cur][s[i] - 'a'];

@@ -27,7 +27,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -38,7 +38,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -50,15 +50,13 @@ void writeln(T a, Args... args) {
 }
 #endif
 #if __cplusplus >= 201103L
-#define FOR(_i, _begin, _end)                                            \
-  for (auto _i = _begin - (_begin > _end); _i != _end - (_begin > _end); \
-       _i += 1 - 2 * (_begin > _end))
+#define FOR(_i, _begin, _end) \
+  for (auto _i = _begin - (_begin > _end); _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
 #define FORE(_i, _c) for (auto _i : _c)
-#define FORER(_i, _c) for (auto &_i : _c)
+#define FORER(_i, _c) for (auto& _i : _c)
 #else
-#define FOR(_i, _begin, _end)                        \
-  for (__typeof(_end) _i = _begin - (_begin > _end); \
-       _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
+#define FOR(_i, _begin, _end) \
+  for (__typeof(_end) _i = _begin - (_begin > _end); _i != _end - (_begin > _end); _i += 1 - 2 * (_begin > _end))
 #define FORE(_i, _c)
 #define FORER(_i, _c)
 #define nullptr NULL
@@ -66,7 +64,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -89,17 +87,17 @@ typedef set<int> si;
 vector<string> v;
 vi can;
 
-void row(vector<int> &vis, int r) {
+void row(vector<int>& vis, int r) {
   FOR(i, 0, 4)
   if (v[r][i] != '*') vis[v[r][i] - '0'] = 0;
 }
 
-void col(vector<int> &vis, int c) {
+void col(vector<int>& vis, int c) {
   FOR(i, 0, 4)
   if (v[i][c] != '*') vis[v[i][c] - '0'] = 0;
 }
 
-void sec(vector<int> &vis, int r, int c) {
+void sec(vector<int>& vis, int r, int c) {
   r = r / 2 * 2;
   c = c / 2 * 2;
   FOR(i, r, r + 2)
@@ -175,8 +173,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

@@ -19,13 +19,13 @@ int main() {
   cin >> n;
   vi v(n);
   for (int i = 1; i <= n; i++) s.insert(i);
-  for (auto &i : v) {
+  for (auto& i : v) {
     cin >> i;
     s.erase(i);
   }
 
   int i = 0;
-  for (auto &i : v) {
+  for (auto& i : v) {
     if (!m.count(i) && i <= n)
       m.insert(i);
     else {

@@ -31,25 +31,23 @@ struct Point {
 
   Point(db _x, db _y) : x(_x), y(_y) {}
 
-  bool operator==(const Point &p) {
-    return sgn(x - p.x) == 0 && sgn(y - p.y) == 0;
-  }
+  bool operator==(const Point& p) { return sgn(x - p.x) == 0 && sgn(y - p.y) == 0; }
 
-  bool operator<(const Point &p) {
+  bool operator<(const Point& p) {
     int c = sgn(x - p.x);
     if (c) return c == -1;
     return sgn(y - p.y) == -1;
   }
 
-  Point operator+(const Point &p) { return Point(x + p.x, y + p.y); }
-  Point operator-(const Point &p) { return Point(x - p.x, y - p.y); }
+  Point operator+(const Point& p) { return Point(x + p.x, y + p.y); }
+  Point operator-(const Point& p) { return Point(x - p.x, y - p.y); }
   Point operator*(db d) { return Point(x * d, y * d); }
   Point operator/(db d) { return Point(x / d, y / d); }
 
-  db operator^(const Point &p) { return x * p.y - y * p.x; }
-  db operator*(const Point &p) { return x * p.x + y * p.y; }
+  db operator^(const Point& p) { return x * p.y - y * p.x; }
+  db operator*(const Point& p) { return x * p.x + y * p.y; }
 
-  db dis(const Point &p) { return (*this - p).len(); }
+  db dis(const Point& p) { return (*this - p).len(); }
   db alpha() { return atan2(y, x); }
 
   Point unit() { return *this / len(); }
@@ -145,10 +143,8 @@ struct Line {
     int d3 = sgn((l.e - l.s) ^ (s - l.s));
     int d4 = sgn((l.e - l.s) ^ (e - l.s));
     if ((d1 ^ d2) == -2 && (d3 ^ d4) == -2) return 2;
-    return (d1 == 0 && sgn((l.s - s) * (l.s - e)) <= 0) ||
-           (d2 == 0 && sgn((l.e - s) * (l.e - e)) <= 0) ||
-           (d3 == 0 && sgn((s - l.s) * (s - l.e)) <= 0) ||
-           (d4 == 0 && sgn((e - l.s) * (e - l.e)) <= 0);
+    return (d1 == 0 && sgn((l.s - s) * (l.s - e)) <= 0) || (d2 == 0 && sgn((l.e - s) * (l.e - e)) <= 0) ||
+           (d3 == 0 && sgn((s - l.s) * (s - l.e)) <= 0) || (d4 == 0 && sgn((e - l.s) * (e - l.e)) <= 0);
   }
 
   // 0 -> Not Intersect
@@ -172,23 +168,17 @@ struct Line {
   Point intersec(Line l) {
     db a1 = (l.e - l.s) ^ (s - l.s);
     db a2 = (l.e - l.s) ^ (e - l.s);
-    return Point((s.x * a2 - e.x * a1) / (a2 - a1),
-                 (s.y * a2 - e.y * a1) / (a2 - a1));
+    return Point((s.x * a2 - e.x * a1) / (a2 - a1), (s.y * a2 - e.y * a1) / (a2 - a1));
   }
 
   db disPL(Point p) { return abs((p - s) ^ (e - s)) / len(); }
   db disPS(Point p) {
-    if (sgn((p - s) * (e - s)) < 0 || sgn((p - e) * (s - e)) < 0)
-      return min(p.dis(s), p.dis(e));
+    if (sgn((p - s) * (e - s)) < 0 || sgn((p - e) * (s - e)) < 0) return min(p.dis(s), p.dis(e));
     return disPL(p);
   }
-  db disSS(Line l) {
-    return min(min(disPS(l.s), disPS(l.e)), min(l.disPS(s), l.disPS(e)));
-  }
+  db disSS(Line l) { return min(min(disPS(l.s), disPS(l.e)), min(l.disPS(s), l.disPS(e))); }
 
-  Point proj(Point p) {
-    return s + ((e - s) * ((e - s) * (p - s))) / ((e - s).len2());
-  }
+  Point proj(Point p) { return s + ((e - s) * ((e - s) * (p - s))) / ((e - s).len2()); }
   Point refl(Point p) {
     Point q = proj(p);
     return Point(2 * q.x - p.x, 2 * q.y - p.y);
@@ -205,10 +195,7 @@ struct Line {
     e.read();
   }
 
-  void Debug() {
-    cerr << "Line: Start: (" << s.x << ", " << s.y << ") End: (" << e.x << ", "
-         << e.y << ")\n";
-  }
+  void Debug() { cerr << "Line: Start: (" << s.x << ", " << s.y << ") End: (" << e.x << ", " << e.y << ")\n"; }
 };
 
 // Circle
@@ -241,11 +228,9 @@ struct Circle {
     }
   }
 
-  bool operator==(const Circle &c) { return p == c.p && sgn(r - c.r) == 0; }
+  bool operator==(const Circle& c) { return p == c.p && sgn(r - c.r) == 0; }
 
-  bool operator<(const Circle &c) {
-    return (p < c.p) || (p == c.p && sgn(r - c.r) < 0);
-  }
+  bool operator<(const Circle& c) { return (p < c.p) || (p == c.p && sgn(r - c.r) < 0); }
 
   db area() { return PI * r * r; }
 
@@ -303,11 +288,10 @@ struct Circle {
   }
 
   // The return value is the number of intersections
-  int crossC(Circle c, Point &p1, Point &p2) {
+  int crossC(Circle c, Point& p1, Point& p2) {
     int re = relationC(c);
     if (re == 1 || re == 5) return 0;
-    db d = p.dis(c.p), l = (d * d + r * r - c.r * c.r) / (2.0 * d),
-       h = sqrt(r * r - l * l);
+    db d = p.dis(c.p), l = (d * d + r * r - c.r * c.r) / (2.0 * d), h = sqrt(r * r - l * l);
     Point tmp = p + (c.p - p).scale(l);
     p1 = tmp + (c.p - p).rotCC().scale(h);
     p2 = tmp + (c.p - p).rotCL().scale(h);
@@ -316,7 +300,7 @@ struct Circle {
   }
 
   // Same as above
-  int crossL(Line l, Point &p1, Point &p2) {
+  int crossL(Line l, Point& p1, Point& p2) {
     if (!this->relationL(l)) return 0;
     Point a = l.proj(p);
     db d = l.disPL(p);
@@ -331,7 +315,7 @@ struct Circle {
     return 2;
   }
 
-  int tangent(Point q, Point &u, Point &v) {
+  int tangent(Point q, Point& u, Point& v) {
     int x = relationP(q);
     if (x == 2) return 0;
     if (x == 1) {
@@ -347,7 +331,7 @@ struct Circle {
     return 2;
   }
 
-  int tangent(Circle c, vector<Point> &u, vector<Point> &v) {
+  int tangent(Circle c, vector<Point>& u, vector<Point>& v) {
     if (sgn(r - c.r) < 0) return c.tangent(*this, v, u);
 
     int ret = relationC(c) - 1;
@@ -425,7 +409,7 @@ struct Circle {
   }
 
   // Two circle whose center are a and b respectivelly
-  static int GetCircle(Point a, Point b, db r, Circle &c1, Circle &c2) {
+  static int GetCircle(Point a, Point b, db r, Circle& c1, Circle& c2) {
     Circle x(a, r), y(b, r);
     int t = x.crossC(y, c1.p, c2.p);
     if (!t) return 0;
@@ -434,7 +418,7 @@ struct Circle {
   }
 
   // The circle which tangent is l and point p on it
-  static int GetCircle(Line l, Point p, db r, Circle &c1, Circle &c2) {
+  static int GetCircle(Line l, Point p, db r, Circle& c1, Circle& c2) {
     db dis = l.disPL(p);
     if (sgn(dis - r * 2) > 0) return 0;
     if (sgn(dis) == 0) {
@@ -443,10 +427,8 @@ struct Circle {
       c1.r = c2.r = r;
       return 2;
     }
-    Line u1 = Line((l.s + (l.e - l.s).rotCC().scale(r)),
-                   (l.e + (l.e - l.s).rotCC().scale(r)));
-    Line u2 = Line((l.s + (l.e - l.s).rotCL().scale(r)),
-                   (l.e + (l.e - l.s).rotCL().scale(r)));
+    Line u1 = Line((l.s + (l.e - l.s).rotCC().scale(r)), (l.e + (l.e - l.s).rotCC().scale(r)));
+    Line u2 = Line((l.s + (l.e - l.s).rotCL().scale(r)), (l.e + (l.e - l.s).rotCL().scale(r)));
     Circle cc(p, r);
     Point p1, p2;
     if (!cc.crossL(u1, p1, p2)) cc.crossL(u2, p1, p2);
@@ -460,17 +442,12 @@ struct Circle {
   }
 
   // u and v are the common tangent of the four circles
-  static int GetCircle(Line u, Line v, db r, Circle &c1, Circle &c2, Circle &c3,
-                       Circle &c4) {
+  static int GetCircle(Line u, Line v, db r, Circle& c1, Circle& c2, Circle& c3, Circle& c4) {
     if (u.parallel(v)) return 0;
-    Line u1 = Line(u.s + (u.e - u.s).rotCC().scale(r),
-                   u.e + (u.e - u.s).rotCC().scale(r));
-    Line u2 = Line(u.s + (u.e - u.s).rotCL().scale(r),
-                   u.e + (u.e - u.s).rotCL().scale(r));
-    Line v1 = Line(v.s + (v.e - v.s).rotCC().scale(r),
-                   v.e + (v.e - v.s).rotCC().scale(r));
-    Line v2 = Line(v.s + (v.e - v.s).rotCL().scale(r),
-                   v.e + (v.e - v.s).rotCL().scale(r));
+    Line u1 = Line(u.s + (u.e - u.s).rotCC().scale(r), u.e + (u.e - u.s).rotCC().scale(r));
+    Line u2 = Line(u.s + (u.e - u.s).rotCL().scale(r), u.e + (u.e - u.s).rotCL().scale(r));
+    Line v1 = Line(v.s + (v.e - v.s).rotCC().scale(r), v.e + (v.e - v.s).rotCC().scale(r));
+    Line v2 = Line(v.s + (v.e - v.s).rotCL().scale(r), v.e + (v.e - v.s).rotCL().scale(r));
     c1.r = c2.r = c3.r = c4.r = r;
     c1.p = u1.intersec(v1);
     c2.p = u1.intersec(v2);
@@ -480,7 +457,7 @@ struct Circle {
   }
 
   // Tangent with circle cx and cy
-  static int GetCircle(Circle cx, Circle cy, db r, Circle &c1, Circle &c2) {
+  static int GetCircle(Circle cx, Circle cy, db r, Circle& c1, Circle& c2) {
     Circle x(cx.p, r + cx.r), y(cy.p, r + cy.r);
     int t = x.crossC(y, c1.p, c2.p);
     if (!t) return 0;
@@ -493,10 +470,7 @@ struct Circle {
     cin >> r;
   }
 
-  void Debug() {
-    cerr << "Circle: Center: (" << p.x << ", " << p.y << ") Radius: " << r
-         << '\n';
-  }
+  void Debug() { cerr << "Circle: Center: (" << p.x << ", " << p.y << ") Radius: " << r << '\n'; }
 };
 
 // Polygon
@@ -504,8 +478,8 @@ struct Polygon {
   // Functor for sorting by polar angle
   struct cmp {
     Point p;
-    cmp(const Point &b) { p = b; }
-    bool operator()(const Point &a, const Point &b) {
+    cmp(const Point& b) { p = b; }
+    bool operator()(const Point& a, const Point& b) {
       Point x = a, y = b;
       int d = sgn((x - p) ^ (y - p));
       if (!d) return sgn(x.dis(p) - y.dis(p)) > 0;
@@ -536,7 +510,7 @@ struct Polygon {
     sort(ps.begin(), ps.end(), cmp(p));
   }
 
-  void getConvexJarvis(Polygon &conv) {
+  void getConvexJarvis(Polygon& conv) {
     sort(ps.begin(), ps.end());
     conv.ps.resize(2 * size());
 
@@ -549,9 +523,7 @@ struct Polygon {
     int top = 1;
 
     for (int i = 2; i < n; i++) {
-      while (top &&
-             sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0)
-        top--;
+      while (top && sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0) top--;
       conv.ps[++top] = ps[i];
     }
 
@@ -559,9 +531,7 @@ struct Polygon {
     conv.ps[++top] = ps[n - 2];
 
     for (int i = n - 3; i >= 0; i--) {
-      while (top != t &&
-             sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0)
-        top--;
+      while (top != t && sgn((conv.ps[top] - ps[i]) ^ (conv.ps[top - 1] - ps[i])) <= 0) top--;
       conv.ps[++top] = ps[i];
     }
 
@@ -572,27 +542,25 @@ struct Polygon {
     conv.norm();  // Counter Clock-wise
   }
 
-  void getConvexWithPointOnLine(Polygon &conv) {
+  void getConvexWithPointOnLine(Polygon& conv) {
     int m, n = size();
     if (n < 3) {
       for (auto i : ps) conv.add(i);
       return;
     }
 
-    vector<Point> &g = conv.ps;
+    vector<Point>& g = conv.ps;
 
     sort(ps.begin(), ps.end());
     for (int i = 0; i < n; i++) {
-      while ((m = g.size()) >= 2 && g[m - 2].relation(g[m - 1], ps[i]) <= 0)
-        g.pop_back();
+      while ((m = g.size()) >= 2 && g[m - 2].relation(g[m - 1], ps[i]) <= 0) g.pop_back();
       g.push_back(ps[i]);
     }
 
     int t = g.size();
 
     for (int i = n - 2; i >= 0; i--) {
-      while ((m = g.size()) > t && g[m - 2].relation(g[m - 1], ps[i]) <= 0)
-        g.pop_back();
+      while ((m = g.size()) > t && g[m - 2].relation(g[m - 1], ps[i]) <= 0) g.pop_back();
       g.push_back(ps[i]);
     }
 
@@ -600,7 +568,7 @@ struct Polygon {
   }
 
   // Cannot get the point on the edge
-  void getConvexGraham(Polygon &conv) {
+  void getConvexGraham(Polygon& conv) {
     norm();
     int top = 0, n = size();
     if (n == 1) {
@@ -620,9 +588,7 @@ struct Polygon {
     conv.ps[1] = ps[1];
     top = 2;
     for (int i = 2; i < n; i++) {
-      while (top > 1 && sgn((conv.ps[top - 1] - conv.ps[top - 2]) ^
-                            (ps[i] - conv.ps[top - 2])) <= 0)
-        top--;
+      while (top > 1 && sgn((conv.ps[top - 1] - conv.ps[top - 2]) ^ (ps[i] - conv.ps[top - 2])) <= 0) top--;
       conv.ps[top++] = ps[i];
     }
 
@@ -648,9 +614,7 @@ struct Polygon {
     db ans = 0;
     ps.push_back(ps[0]);
     for (int i = 0; i < n; i++) {
-      while (sgn(cross(ps[i + 1], ps[q + 1], ps[i]) -
-                 cross(ps[i + 1], ps[q], ps[i])) > 0)
-        q = (q + 1) % n;
+      while (sgn(cross(ps[i + 1], ps[q + 1], ps[i]) - cross(ps[i + 1], ps[q], ps[i])) > 0) q = (q + 1) % n;
       ans = Max(ans, Max(ps[i].dis(ps[q]), ps[i + 1].dis(ps[q + 1])));
     }
     ps.pop_back();
@@ -680,7 +644,7 @@ struct Polygon {
     return cnt != 0;
   }
 
-  void convexCut(Line l, Polygon &po) {
+  void convexCut(Line l, Polygon& po) {
     for (int i = 0; i < size(); i++) {
       int d1 = sgn((l.e - l.s) ^ (ps[i] - l.s));
       int d2 = sgn((l.e - l.s) ^ (ps[(i + 1) % size()] - l.s));

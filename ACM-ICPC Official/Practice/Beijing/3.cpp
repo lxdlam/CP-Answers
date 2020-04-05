@@ -31,7 +31,7 @@ vector<string> split(string s, char token) {
   return res;
 }
 
-void discard(string &s, char token) {
+void discard(string& s, char token) {
   for (int i = 0; i < s.size(); i++) {
     if (s[i] == token) {
       while (s[i + 1] == token) s.erase(i, 1);

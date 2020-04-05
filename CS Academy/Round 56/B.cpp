@@ -20,7 +20,7 @@ int main() {
   int res = 0;
   cin >> t >> c >> n;
   vector<Leaf> v(n);
-  for (auto &i : v) {
+  for (auto& i : v) {
     cin >> x >> y >> s;
     i = Leaf(x, y, s);
   }

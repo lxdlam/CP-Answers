@@ -20,8 +20,7 @@ int main() {
       for (int k = j - 1; k >= 1; k--) {
         if (vm <= i && 2 * v1 >= i && v1 <= i && vm * 2 < i)
           if (vm <= j && 2 * v2 >= j && v2 <= j && vm * 2 < j)
-            if (vm <= k && vm * 2 >= k && v3 <= k && 2 * v3 >= k)
-              return cout << i << endl << j << endl << k << endl, 0;
+            if (vm <= k && vm * 2 >= k && v3 <= k && 2 * v3 >= k) return cout << i << endl << j << endl << k << endl, 0;
       }
     }
   }

@@ -5,8 +5,7 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-string pattern[] = {"000", "111", "222", "333", "444",
-                    "555", "666", "777", "888", "999"};
+string pattern[] = {"000", "111", "222", "333", "444", "555", "666", "777", "888", "999"};
 
 int main() {
   ios::sync_with_stdio(false);

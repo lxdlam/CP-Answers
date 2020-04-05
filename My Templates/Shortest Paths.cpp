@@ -1,5 +1,6 @@
 // NOT FINISH
 #include <bits/stdc++.h>
+
 #include <ext/pb_ds/priority_queue.hpp>
 
 using namespace std;
@@ -41,8 +42,7 @@ vector<pii> G[SIZE];
 // For the choice of heap:
 // Pairing heap > STL heap (Binary heap) > thin heap (Fibonacci heap)
 // Use pairing heap as default
-using pqii =
-    __gnu_pbds::priority_queue<pii, greater<pii>, __gnu_pbds::pairing_heap_tag>;
+using pqii = __gnu_pbds::priority_queue<pii, greater<pii>, __gnu_pbds::pairing_heap_tag>;
 
 void dijkstra(int n, int s) {
   pqii pq;

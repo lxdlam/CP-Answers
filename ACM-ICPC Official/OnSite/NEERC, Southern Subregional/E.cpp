@@ -47,8 +47,7 @@ int main() {
       s.insert(t[cood[i]]);
     }
     if (c) continue;
-    set_intersection(res.begin(), res.end(), s.begin(), s.end(),
-                     inserter(temp, temp.begin()));
+    set_intersection(res.begin(), res.end(), s.begin(), s.end(), inserter(temp, temp.begin()));
     res = temp;
   }
   cout << res.size() << endl;

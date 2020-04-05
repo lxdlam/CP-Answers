@@ -12,8 +12,7 @@ int mps[SIZE][SIZE] = {0};
 void floyd() {
   for (int k = 0; k <= 9; k++)
     for (int i = 0; i <= 9; i++)
-      for (int j = 0; j <= 9; j++)
-        mps[i][j] = min(mps[i][j], mps[i][k] + mps[k][j]);
+      for (int j = 0; j <= 9; j++) mps[i][j] = min(mps[i][j], mps[i][k] + mps[k][j]);
 }
 
 int main() {

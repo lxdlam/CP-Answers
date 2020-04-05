@@ -29,7 +29,7 @@ vector<char> genVec(int size) {
   return v;
 }
 
-int getPartion(vector<char> &v, int l, int r) {
+int getPartion(vector<char>& v, int l, int r) {
   char k = v[r];
   int i = l - 1;
   for (int j = l; j < r; j++) {
@@ -42,7 +42,7 @@ int getPartion(vector<char> &v, int l, int r) {
   return i + 1;
 }
 
-void quickAsk(vector<char> &v, int l, int r) {
+void quickAsk(vector<char>& v, int l, int r) {
   int m;
   if (l < r) {
     m = getPartion(v, l, r);
@@ -51,7 +51,7 @@ void quickAsk(vector<char> &v, int l, int r) {
   }
 }
 
-void bsort(vector<char> &v) {
+void bsort(vector<char>& v) {
   int mid, l, r;
   char t;
   for (int i = 1; i < v.size(); i++) {

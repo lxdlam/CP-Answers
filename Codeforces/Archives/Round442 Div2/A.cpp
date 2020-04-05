@@ -8,7 +8,7 @@ using namespace std;
 const vector<string> v = {"Danil", "Olya", "Slava", "Ann", "Nikita"};
 vector<vector<int>> nexts;
 
-void getNext(const string &s, vector<int> &next) {
+void getNext(const string& s, vector<int>& next) {
   int j = -1;
   next.push_back(-1);
   for (int i = 0; i < s.size(); i++) {
@@ -17,7 +17,7 @@ void getNext(const string &s, vector<int> &next) {
   }
 }
 
-int match(const string &t, const string &p, vector<int> &next) {
+int match(const string& t, const string& p, vector<int>& next) {
   int count = 0;
   int j = 0;
   for (int i = 0; i < t.size(); i++) {
@@ -37,7 +37,7 @@ void init() {
   for (int i = 0; i < 5; i++) getNext(v[i], nexts[i]);
 }
 
-bool solve(const string &s) {
+bool solve(const string& s) {
   int res = 0;
   for (int i = 0; i < 5; i++) res += match(s, v[i], nexts[i]);
   return res == 1;

@@ -3,10 +3,9 @@
 using namespace std;
 
 class RingLex {
- private:
+private:
   // Constants
-  vector<int> primes{2,  3,  5,  7,  11, 13, 17, 19,
-                     23, 29, 31, 37, 41, 43, 47, 53};
+  vector<int> primes{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53};
 
   // Useful Inner Method
 
@@ -14,7 +13,7 @@ class RingLex {
   void build() {}
 
   // Solver
- public:
+public:
   string getmin(string s) {
     build();
     int len = s.size();

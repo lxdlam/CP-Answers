@@ -64,8 +64,7 @@ int main() {
 
   vector<pii> res = bfs();
 
-  for (int i = 0; i < res.size(); i++)
-    printf("(%d, %d)\n", res[i].first, res[i].second);
+  for (int i = 0; i < res.size(); i++) printf("(%d, %d)\n", res[i].first, res[i].second);
 
   return 0;
 }

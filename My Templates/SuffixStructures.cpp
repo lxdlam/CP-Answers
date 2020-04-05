@@ -8,8 +8,7 @@ vector<int> SAIS(const vector<int>& S, int SIGMA) {
   int n = S.size();
   deque<bool> type(n, false);
   vector<int> position, name(n, -1), SA(n, -1);
-  vector<int> bucket(SIGMA + 1, 0), lbucket(SIGMA + 1, 0),
-      sbucket(SIGMA + 1, 0);
+  vector<int> bucket(SIGMA + 1, 0), lbucket(SIGMA + 1, 0), sbucket(SIGMA + 1, 0);
 
   auto induced_sort = [&]() {
     for (int i = 0; i < n; i++) {
@@ -29,9 +28,7 @@ vector<int> SAIS(const vector<int>& S, int SIGMA) {
     }
   };
 
-  auto is_lms_char = [&](int pos) {
-    return pos > 0 && type[pos] && !type[pos - 1];
-  };
+  auto is_lms_char = [&](int pos) { return pos > 0 && type[pos] && !type[pos - 1]; };
 
   auto equal_substring = [&](int x, int y) {
     do {
@@ -134,8 +131,7 @@ vector<int> SAIS(const vector<int>& S, int SIGMA) {
   return SA;
 }
 
-void get_sa(const string& str, vector<int>& sa, vector<int>& rk,
-            vector<int>& ht, int SIGMA = 26) {
+void get_sa(const string& str, vector<int>& sa, vector<int>& rk, vector<int>& ht, int SIGMA = 26) {
   vector<int> v;
   for (const auto& ch : str) {
     v.push_back(ch - 'a' + 1);

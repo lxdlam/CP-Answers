@@ -10,7 +10,7 @@ inline char gc() {
   return at == en ? EOF : *at++;
 }
 template <class T>
-inline void read(T &x) {
+inline void read(T& x) {
   char c;
   while (c = gc(), !isdigit(c) && c != '-')
     ;
@@ -20,7 +20,7 @@ inline void read(T &x) {
   if (f) x = -x;
 }
 template <>
-inline void read(string &x) {
+inline void read(string& x) {
   stringstream ss;
   char c;
   while ((c = gc()) && c != ' ' && c != '\n') ss << c;

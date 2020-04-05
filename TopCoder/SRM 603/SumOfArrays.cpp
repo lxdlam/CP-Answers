@@ -6,14 +6,14 @@ using namespace std;
 #define FORR(_i, _begin, _end) for (auto _i = _begin; _i > _end; _i--)
 
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -25,7 +25,7 @@ T cd(T a, T b) {
 }
 
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -64,7 +64,7 @@ void init_eps(int p) {
   }
 }
 
-void transform(int n, vc &x, const vc &w) {
+void transform(int n, vc& x, const vc& w) {
   for (int i = 0, j = 0; i != n; ++i) {
     if (i > j) swap(x[i], x[j]);
     for (int l = n >> 1; (j ^= l) < l; l >>= 1)
@@ -85,7 +85,7 @@ void transform(int n, vc &x, const vc &w) {
 }  // namespace FFT
 
 class SumOfArrays {
- private:
+private:
   // Constants
   static const int K = 10;
   static const int Max = 2e5 + 10;
@@ -109,8 +109,7 @@ class SumOfArrays {
     }
 
     for (auto i : ta)
-      for (auto j : tb)
-        c[i + j] += min(a[i], b[j]) - K + 1;  // Avoid extra addition
+      for (auto j : tb) c[i + j] += min(a[i], b[j]) - K + 1;  // Avoid extra addition
 
     FOR(i, 1, K) {
       FFT::vc x(p), y(p);
@@ -151,7 +150,7 @@ class SumOfArrays {
     return ss.str();
   }
 
- public:
+public:
   string findbestpair(int n, vector<int> Aseed, vector<int> Bseed) {
     // Build
     A.resize(n);
@@ -163,12 +162,8 @@ class SumOfArrays {
     B[1] = Bseed[1];
 
     FOR(i, 2, n) {
-      A[i] = (A[i - 1] * Aseed[2] % Aseed[5] + A[i - 2] * Aseed[3] % Aseed[5] +
-              Aseed[4]) %
-             Aseed[5];
-      B[i] = (B[i - 1] * Bseed[2] % Bseed[5] + B[i - 2] * Bseed[3] % Bseed[5] +
-              Bseed[4]) %
-             Bseed[5];
+      A[i] = (A[i - 1] * Aseed[2] % Aseed[5] + A[i - 2] * Aseed[3] % Aseed[5] + Aseed[4]) % Aseed[5];
+      B[i] = (B[i - 1] * Bseed[2] % Bseed[5] + B[i - 2] * Bseed[3] % Bseed[5] + Bseed[4]) % Bseed[5];
     }
 
     while (p < Max) p <<= 1;

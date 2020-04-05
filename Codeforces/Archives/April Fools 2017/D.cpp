@@ -13,8 +13,7 @@ int main() {
   b = a;
   int lena = a.size();
   bool flag = true;
-  transform(b.begin(), b.end(), b.begin(),
-            [](char ch) { return list[ch - '0']; });
+  transform(b.begin(), b.end(), b.begin(), [](char ch) { return list[ch - '0']; });
   for (int i = 0; i < lena; i++) {
     if (a[i] != b[lena - i - 1] || a[i] == '1' || a[i] == '2') {
       flag = false;

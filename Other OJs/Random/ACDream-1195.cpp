@@ -40,8 +40,7 @@ int main() {
         if (t < 1 || t > n * n) valid = false;
         a = to_string(t) + " shows on row " + to_string(i);
         b = to_string(t) + " shows on column " + to_string(j);
-        c = to_string(t) + " shows on section " + to_string(i / n) + "," +
-            to_string(j / n);
+        c = to_string(t) + " shows on section " + to_string(i / n) + "," + to_string(j / n);
         if (hash.count(a) || hash.count(b) || hash.count(c)) valid = false;
         hash.insert(a);
         hash.insert(b);

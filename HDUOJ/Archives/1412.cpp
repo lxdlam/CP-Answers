@@ -24,8 +24,7 @@ int main() {
       cin >> t;
       b.insert(t);
     }
-    set_union(a.begin(), a.end(), b.begin(), b.end(),
-              inserter(res, res.begin()));
+    set_union(a.begin(), a.end(), b.begin(), b.end(), inserter(res, res.begin()));
     it = res.begin();
     for (; it != res.end(); it++) {
       if (!first)

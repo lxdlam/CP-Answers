@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void getNext(const string &s, vector<int> &next) {
+void getNext(const string& s, vector<int>& next) {
   int j = -1;
   next.push_back(-1);
   for (int i = 0; i < s.size(); i++) {
@@ -13,7 +13,7 @@ void getNext(const string &s, vector<int> &next) {
   }
 }
 
-int match(const string &t, const string &p) {
+int match(const string& t, const string& p) {
   // change size here
   int count = 0;
   int j = 0;

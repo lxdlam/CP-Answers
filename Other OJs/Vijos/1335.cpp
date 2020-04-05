@@ -13,7 +13,7 @@ int main() {
   bool isVaild = true;
   cin >> n;
   while (n--) {
-    for (auto &k : cells) k = 0;
+    for (auto& k : cells) k = 0;
     i = 0;
     isVaild = true;
     while (i < 81) cin >> cells[i++];

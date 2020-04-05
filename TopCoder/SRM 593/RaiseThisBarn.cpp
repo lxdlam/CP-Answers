@@ -3,7 +3,7 @@
 using namespace std;
 
 class RaiseThisBarn {
- public:
+public:
   int calc(string str) {
     int count = 0, res = 0, k = 0;
     for (auto i : str)

@@ -16,7 +16,7 @@ class DancingClass {
     }
   }
 
- private:
+private:
   // Constants
 
   // Useful Inner Method
@@ -25,7 +25,7 @@ class DancingClass {
   void build() { getCom(); }
 
   // Solver
- public:
+public:
   string checkOdds(int n, int k) {
     build();
 

@@ -17,7 +17,7 @@ int main() {
   cin >> n;
   vector<int> v(n);
 
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 
   sort(v.begin(), v.end());
 

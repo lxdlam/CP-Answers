@@ -15,7 +15,7 @@ int main() {
   int n, x, k;
   cin >> n >> x >> k;
   vi v(n);
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
   sort(v.begin(), v.end());
   return 0;
 }

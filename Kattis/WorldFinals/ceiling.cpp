@@ -5,16 +5,16 @@ using namespace std;
 
 struct Node {
   long long data = 0;
-  Node *lch = nullptr;
-  Node *rch = nullptr;
+  Node* lch = nullptr;
+  Node* rch = nullptr;
 };
 
 struct Tree {
-  Node *root = nullptr;
+  Node* root = nullptr;
 
   void insert(long long data) { insert(data, root); }
 
-  void insert(long long data, Node *&parent) {
+  void insert(long long data, Node*& parent) {
     if (parent == nullptr) {
       parent = new Node;
       parent->data = data;
@@ -25,9 +25,9 @@ struct Tree {
     }
   }
 
-  bool operator==(const Tree &t) const { return compare(root, t.root); }
+  bool operator==(const Tree& t) const { return compare(root, t.root); }
 
-  bool compare(Node *l, Node *r) const {
+  bool compare(Node* l, Node* r) const {
     if (l == r && l == nullptr)
       return true;
     else if (l == nullptr || r == nullptr)

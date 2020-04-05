@@ -14,9 +14,9 @@ inline auto mp(T t, U u) {
   return make_pair(t, u);
 }
 
-bool cmp(const pii &a, const pii &b) { return a.first < b.first; }
+bool cmp(const pii& a, const pii& b) { return a.first < b.first; }
 
-bool cmpp(const pii &a, const pii &b) { return b.first < a.first; }
+bool cmpp(const pii& a, const pii& b) { return b.first < a.first; }
 
 int main() {
   ios::sync_with_stdio(false);

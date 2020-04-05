@@ -22,7 +22,7 @@ int main() {
   int n;
   cin >> h >> w >> n;
   vi v(n);
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
   int i = 0, j = 0, k = 0;
   while (i != h && j != w) {
     if (v[k] == 0) k++;

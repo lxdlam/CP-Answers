@@ -4,7 +4,7 @@
 using namespace std;
 
 class UF {
- public:
+public:
   UF(int n) {
     count = length = n;
     id = new int[n];
@@ -49,10 +49,10 @@ class UF {
     count--;
   }
 
- private:
+private:
   int count;
-  int *id;
-  int *sz;
+  int* id;
+  int* sz;
   int length;
 };
 

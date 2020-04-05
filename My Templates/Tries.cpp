@@ -6,7 +6,7 @@ const int CHARSIZE = 26;
 const char START = 'a';
 
 struct Node {
-  Node *next[CHARSIZE];
+  Node* next[CHARSIZE];
   int num;
 
   Node() : num(0) {
@@ -17,7 +17,7 @@ struct Node {
 };
 
 struct Trie {
-  Node *root;
+  Node* root;
 
   ~Trie() {
     makeEmpty(root);
@@ -26,8 +26,8 @@ struct Trie {
 
   Trie() { root = new Node; }
 
-  void insert(const string &s) {
-    Node *node = root;
+  void insert(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - START] == NULL) node->next[s[i] - START] = new Node;
       node = node->next[s[i] - START];
@@ -35,8 +35,8 @@ struct Trie {
     }
   }
 
-  int query(const string &s) {
-    Node *node = root;
+  int query(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - START] == NULL) return 0;
       node = node->next[s[i] - START];
@@ -49,8 +49,8 @@ struct Trie {
     root = new Node;
   }
 
- private:
-  void makeEmpty(Node *s) {
+private:
+  void makeEmpty(Node* s) {
     if (s == NULL) return;
     for (int i = 0; i < CHARSIZE; i++) {
       if (s->next[i] != NULL) {
@@ -83,7 +83,7 @@ struct Trie {
     return size - 1;
   }
 
-  void insert(const string &s) {
+  void insert(const string& s) {
     int cur = root;
     for (int i = 0; i < s.size(); i++) {
       if (next[cur][s[i] - START] == -1) next[cur][s[i] - START] = newnode();
@@ -92,7 +92,7 @@ struct Trie {
     }
   }
 
-  int query(const string &s) {
+  int query(const string& s) {
     int cur = root;
     for (int i = 0; i < s.size(); i++) {
       if (next[cur][s[i] - START] == -1) return 0;

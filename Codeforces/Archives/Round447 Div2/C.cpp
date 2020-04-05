@@ -31,7 +31,7 @@ int main() {
   bool found = true;
   cin >> n;
   vi v(n);
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 
   int t = v[0];
 

@@ -7,7 +7,7 @@ using namespace std;
 const int CHARSIZE = 10;
 
 struct Node {
-  Node *next[CHARSIZE];
+  Node* next[CHARSIZE];
   int num;
 
   Node() : num(0) {
@@ -18,7 +18,7 @@ struct Node {
 };
 
 struct Trie {
-  Node *root;
+  Node* root;
 
   ~Trie() {
     makeEmpty(root);
@@ -27,8 +27,8 @@ struct Trie {
 
   Trie() { root = new Node; }
 
-  void insert(const string &s) {
-    Node *node = root;
+  void insert(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - '0'] == NULL) node->next[s[i] - '0'] = new Node;
       node = node->next[s[i] - '0'];
@@ -37,8 +37,8 @@ struct Trie {
   }
 
   // if is prefix, should be true
-  bool query(const string &s) {
-    Node *node = root;
+  bool query(const string& s) {
+    Node* node = root;
     for (int i = 0; i < s.size(); i++) {
       if (node->next[s[i] - '0'] == NULL) return false;
       node = node->next[s[i] - '0'];
@@ -51,8 +51,8 @@ struct Trie {
     root = new Node;
   }
 
- private:
-  void makeEmpty(Node *s) {
+private:
+  void makeEmpty(Node* s) {
     if (s == NULL) return;
     for (int i = 0; i < CHARSIZE; i++) {
       if (s->next[i] != NULL) {

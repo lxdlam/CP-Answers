@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+
 #include <ext/pb_ds/priority_queue.hpp>
 
 using namespace std;
@@ -9,10 +10,8 @@ using ll = long long;
 using pii = pair<int, int>;
 using pll = pair<ll, ll>;
 
-using pqii =
-    __gnu_pbds::priority_queue<pii, greater<pii>, __gnu_pbds::pairing_heap_tag>;
-using pqll =
-    __gnu_pbds::priority_queue<pll, greater<pll>, __gnu_pbds::pairing_heap_tag>;
+using pqii = __gnu_pbds::priority_queue<pii, greater<pii>, __gnu_pbds::pairing_heap_tag>;
+using pqll = __gnu_pbds::priority_queue<pll, greater<pll>, __gnu_pbds::pairing_heap_tag>;
 
 const int INF = 0x3f3f3f3f;
 const ll INFLL = 0x3f3f3f3f3f3f3f3fLL;
@@ -51,7 +50,7 @@ struct ZKW {
     vis[u] = true;
     ll f = a;
 
-    for (auto &e : E[u]) {
+    for (auto& e : E[u]) {
       if (!e.cost && e.cap && !vis[e.to]) {
         ll d = Augment(e.to, min(f, e.cap));
         e.cap -= d;
@@ -75,12 +74,12 @@ struct ZKW {
       ll d = INFLL;
       for (int u = 1; u <= n; u++)
         if (vis[u])
-          for (auto &e : E[u])
+          for (auto& e : E[u])
             if (e.cap && !vis[e.to]) d = min(d, e.cost);
       if (d == INFLL) return;
       for (int u = 1; u <= n; u++)
         if (vis[u])
-          for (auto &e : E[u]) {
+          for (auto& e : E[u]) {
             e.cost -= d;
             E[e.to][e.rev].cost += d;
           }
@@ -98,8 +97,7 @@ struct PrimalDual {
   };
 
   using Node = pair<ll, int>;
-  using pqnode = __gnu_pbds::priority_queue<Node, greater<Node>,
-                                            __gnu_pbds::pairing_heap_tag>;
+  using pqnode = __gnu_pbds::priority_queue<Node, greater<Node>, __gnu_pbds::pairing_heap_tag>;
 
   vector<Edge> E[MAXN];
   bool vis[MAXN], inq[MAXN];
@@ -120,7 +118,7 @@ struct PrimalDual {
 
   void Reduce() {
     for (int i = 1; i <= n; i++)
-      for (auto &e : E[i]) e.cost += dis[e.to] - dis[i];
+      for (auto& e : E[i]) e.cost += dis[e.to] - dis[i];
     delta += dis[s];
   }
 
@@ -135,9 +133,9 @@ struct PrimalDual {
       int u = q.front();
       q.pop();
       inq[u] = false;
-      for (auto &e : E[u]) {
+      for (auto& e : E[u]) {
         int to = e.to;
-        const auto &R = E[to][e.rev];
+        const auto& R = E[to][e.rev];
         ll f = R.flow, c = R.cap, len = R.cost;
         if (f < c && dis[to] > dis[u] + len) {
           dis[to] = dis[u] + len;
@@ -164,9 +162,9 @@ struct PrimalDual {
       pq.pop();
       int u = p.second;
 
-      for (auto &e : E[u]) {
+      for (auto& e : E[u]) {
         int to = e.to;
-        const auto &R = E[to][e.rev];
+        const auto& R = E[to][e.rev];
         ll f = R.flow, c = R.cap, len = R.cost;
         if (f < c && dis[to] > dis[u] + len) {
           dis[to] = dis[u] + len;
@@ -185,7 +183,7 @@ struct PrimalDual {
     vis[u] = true;
     ll ret = flow;
 
-    for (auto &e : E[u]) {
+    for (auto& e : E[u]) {
       int to = e.to;
       ll f = e.flow, c = e.cap, len = e.cost;
       if (!vis[to] && f < c && !len) {

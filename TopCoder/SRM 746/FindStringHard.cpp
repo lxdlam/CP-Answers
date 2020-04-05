@@ -6,14 +6,14 @@ using namespace std;
 #define FORR(_i, _begin, _end) for (auto _i = _begin; _i > _end; _i--)
 
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -25,7 +25,7 @@ T cd(T a, T b) {
 }
 
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -47,17 +47,15 @@ typedef set<int> si;
 typedef vector<string> cb;
 
 class FindStringHard {
- private:
+private:
   // Constants
 
- public:
+public:
   FindStringHard() {}
 
 #define GET(f) (f ? 'a' : 'b')
 
-  inline bool check(int c1, int n1, int c2, int n2) {
-    return c1 * n1 + c2 * n2 <= 50;
-  }
+  inline bool check(int c1, int n1, int c2, int n2) { return c1 * n1 + c2 * n2 <= 50; }
 
   inline string cal(int c, int n, bool rev) {
     stringstream ss;

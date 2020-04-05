@@ -5,7 +5,7 @@ using namespace std;
 class JumpingJackDiv1 {
   using ll = long long;
 
- private:
+private:
   // Constants
 
   // Useful Inner Method
@@ -14,7 +14,7 @@ class JumpingJackDiv1 {
   void build() {}
 
   // Solver
- public:
+public:
   int getLocationOfJack(int dist, int k, int n) {
     int ans = 0;
     for (int i = 1; i <= n; i++)

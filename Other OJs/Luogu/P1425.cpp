@@ -10,6 +10,5 @@ using namespace std;
 int main() {
   int a, b, c, d;
   cin >> a >> b >> c >> d;
-  cout << (d > b ? c - a : c - a - 1) << " " << (d > b ? d - b : 60 + d - b)
-       << endl;
+  cout << (d > b ? c - a : c - a - 1) << " " << (d > b ? d - b : 60 + d - b) << endl;
 }

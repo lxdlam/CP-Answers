@@ -3,7 +3,7 @@
 using namespace std;
 
 class ExpectedMinimumPowerDiv2 {
- private:
+private:
   // Constants
   const static int SIZE = 50 + 10;
   double table[SIZE] = {1};
@@ -22,7 +22,7 @@ class ExpectedMinimumPowerDiv2 {
   }
 
   // Solver
- public:
+public:
   double findExp(int n, int x) {
     build();
 

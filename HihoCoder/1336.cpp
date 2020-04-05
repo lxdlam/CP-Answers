@@ -9,7 +9,7 @@ const int MOD = 1e9 + 7;
 
 inline int lowbit(int k) { return k & -k; }
 
-void update(vi &v, int pos, int val) {
+void update(vi& v, int pos, int val) {
   int len = v.size();
   while (pos < len) {
     // change behavior here
@@ -18,7 +18,7 @@ void update(vi &v, int pos, int val) {
   }
 }
 
-int getVal(vi &v, int pos) {
+int getVal(vi& v, int pos) {
   int res = 0;
   while (pos) {
     res += v[pos];
@@ -48,8 +48,7 @@ int main() {
       update(mat[x], y + 1, val);
     } else if (op == "Sum") {
       cin >> x >> y >> l >> r;
-      for (; x <= l; x++)
-        val += (getVal(mat[x], r + 1) - getVal(mat[x], y)) % MOD;
+      for (; x <= l; x++) val += (getVal(mat[x], r + 1) - getVal(mat[x], y)) % MOD;
       if (val < 0) val += MOD;
       cout << val << endl;
     }

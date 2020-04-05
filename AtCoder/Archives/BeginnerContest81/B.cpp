@@ -16,10 +16,10 @@ int main() {
   int n;
   cin >> n;
   vi v(n);
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
   int res = 0;
   for (;;) {
-    for (auto &i : v) {
+    for (auto& i : v) {
       if (i & 1) return cout << res << endl, 0;
       i >>= 1;
     }

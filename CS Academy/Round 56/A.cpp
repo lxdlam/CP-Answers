@@ -22,8 +22,7 @@ int main() {
 
   for (auto i : v) {
     for (auto j : v) {
-      if (j.first < i.first &&
-          j.second > i.second)  // if j in i, we just count it once
+      if (j.first < i.first && j.second > i.second)  // if j in i, we just count it once
       {
         res++;
         break;

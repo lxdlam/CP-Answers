@@ -34,8 +34,7 @@ int main() {
   // DP
   for (int k = SIZE - 1; k >= 0; k--)
     for (int i = 0; i < SIZE; i++)
-      for (int j = 0; j < SIZE; j++)
-        trans[i][j] = trans[i][j] || (trans[i][k] && trans[k][j]);
+      for (int j = 0; j < SIZE; j++) trans[i][j] = trans[i][j] || (trans[i][k] && trans[k][j]);
   while (m--) {
     flag = true;
     cin >> a >> b;

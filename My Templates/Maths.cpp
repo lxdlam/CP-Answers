@@ -136,7 +136,7 @@ int getFactors(ll x) {
 }
 
 // Extend GCD
-ll extend_gcd(ll a, ll b, ll &x, ll &y) {
+ll extend_gcd(ll a, ll b, ll& x, ll& y) {
   if (a == 0 && b == 0) return -1;
   if (b == 0) {
     x = 1;

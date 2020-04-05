@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -79,13 +79,13 @@ void writeln(T a, Args... args) {
   FOR(kase, 1, T + 1)
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -97,7 +97,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -137,25 +137,23 @@ struct Point {
 
   Point(db _x, db _y) : x(_x + FAC), y(_y + FAC) {}
 
-  bool operator==(const Point &p) {
-    return sgn(x - p.x) == 0 && sgn(y - p.y) == 0;
-  }
+  bool operator==(const Point& p) { return sgn(x - p.x) == 0 && sgn(y - p.y) == 0; }
 
-  bool operator<(const Point &p) {
+  bool operator<(const Point& p) {
     int c = sgn(x - p.x);
     if (c) return c == -1;
     return sgn(y - p.y) == -1;
   }
 
-  Point operator+(const Point &p) { return Point(x + p.x, y + p.y); }
-  Point operator-(const Point &p) { return Point(x - p.x, y - p.y); }
+  Point operator+(const Point& p) { return Point(x + p.x, y + p.y); }
+  Point operator-(const Point& p) { return Point(x - p.x, y - p.y); }
   Point operator*(db d) { return Point(x * d, y * d); }
   Point operator/(db d) { return Point(x / d, y / d); }
 
-  db operator^(const Point &p) { return x * p.y - y * p.x; }
-  db operator*(const Point &p) { return x * p.x + y * p.y; }
+  db operator^(const Point& p) { return x * p.y - y * p.x; }
+  db operator*(const Point& p) { return x * p.x + y * p.y; }
 
-  db dis(const Point &p) { return (*this - p).len(); }
+  db dis(const Point& p) { return (*this - p).len(); }
   db alpha() { return atan2(y, x); }
 
   Point unit() { return *this / len(); }
@@ -231,9 +229,7 @@ struct Line {
     return 3;
   }
 
-  bool checkOn(Point p) {
-    return relation(p) == 3 && sgn((p - s) ^ (p - e)) <= 0;
-  }
+  bool checkOn(Point p) { return relation(p) == 3 && sgn((p - s) ^ (p - e)) <= 0; }
 
   bool parallel(Line l) { return sgn((e - s) ^ (l.e - l.s)) == 0; }
 
@@ -246,10 +242,8 @@ struct Line {
     int d3 = sgn((l.e - l.s) ^ (s - l.s));
     int d4 = sgn((l.e - l.s) ^ (e - l.s));
     if ((d1 ^ d2) == -2 && (d3 ^ d4) == -2) return 2;
-    return (d1 == 0 && sgn((l.s - s) * (l.s - e)) <= 0) ||
-           (d2 == 0 && sgn((l.e - s) * (l.e - e)) <= 0) ||
-           (d3 == 0 && sgn((s - l.s) * (s - l.e)) <= 0) ||
-           (d4 == 0 && sgn((e - l.s) * (e - l.e)) <= 0);
+    return (d1 == 0 && sgn((l.s - s) * (l.s - e)) <= 0) || (d2 == 0 && sgn((l.e - s) * (l.e - e)) <= 0) ||
+           (d3 == 0 && sgn((s - l.s) * (s - l.e)) <= 0) || (d4 == 0 && sgn((e - l.s) * (e - l.e)) <= 0);
   }
 
   // 0 -> Formal Intersection
@@ -273,23 +267,17 @@ struct Line {
   Point crossP(Line l) {
     db a1 = (l.e - l.s) ^ (s - l.s);
     db a2 = (l.e - l.s) ^ (e - l.s);
-    return Point((s.x * a2 - e.x * a1) / (a2 - a1),
-                 (s.y * a2 - e.y * a1) / (a2 - a1));
+    return Point((s.x * a2 - e.x * a1) / (a2 - a1), (s.y * a2 - e.y * a1) / (a2 - a1));
   }
 
   db disPL(Point p) { return abs((p - s) ^ (e - s)) / len(); }
   db disPS(Point p) {
-    if (sgn((p - s) * (e - s)) < 0 || sgn((p - e) * (s - e)) < 0)
-      return min(p.dis(s), p.dis(e));
+    if (sgn((p - s) * (e - s)) < 0 || sgn((p - e) * (s - e)) < 0) return min(p.dis(s), p.dis(e));
     return disPL(p);
   }
-  db disSS(Line l) {
-    return min(min(disPS(l.s), disPS(l.e)), min(l.disPS(s), l.disPS(e)));
-  }
+  db disSS(Line l) { return min(min(disPS(l.s), disPS(l.e)), min(l.disPS(s), l.disPS(e))); }
 
-  Point proj(Point p) {
-    return s + ((e - s) * ((e - s) * (p - s))) / ((e - s).len2());
-  }
+  Point proj(Point p) { return s + ((e - s) * ((e - s) * (p - s))) / ((e - s).len2()); }
   Point refl(Point p) {
     Point q = proj(p);
     return Point(2 * q.x - p.x, 2 * q.y - p.y);
@@ -352,8 +340,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

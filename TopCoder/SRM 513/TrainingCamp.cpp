@@ -4,9 +4,8 @@
 using namespace std;
 
 class TrainingCamp {
- public:
-  vector<string> determineSolvers(vector<string> attendance,
-                                  vector<string> problemTopics) {
+public:
+  vector<string> determineSolvers(vector<string> attendance, vector<string> problemTopics) {
     vector<string> res;
     string temp;
     bool solve;
@@ -14,8 +13,7 @@ class TrainingCamp {
       temp.clear();
       for (auto j : problemTopics) {
         solve = true;
-        for (int k = 0; k < i.size(); k++)
-          solve = solve && (j[k] == '-' || i[k] == j[k]);
+        for (int k = 0; k < i.size(); k++) solve = solve && (j[k] == '-' || i[k] == j[k]);
         if (solve)
           temp += 'X';
         else

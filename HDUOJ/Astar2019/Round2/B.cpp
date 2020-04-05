@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -82,13 +82,13 @@ void writeln(T a, Args... args) {
 
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -100,7 +100,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -147,7 +147,7 @@ inline void solve() {
     }
 
     for (int i = 0; i < m; i++) {
-      for (const auto &it : ma[s[i]]) {
+      for (const auto& it : ma[s[i]]) {
         pos[i].insert(it);
       }
     }
@@ -161,13 +161,13 @@ inline void solve() {
 
       for (int i = 0; i < m; i++) {
         vector<int> rm;
-        for (const auto &it : pos[i]) {
+        for (const auto& it : pos[i]) {
           if (!ma[s[i]].count(it)) {
             rm.push_back(it);
           }
         }
 
-        for (const auto &it : rm) pos[i].erase(it);
+        for (const auto& it : rm) pos[i].erase(it);
       }
     }
 
@@ -181,7 +181,7 @@ inline void solve() {
         break;
       }
 
-      for (const auto &it : pos[i]) {
+      for (const auto& it : pos[i]) {
         if (used.count(it + 1)) continue;
         ans[i] = it + 1;
         used.insert(it + 1);
@@ -217,8 +217,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

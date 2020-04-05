@@ -4,7 +4,7 @@
 
 using namespace std;
 
-int change(vector<int> &v, int l, int r) {
+int change(vector<int>& v, int l, int r) {
   if (l == r)
     return 0;
   else if (v[l] == v[r]) {

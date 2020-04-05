@@ -4,13 +4,13 @@ using namespace std;
 
 template <typename T>
 class FenTree {
- private:
+private:
   vector<T> v;
   size_t size;
 
   inline int lowbit(int k) { return k & -k; }
 
- public:
+public:
   void init(size_t size) {
     this->size = size + 1;
     v.clear();

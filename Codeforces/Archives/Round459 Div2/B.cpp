@@ -3,7 +3,7 @@
 #define FOR(_i, _s, _e) for (int _i = _s; _i < _e; _i++)
 #if __cpluscplus > 201103L
 #define FORE(_c) for (auto i : _c)
-#define FORER(_c) for (auto &i : _c)
+#define FORER(_c) for (auto& i : _c)
 #else
 #define FORE(_c)
 #define FORER(_c)
@@ -12,12 +12,12 @@
 #if __cplusplus > 201402L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 #elif __cpluscplus > 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
   _name.resize(_size);           \
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \

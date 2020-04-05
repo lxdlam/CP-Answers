@@ -21,7 +21,7 @@ struct Node {
   Node(int _s) : x(0), y(0), s(_s), step(0) {}
 };
 
-void pour(int &src, int &dest, int ld) {
+void pour(int& src, int& dest, int ld) {
   if (src + dest > ld) {
     src = src + dest - ld;
     dest = ld;

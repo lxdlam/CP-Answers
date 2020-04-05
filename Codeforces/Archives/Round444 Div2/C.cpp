@@ -15,14 +15,10 @@ bool check() {
   r1 = r2 = r3 = r4 = r5 = r6 = false;
   if (cube[1] == cube[2] && cube[2] == cube[3] && cube[3] == cube[4]) r1 = true;
   if (cube[5] == cube[6] && cube[6] == cube[7] && cube[7] == cube[8]) r2 = true;
-  if (cube[9] == cube[10] && cube[10] == cube[11] && cube[11] == cube[12])
-    r3 = true;
-  if (cube[13] == cube[14] && cube[14] == cube[15] && cube[15] == cube[16])
-    r4 = true;
-  if (cube[17] == cube[18] && cube[18] == cube[19] && cube[19] == cube[20])
-    r5 = true;
-  if (cube[21] == cube[22] && cube[22] == cube[23] && cube[23] == cube[24])
-    r6 = true;
+  if (cube[9] == cube[10] && cube[10] == cube[11] && cube[11] == cube[12]) r3 = true;
+  if (cube[13] == cube[14] && cube[14] == cube[15] && cube[15] == cube[16]) r4 = true;
+  if (cube[17] == cube[18] && cube[18] == cube[19] && cube[19] == cube[20]) r5 = true;
+  if (cube[21] == cube[22] && cube[22] == cube[23] && cube[23] == cube[24]) r6 = true;
   return r1 && r2 && r3 && r4 && r5 && r6;
 }
 

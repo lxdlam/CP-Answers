@@ -6,14 +6,14 @@ using namespace std;
 #define FORR(_i, _begin, _end) for (auto _i = _begin; _i > _end; _i--)
 
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -25,7 +25,7 @@ T cd(T a, T b) {
 }
 
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -47,7 +47,7 @@ typedef set<int> si;
 typedef vector<string> cb;
 
 class Nim {
- private:
+private:
   // Constants
   static const int SIZE = 5e4 + 10;
   static const int P = 65536;
@@ -76,7 +76,7 @@ class Nim {
     return ans % mod;
   }
 
-  void fwt_xor(int n, vll &x, bool fwt = true) {
+  void fwt_xor(int n, vll& x, bool fwt = true) {
     ll inv2 = fp(2, MOD - 2, MOD);
     for (int i = 2; i <= n; i <<= 1)
       for (int p = i >> 1, j = 0; j < n; j += i)
@@ -84,9 +84,7 @@ class Nim {
           int a = x[k], b = x[k + p];
           x[k] = (a + b) % MOD;
           x[k + p] = (a - b + MOD) % MOD;
-          if (!fwt)
-            x[k] = 1LL * x[k] * inv2 % MOD,
-            x[k + p] = 1LL * x[k + p] * inv2 % MOD;
+          if (!fwt) x[k] = 1LL * x[k] * inv2 % MOD, x[k + p] = 1LL * x[k + p] * inv2 % MOD;
         }
   }
 
@@ -104,7 +102,7 @@ class Nim {
     return f[0] % MOD;
   }
 
- public:
+public:
   int count(int K, int L) {
     // Build
     getPrime();

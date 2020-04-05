@@ -9,7 +9,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
 
-ll solve(const string &num) {
+ll solve(const string& num) {
   ll ans = num[0] - '0';
 
   for (int i = 1; i < num.size(); i++) {

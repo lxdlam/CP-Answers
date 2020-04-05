@@ -7,7 +7,7 @@ long long p, q, k;
 typedef long long LL;
 typedef double DB;
 
-LL e_gcd(LL a, LL b, LL &x, LL &y) {
+LL e_gcd(LL a, LL b, LL& x, LL& y) {
   if (b == 0) {
     x = 1;
     y = 0;

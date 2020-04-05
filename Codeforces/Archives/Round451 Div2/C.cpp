@@ -9,7 +9,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
 
-bool suff(const string &a, const string &b) {
+bool suff(const string& a, const string& b) {
   if (a.size() < b.size()) return false;
   for (int i = b.size() - 1, j = a.size() - 1; i >= 0; i--, j--) {
     if (a[j] != b[i]) return false;
@@ -35,7 +35,7 @@ int main() {
     }
   }
   set<string> s;
-  for (auto &i : m) {
+  for (auto& i : m) {
     s.clear();
     for (auto l : i.second) {
       for (auto r : i.second) {

@@ -14,7 +14,7 @@ int main() {
   cin.tie(0);
   cout.tie(0);
   vi v(3);
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
   sort(v.begin(), v.end());
   if (v[0] == 1)
     cout << "YES" << endl;

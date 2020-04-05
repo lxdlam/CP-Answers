@@ -7,7 +7,7 @@ using namespace std;
 const string fl[] = {"A", "B", "C", "D", "E", "F", "G", "H"};
 const string sl[] = {"a", "b", "c", "d", "e", "f", "g", "h"};
 
-void genName(vector<string> &v, int size) {
+void genName(vector<string>& v, int size) {
   for (int i = 0; i < size; i++) v.push_back(fl[i / 8] + sl[i % 8]);
 }
 

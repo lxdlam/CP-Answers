@@ -28,7 +28,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #endif
 #if __cplusplus >= 201703L
 template <typename... Args>
-void readln(Args &... args) {
+void readln(Args&... args) {
   ((cin >> args), ...);
 }
 template <typename... Args>
@@ -39,7 +39,7 @@ void writeln(Args... args) {
 #elif __cplusplus >= 201103L
 void readln() {}
 template <typename T, typename... Args>
-void readln(T &a, Args &... args) {
+void readln(T& a, Args&... args) {
   cin >> a;
   readln(args...);
 }
@@ -61,7 +61,7 @@ void writeln(T a, Args... args) {
 #if __cplusplus >= 201103L
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name(_size);    \
-  for (auto &i : _name) cin >> i;
+  for (auto& i : _name) cin >> i;
 #else
 #define VIS(_kind, _name, _size) \
   vector<_kind> _name;           \
@@ -74,13 +74,13 @@ void writeln(T a, Args... args) {
 #define eb emplace_back
 // Swap max/min
 template <typename T>
-bool smax(T &a, const T &b) {
+bool smax(T& a, const T& b) {
   if (a > b) return false;
   a = b;
   return true;
 }
 template <typename T>
-bool smin(T &a, const T &b) {
+bool smin(T& a, const T& b) {
   if (a < b) return false;
   a = b;
   return true;
@@ -92,7 +92,7 @@ T cd(T a, T b) {
 }
 // min exchange
 template <typename T>
-bool se(T &a, T &b) {
+bool se(T& a, T& b) {
   if (a < b) return false;
   swap(a, b);
   return true;
@@ -152,8 +152,7 @@ void pushdown(int pos, int lt, int rt) {
     mul[pos << 1] = (mul[pos << 1] * mul[pos]) % MOD;
     mul[pos << 1 | 1] = (mul[pos << 1 | 1] * mul[pos]) % MOD;
     if (add[pos << 1]) add[pos << 1] = (add[pos << 1] * mul[pos]) % MOD;
-    if (add[pos << 1 | 1])
-      add[pos << 1 | 1] = (add[pos << 1 | 1] * mul[pos]) % MOD;
+    if (add[pos << 1 | 1]) add[pos << 1 | 1] = (add[pos << 1 | 1] * mul[pos]) % MOD;
 
     s1[pos << 1] = (s1[pos << 1] * mul[pos]) % MOD;
     s1[pos << 1 | 1] = (s1[pos << 1 | 1] * mul[pos]) % MOD;
@@ -168,22 +167,16 @@ void pushdown(int pos, int lt, int rt) {
     add[pos << 1] = (add[pos << 1] + add[pos]) % MOD;
     add[pos << 1 | 1] = (add[pos << 1 | 1] + add[pos]) % MOD;
 
-    s3[pos << 1] = (s3[pos << 1] + lt * fp(add[pos], 3) % MOD +
-                    3 * (add[pos] * s2[pos << 1]) % MOD +
+    s3[pos << 1] = (s3[pos << 1] + lt * fp(add[pos], 3) % MOD + 3 * (add[pos] * s2[pos << 1]) % MOD +
                     3 * (fp(add[pos], 2) * s1[pos << 1]) % MOD) %
                    MOD;
-    s3[pos << 1 | 1] = (s3[pos << 1 | 1] + rt * fp(add[pos], 3) % MOD +
-                        3 * (add[pos] * s2[pos << 1 | 1]) % MOD +
+    s3[pos << 1 | 1] = (s3[pos << 1 | 1] + rt * fp(add[pos], 3) % MOD + 3 * (add[pos] * s2[pos << 1 | 1]) % MOD +
                         3 * (fp(add[pos], 2) * s1[pos << 1 | 1]) % MOD) %
                        MOD;
 
-    s2[pos << 1] = (s2[pos << 1] + 2 * (add[pos] * s1[pos << 1]) % MOD +
-                    (lt * fp(add[pos], 2)) % MOD) %
-                   MOD;
+    s2[pos << 1] = (s2[pos << 1] + 2 * (add[pos] * s1[pos << 1]) % MOD + (lt * fp(add[pos], 2)) % MOD) % MOD;
     s2[pos << 1 | 1] =
-        (s2[pos << 1 | 1] + 2 * (add[pos] * s1[pos << 1 | 1]) % MOD +
-         (rt * fp(add[pos], 2)) % MOD) %
-        MOD;
+        (s2[pos << 1 | 1] + 2 * (add[pos] * s1[pos << 1 | 1]) % MOD + (rt * fp(add[pos], 2)) % MOD) % MOD;
 
     s1[pos << 1] = (s1[pos << 1] + lt * add[pos]) % MOD;
     s1[pos << 1 | 1] = (s1[pos << 1 | 1] + rt * add[pos]) % MOD;
@@ -209,12 +202,10 @@ void update(int ul, int ur, int type, ll val, int l, int r, int cur) {
       s3[cur] = (s3[cur] * fp(val, 3)) % MOD;
     } else {
       add[cur] = (add[cur] + val) % MOD;
-      s3[cur] = (s3[cur] + (r - l + 1) * fp(val, 3) % MOD +
-                 3 * (val * s2[cur]) % MOD + 3 * (fp(val, 2) * s1[cur]) % MOD) %
-                MOD;
-      s2[cur] = (s2[cur] + 2 * (val * s1[cur]) % MOD +
-                 ((r - l + 1) * fp(val, 2)) % MOD) %
-                MOD;
+      s3[cur] =
+          (s3[cur] + (r - l + 1) * fp(val, 3) % MOD + 3 * (val * s2[cur]) % MOD + 3 * (fp(val, 2) * s1[cur]) % MOD) %
+          MOD;
+      s2[cur] = (s2[cur] + 2 * (val * s1[cur]) % MOD + ((r - l + 1) * fp(val, 2)) % MOD) % MOD;
       s1[cur] = (s1[cur] + (r - l + 1) * val) % MOD;
     }
     return;
@@ -296,8 +287,7 @@ int main() {
   solve();
 
 #ifdef LOCAL
-  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC
-       << "ms." << endl;
+  cerr << "Time elapsed: " << (double)(clock() - _begin) * 1000 / CLOCKS_PER_SEC << "ms." << endl;
 #endif
 
   return 0;

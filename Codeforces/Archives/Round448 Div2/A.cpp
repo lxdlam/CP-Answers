@@ -16,7 +16,7 @@ int main() {
   int n;
   cin >> n;
   vi p(n), k(n);
-  for (auto &i : p) cin >> i;
+  for (auto& i : p) cin >> i;
 
   int sa, sb;
   int res = INT_MAX;

@@ -19,7 +19,7 @@ int main() {
     tmp += t;
   }
 
-  for (auto &i : cans) cin >> i;
+  for (auto& i : cans) cin >> i;
 
   sort(cans.begin(), cans.end(), greater<ll>());
 

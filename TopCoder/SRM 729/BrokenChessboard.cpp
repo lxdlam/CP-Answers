@@ -3,7 +3,7 @@
 using namespace std;
 
 class BrokenChessboard {
- private:
+private:
   // Constants
   vector<string> board;
   const static int SIZE = 50 + 10;
@@ -34,7 +34,7 @@ class BrokenChessboard {
   void build() {}
 
   // Solver
- public:
+public:
   int minimumFixes(vector<string> _board) {
     build();
 

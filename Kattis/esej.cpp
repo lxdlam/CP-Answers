@@ -13,8 +13,7 @@ const int l3 = 26 * 26 * 26;
 
 void out(int i) {
   if (i > l3)
-    cout << w[i / l3] << w[(i - l3) / l2] << w[(i - l3 - l2) / l1] << w[i % l1]
-         << " ";
+    cout << w[i / l3] << w[(i - l3) / l2] << w[(i - l3 - l2) / l1] << w[i % l1] << " ";
   else if (i > l2)
     cout << w[i / l2] << w[(i - l2) / l1] << w[i % l1] << " ";
   else if (i > l1)

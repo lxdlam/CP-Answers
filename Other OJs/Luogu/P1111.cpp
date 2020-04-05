@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+
 #include "UF.h"
 
 using namespace std;
@@ -17,7 +18,7 @@ struct Road {
   int t;
 };
 
-bool comp(const Road &, const Road &);
+bool comp(const Road&, const Road&);
 
 int main() {
   int x, y, t;
@@ -36,8 +37,7 @@ int main() {
   }
   sort(v.begin(), v.end(), comp);
   for (int i = 0; i < v.size(); i++) {
-    if (!ufo.connected(v[i].x - 1, v[i].y - 1))
-      ufo.Union(v[i].x - 1, v[i].y - 1);
+    if (!ufo.connected(v[i].x - 1, v[i].y - 1)) ufo.Union(v[i].x - 1, v[i].y - 1);
     if (ufo.getCount() == 1) {
       ans = v[i].t;
       break;
@@ -46,4 +46,4 @@ int main() {
   cout << ans << endl;
 }
 
-bool comp(const Road &a, const Road &b) { return a.t < b.t; }
+bool comp(const Road& a, const Road& b) { return a.t < b.t; }

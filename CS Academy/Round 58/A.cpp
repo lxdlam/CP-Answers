@@ -17,7 +17,7 @@ int main() {
   bool flag;
   cin >> n >> k;
   vi v(n);
-  for (auto &i : v) cin >> i;
+  for (auto& i : v) cin >> i;
 
   for (int i = 0; i < n; i++) {
     flag = true;

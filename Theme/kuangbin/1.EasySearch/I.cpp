@@ -107,8 +107,7 @@ int main() {
     else {
       for (int i = 0; i < size; i++)
         for (int j = i + 1; j < size; j++)
-          res = min(res, bfs(coor[i].first, coor[i].second, coor[j].first,
-                             coor[j].second));
+          res = min(res, bfs(coor[i].first, coor[i].second, coor[j].first, coor[j].second));
 
       if (res == MAX)
         cout << -1 << endl;

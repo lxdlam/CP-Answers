@@ -3,7 +3,7 @@
 using namespace std;
 
 class DSU {
- public:
+public:
   void init(int n) {
     id.clear();
     sz.clear();
@@ -45,7 +45,7 @@ class DSU {
     count--;
   }
 
- private:
+private:
   int count;
   vector<int> id;
   vector<int> sz;

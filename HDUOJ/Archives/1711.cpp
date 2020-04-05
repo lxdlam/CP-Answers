@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void getNext(vector<int> &s, int next[]) {
+void getNext(vector<int>& s, int next[]) {
   int j;
   j = next[0] = -1;
   for (int i = 0; i < s.size(); i++) {
@@ -12,7 +12,7 @@ void getNext(vector<int> &s, int next[]) {
   }
 }
 
-int match(vector<int> &t, vector<int> &p) {
+int match(vector<int>& t, vector<int>& p) {
   int next[(int)(1e5 + 10)];
   int j;
   j = 0;

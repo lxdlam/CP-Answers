@@ -102,8 +102,7 @@ int main() {
       cin.get();
     }
     bfs();
-    for (map<pii, int>::iterator it = res.begin(); it != res.end(); it++)
-      ans = min(ans, it->second);
+    for (map<pii, int>::iterator it = res.begin(); it != res.end(); it++) ans = min(ans, it->second);
     cout << 11 * ans << endl;
   }
 

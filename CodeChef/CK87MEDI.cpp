@@ -15,7 +15,7 @@ int main() {
     v.clear();
     cin >> n >> m;
     v.resize(n);
-    for (auto &i : v) cin >> i;
+    for (auto& i : v) cin >> i;
     sort(v.begin(), v.end());
     if ((n + m) >> 1 > v.size())
       cout << 9 << endl;

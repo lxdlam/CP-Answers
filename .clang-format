@@ -1,2 +1,8 @@
 Language: Cpp
+Standard: Cpp11
 BasedOnStyle: Google
+AccessModifierOffset: -2
+ColumnLimit: 120
+AlwaysBreakTemplateDeclarations: Yes
+DerivePointerAlignment: false
+PointerAlignment: Left

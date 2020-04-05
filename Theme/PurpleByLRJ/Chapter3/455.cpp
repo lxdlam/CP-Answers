@@ -4,7 +4,7 @@ using namespace std;
 
 typedef long long ll;
 
-bool check(const string &s, int i) {
+bool check(const string& s, int i) {
   if (s.size() % i) return false;
   for (int j = 0; j < s.size() - i; j++)
     if (s[j] != s[j + i]) return false;

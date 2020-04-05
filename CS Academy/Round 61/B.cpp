@@ -9,7 +9,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef set<int> si;
 
-int ham(const vi &a, const vi &b) {
+int ham(const vi& a, const vi& b) {
   int res = 0;
   for (int i = 0; i < a.size(); i++) res += a[i] ^ b[i];
   return res;
