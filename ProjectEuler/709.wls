@@ -1,0 +1,1 @@
+Print[Mod[Abs[EulerE[24680]], 1020202009] // AbsoluteTiming]
